@@ -1,0 +1,28 @@
+@startuml C4_Elements
+!include https://raw.githubusercontent.com/plantuml-stdlib/C4-PlantUML/master/C4_Container.puml
+top to bottom direction
+
+Person(Student, "Student", "Student")
+Person(teacher, "Teacher", "Teacher")
+
+Container(WebApp, "Web application", "Interface voor ANS functionaliteiten")
+Container(Database, "Database", "Database")
+Container(ApiGateway, "Api Gateway", "Api Gateway")
+Container(TeacherApp, "Teacher App", "Interface voor nakijken")
+Container(Backend, "Backend", "Authorisatie en authenticatie")
+
+System_Ext(Osiris, "Osiris", "Osiris")
+System_Ext(Schoolyear, "Schoolyear", "Schoolyear")
+
+Rel(Student, WebApp, "Uses", "HTTP")
+Rel(teacher, TeacherApp, "Uses", "HTTP")
+Rel(WebApp, ApiGateway, "Saves / Gets data ", "HTTP")
+Rel(TeacherApp, ApiGateway, "Saves / Gets data ", "HTTP")
+
+Rel(ApiGateway, Backend, "Saves / Gets data ", "HTTP")
+
+Rel(Backend, Database, "Slaat antwoorden en vragen op.", "HTTP")
+Rel(Backend, Osiris, "Saves / Gets data ", "HTTP")
+Rel(WebApp, Schoolyear, "Saves / Gets data ", "HTTP")
+
+@enduml

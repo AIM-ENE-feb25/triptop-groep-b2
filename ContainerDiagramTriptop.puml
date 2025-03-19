@@ -1,0 +1,38 @@
+@startuml C4_Elements
+!include https://raw.githubusercontent.com/plantuml-stdlib/C4-PlantUML/master/C4_Container.puml
+top to bottom direction
+
+Person(traveller, "Reiziger", "Een reiziger die een reis met meerdere bestemmingen wil samenstellen.")
+Person(admin, "Administrator", "Beheerder")
+
+System_Boundary(Triptop, "Triptop", "Systeem voor het samenstellen van reizen."){
+
+Container(WebApp, "Web applicatie", "Interface voor het samenstellen van reizen.")
+Container(Backend, "Backend", "Verwerkt reisgegevens.")
+Container(Database, "Database", "Slaat reis data op.")
+
+}
+
+System_Ext(identity_provider_api, "Identity Provider API", "Biedt inlogmogelijkheden via onder andere Apple, Google en Microsoft.", $link="https://developer.okta.com/docs/api/openapi/okta-management/management/tag/IdentityProvider/")
+System_Ext(demand_api, "Demand API", "Booking.com's API voor verblijf, autoverhuur, vluchten*, accommodaties* en luchthaventaxi's*.", $link="https://developers.booking.com/demand/docs/open-api/demand-api")
+System_Ext(mollie_api, "Mollie API", "Eén platform voor betalingen via onder andere Klarna, iDEAL, Apple Pay en PayPal.", $link="https://www.mollie.com/nl/")
+System_Ext(google_maps_api, "Google Maps Platform", "Google's API voor kaarten, routes en plekken.", $link="https://developers.google.com/maps")
+System_Ext(all_aboard_api, "The API", "Biedt boek- en beheermogelijkheden voor treinreizen binnen Europa.", $link="https://allaboard.eu/api-solution")
+System_Ext(flight_api, "FlightAPI", "Biedt vluchtprijzen, vluchttijden en vluchtlocaties wereldwijd.", $link="https://www.flightapi.io/")
+System_Ext(grubhub_api, "Grubhub", "Biedt bezorg en afhaalmogelijkheid voor eten en drinken bij diverse restaurants.", $link="https://www.grubhub.com/")
+
+Rel(traveller, WebApp, "Navigeert via", "HTTP")
+Rel(admin, WebApp, "Navigeert via", "HTTP")
+
+Rel(WebApp, Backend, "Stuurt HTTP requests", "HTTP")
+Rel(WebApp, google_maps_api, "Haalt kaartgegevens op", "HTTP")
+
+Rel(Backend, Database, "Slaat reisgegevens op", "HTTP")
+Rel(Backend, identity_provider_api, "Verifieert inloggegevens", "HTTP")
+Rel(Backend, demand_api, "Haalt reisopties op", "HTTP")
+Rel(Backend, mollie_api, "Verwerkt betalingen", "HTTP")
+Rel(Backend, all_aboard_api, "Haalt treinreisgegevens op", "HTTP")
+Rel(Backend, flight_api, "Haalt vluchtgegevens op", "HTTP")
+Rel(Backend, grubhub_api, "Haalt eetgegevens op", "HTTP")
+
+@enduml
