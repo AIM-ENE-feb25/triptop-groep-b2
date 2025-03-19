@@ -1,0 +1,26 @@
+@startuml C4_Elements
+!include https://raw.githubusercontent.com/plantuml-stdlib/C4-PlantUML/master/C4_Container.puml
+!include <C4/C4>
+!include <C4/C4_Context>
+!include <C4/C4_Container>
+
+top to Bottom direction
+
+Person(Teacher, "Teacher", "A teacher of the school")
+Person(Student, "Student", "A student of the school")
+
+ContainerDb(DB, "Database", $techn="MySQL", $descr="Stores Data From the app")
+Container(WebApp, "Web App", $techn="React", $descr="Web interface for the app")
+Container(Backend, "Backend", $techn="Node.js", $descr="Backend for the app")
+
+System_Ext(SchoolYear, "School Year", "description of purpose of communication and summarise how these interfaces will work, communication style (synchronous, asynchronous, etc.) and mechanism (REST / WEB API etc.)")
+System_Ext(Osiris, "Osiris", "description of purpose of communication and summarise how these interfaces will work, communication style (synchronous, asynchronous, etc.) and mechanism (REST / WEB API etc.)")
+
+Rel(Teacher, "WebApp", "Uses")
+Rel(Student, "WebApp", "Uses")
+Rel(WebApp, "Backend", "Reads from and writes to")
+Rel(Backend, "Osiris", "Reads from and writes to")
+Rel(Backend, "DB", "Reads from and writes to")
+Rel(WebApp, "SchoolYear", "Reads from and writes to")
+
+@enduml
