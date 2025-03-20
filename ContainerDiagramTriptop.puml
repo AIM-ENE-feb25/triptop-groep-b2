@@ -3,7 +3,7 @@
 top to bottom direction
 
 Person(traveller, "Reiziger", "Een reiziger die een reis met meerdere bestemmingen wil samenstellen.")
-Person(admin, "Administrator", "Beheerder")
+Person(admin, "Reisbureau medewerker", "Beheerder")
 
 System_Boundary(Triptop, "Triptop", "Systeem voor het samenstellen van reizen."){
 
