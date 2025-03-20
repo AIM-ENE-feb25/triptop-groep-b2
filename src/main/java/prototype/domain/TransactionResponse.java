@@ -1,4 +1,4 @@
-package prototype.controller;
+package prototype.domain;
 
 public class TransactionResponse {
     private String id;
