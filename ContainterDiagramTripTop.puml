@@ -5,23 +5,32 @@
 !include <C4/C4_Container>
 
 top to bottom direction
-Person(user, "User", "A user of the system")
+Person(user, "Reiziger", "A user of the system")
+Person(admin, "Admin/ReisAgent", "An admin of the system")
+
 System_Boundary("boundary", "TripTop") {
-Container(ApiGateway, "API Gateway", "De API Gateway fungeert als een toegangspunt voor alle API's.")
 Container(WebApp, "Web App", "De Web App is de front-end van het systeem.")
 Container(Backend, "Backend", "De Backend is de back-end van het systeem.")
-
+Container(DB, "Database", "De database slaat data op van de app.")
 }
 
 System_Ext(identity_provider_api, "Identity Provider API", "Biedt inlogmogelijkheden via onder andere Apple, Google en Microsoft.", $link="https://developer.okta.com/docs/api/openapi/okta-management/management/tag/IdentityProvider/")
-'System_Ext(demand_api, "Demand API", "Booking.com's API voor verblijf, autoverhuur, vluchten*, accommodaties* en luchthaventaxi's*.", $link="https://developers.booking.com/demand/docs/open-api/demand-api")
+System_Ext(demand_api, "Demand API", "Booking.com's API voor verblijf, autoverhuur, vluchten*, accommodaties* en luchthaventaxi's*.", $link="https://developers.booking.com/demand/docs/open-api/demand-api")
+System_Ext(google_maps_api, "Google Maps Platform", "Google's API voor kaarten, routes en plekken.", $link="https://developers.google.com/maps")
 'System_Ext(mollie_api, "Mollie API", "Eén platform voor betalingen via onder andere Klarna, iDEAL, Apple Pay en PayPal.", $link="https://www.mollie.com/nl/")
-'System_Ext(google_maps_api, "Google Maps Platform", "Google's API voor kaarten, routes en plekken.", $link="https://developers.google.com/maps")
 'System_Ext(all_aboard_api, "The API", "Biedt boek- en beheermogelijkheden voor treinreizen binnen Europa.", $link="https://allaboard.eu/api-solution")
 'System_Ext(flight_api, "FlightAPI", "Biedt vluchtprijzen, vluchttijden en vluchtlocaties wereldwijd.", $link="https://www.flightapi.io/")
 'System_Ext(grubhub_api, "Grubhub", "Biedt bezorg en afhaalmogelijkheid voor eten en drinken bij diverse restaurants.", $link="https://www.grubhub.com/")
 
-Rel(user, "WebApp", "Gebruikt")
+
+
+Rel(user, "WebApp", "Gebruikt" , HTTP )
+Rel(admin, "WebApp", "Gebruikt" , HTTP )
+Rel(WebApp, "Backend", "Leest van en schrijft naar" , HTTP )
+Rel(Backend, "identity_provider_api", "Leest van en schrijft naar" , HTTP )
+Rel(Backend , DB, "Leest van en schrijft naar" , JDBC )
+Rel(Backend, "demand_api", "Leest van en schrijft naar" , HTTP )
+Rel("WebApp", "google_maps_api", "Leest van en schrijft naar" , HTTP )
 
 
 @enduml
