@@ -12,6 +12,22 @@ Dit software guidebook geeft een overzicht van de Triptop-applicatie. Het bevat 
 > [!IMPORTANT]
 > Werk zelf dit hoofdstuk uit met context diagrammen en een beschrijving van de context van de software.
 
+![System Context Diagram](../opdracht-diagrammen/Context_Diagram_Triptop_Systeem.png)
+**Triptop** helpt reizigers bij het plannen van reizen met meerdere bestemmingen. Het platform integreert met externe systemen voor authenticatie, boekingen, betalingen, routeplanning, en meer.
+
+## Gebruikers
+- **Reiziger**: Stelt reizen samen en boekt transport/accommodaties.
+- **Administrator**: Beheert het systeem en de gebruikers.
+
+## Externe Systemen
+- **Identity Provider API**: Authenticatie via Apple, Google, Microsoft.
+- **Demand API (Booking.com)**: Accommodatie- en transportboeking.
+- **Mollie API**: Betalingen via iDEAL, Klarna, PayPal.
+- **Google Maps API**: Routeplanning en kaarten.
+- **All Aboard API**: Treinreizen binnen Europa.
+- **AeroDataBox API**: Vluchttijden en -routes.
+- **Grubhub API**: Eten en drinken via restaurants.
+
 Toelichting op de context van de software inclusief System Context Diagram:
 * Functionaliteit
 * Gebruikers
@@ -81,6 +97,39 @@ Voordat deze casusomschrijving tot stand kwam, heeft de opdrachtgever de volgend
 
 > [!IMPORTANT]
 > Voeg toe: Container Diagram plus een Dynamic Diagram van een aantal scenario's inclusief begeleidende tekst.
+
+#### Container Diagram
+![Container Diagram](../opdracht-diagrammen/Container_Diagram_Triptop_Systeem.png)
+
+Dit **Container Diagram** geeft een overzicht van de **Triptop** applicatie, waarin de belangrijkste containers en hun interacties worden getoond. Het diagram omvat de **Web Applicatie**, de **Backend** en de **Database**, evenals de externe systemen waarmee Triptop communiceert, zoals de **IdentityProvider API**, **DemandAPI**, **Mollie API**, en anderen. De interacties gaan als volgt:
+
+- **Reizigers** en **Beheerders** gebruiken de **Web Applicatie** om toegang te krijgen tot het systeem.
+- De **Web Applicatie** stuurt verzoeken naar de **Backend** voor verdere verwerking.
+- De **Backend** slaat gegevens op in de **Database** en haalt reisopties op via de **Demand API**.
+- Betalingen worden verwerkt via de **Mollie API**, terwijl andere gegevens, zoals kaartinformatie of treinreisinformatie, opgehaald worden via respectievelijk de **Google Maps API** en de **All Aboard API**.
+
+#### Dynamic Diagrams
+##### Login
+![Dynamic Diagram](../opdracht-diagrammen/Dynamic_Container_Login.png)
+
+Dit diagram illustreert het proces van inloggen binnen de **Triptop** applicatie. Het beschrijft de interacties tussen de **Web Applicatie**, de **Backend**, en de **Identity Provider API** die de inloggegevens van de gebruiker verifieert. Het proces verloopt in vier stappen:
+
+1. De **reiziger** voert zijn inloggegevens in via de **Web Applicatie**.
+2. De **Backend** verwerkt deze inloggegevens en stuurt ze naar de **Identity Provider API** voor verificatie.
+3. De **Identity Provider API** bevestigt of wijst de inlogpoging af.
+4. De **Backend** stuurt het resultaat van de inlogpoging (succes of mislukking) terug naar de **Web Applicatie**, die het resultaat aan de gebruiker toont.
+
+##### Booking
+![Dynamic Diagram](../opdracht-diagrammen/Dynamic_Container_Booking.png)
+
+Dit diagram toont de flow van het boeken van een reis binnen de **Triptop** applicatie. Het proces bestaat uit meerdere interacties tussen de **Web Applicatie**, de **Backend**, de **Database**, en externe systemen zoals de **Demand API** (voor reisopties) en de **Mollie API** (voor betalingen). Het proces verloopt als volgt:
+
+1. De **reiziger** selecteert reisopties via de **Web Applicatie**.
+2. De **Backend** haalt beschikbare reisopties op van de **Demand API**.
+3. De **Web Applicatie** toont de opgehaalde reisopties aan de **reiziger**.
+4. Wanneer de **reiziger** een boeking bevestigt, slaat de **Backend** de boekingsgegevens op in de **Database**.
+5. De **Backend** verwerkt de betaling via de **Mollie API**.
+6. Ten slotte toont de **Web Applicatie** een bevestiging van de boeking aan de **reiziger**.
 
 ###     7.2. Components
 

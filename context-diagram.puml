@@ -13,7 +13,7 @@ System_Ext(demand_api, "Demand API", "Booking.com's API voor verblijf, autoverhu
 System_Ext(mollie_api, "Mollie API", "Eén platform voor betalingen via onder andere Klarna, iDEAL, Apple Pay en PayPal.", $link="https://www.mollie.com/nl/")
 System_Ext(google_maps_api, "Google Maps Platform", "Google's API voor kaarten, routes en plekken.", $link="https://developers.google.com/maps")
 System_Ext(all_aboard_api, "The API", "Biedt boek- en beheermogelijkheden voor treinreizen binnen Europa.", $link="https://allaboard.eu/api-solution")
-System_Ext(flight_api, "FlightAPI", "Biedt vluchtprijzen, vluchttijden en vluchtlocaties wereldwijd.", $link="https://www.flightapi.io/")
+System_Ext(aeroDataBox_api, "AeroDataBox API", "Biedt vliegvelden, vluchttijden en vluchtroutes wereldwijd.", $link="https://rapidapi.com/aedbx-aedbx/api/aerodatabox")
 System_Ext(grubhub_api, "Grubhub", "Biedt bezorg en afhaalmogelijkheid voor eten en drinken bij diverse restaurants.", $link="https://www.grubhub.com/")
 
 Rel(traveller, triptop, "maakt reisplan met")
@@ -24,6 +24,6 @@ Rel(triptop, demand_api, "suggereert verblijven met")
 Rel(triptop, mollie_api, "handelt betalingen af met")
 Rel(triptop, google_maps_api, "bepaalt routes tussen bestemmingen met")
 Rel(triptop, all_aboard_api, "beheert en houdt treinreizen bij met")
-Rel(triptop, flight_api, "beheert en houdt vluchten bij met")
+Rel(triptop, aeroDataBox_api, "beheert en houdt vluchten bij met")
 Rel(triptop, grubhub_api, "stelt eet- en drinkmogelijkheden voor met")
 @enduml
