@@ -1,7 +1,7 @@
 # Payment Options
 Datum: 2025-03-21
 ## Status
-Pending
+Accepted
 
 ## Context
 We maken een reismanager app hiervoor hebben we een API nodig die betaling afhandeld maar welke API is het meest geschikt hiervoor willen we graag weten.
