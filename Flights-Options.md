@@ -9,13 +9,13 @@ We maken een reismanager app hiervoor hebben we een Flights API nodig die Vlucht
 ## Considered Options
 | Forces                         | AeroDataBox | FlightsAPI  | AmadeusAPI |
 |--------------------------------|--------|---------------|------------|
-| Standaard API's beschikbaar    | --     | ?             | ++         |
-| Envoudig te gebruiken in java  | 0      | -            | 0          |
-
+| Standaard API's beschikbaar    | +      | 0             | 0          |
+| Envoudig te gebruiken in java  | ++     | --            | +          |
+|RealTime Info vlucht info       | ++     |     -         | 0          |
 ## Descision
-Uitendelijk is de keuze gemaakt om AeroDataBox te gebruiken
+Uitendelijk is de keuze gemaakt om AeroDataBox te gebruiken. omdat FlightsAPI geld kost per maand. Ook is AeroDataBox erg gefocused in vluchten infomatie bijhouden met diepe info zoals flight tracking , flight status en aiport informatie Tenslotten is AeroDataBox veel makkelijker te gebruiken vergelijken AmadeusAPI vanwege de complexe gebruikze weize.
 
 ## Consequences
-AeroDataBox
+AeroDataBox is ideaal voor realtime tracking en vluchten informatie maar is niet geschikt voor Hotels en booking services hiervoor zouden we een andere API nodig hebben.
 
 
