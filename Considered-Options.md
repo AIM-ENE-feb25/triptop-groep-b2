@@ -13,9 +13,9 @@ We maken een reismanager app hiervoor hebben we een API nodig die betaling afhan
 | Envoudig te gebruiken in java  | 0      | ++            |
 
 ## Descision
-a
+Uitendelijk is de keuze gemaakt om KnitPayPro te gebruiken inplaats van Mollie omdat we er later achterkwamen dat Mollie een bussnins acount nodig heeft om een KEY te krijgen dus deze was helaas niet bruikbaar
 
 ## Consequences
-text
+Geen idee nog
 
 
