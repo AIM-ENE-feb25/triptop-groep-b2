@@ -7,7 +7,7 @@ Pending
 We maken een reismanager app hiervoor hebben we een API nodig die betaling afhandeld maar welke API is het meest geschikt hiervoor willen we graag weten.
 
 ## Considered Options
-| Forces                         | Mollie | Knit Pay Pro  | Stripe API |
+| Forces                         | Mollie | Knit Pay Pro  | PayPal |
 |--------------------------------|--------|---------------|------------|
 | Standaard API's beschikbaar    | --     | ?             | ++         |
 | Envoudig te gebruiken in java  | 0      | ++            | 0          |
