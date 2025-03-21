@@ -4,7 +4,7 @@ Datum: 2025-03-21
 Pending
 
 ## Context
-Geef context
+We maken een reismanager app hiervoor hebben we een API nodig die betaling afhandeld maar welke API is het meest geschikt hiervoor willen we graag weten.
 
 ## Considered Options
 | Forces                         | Mollie | Knit Pay Pro  |
@@ -13,7 +13,7 @@ Geef context
 | Envoudig te gebruiken in java  | 0      | ++            |
 
 ## Descision
-Text
+a
 
 ## Consequences
 text
