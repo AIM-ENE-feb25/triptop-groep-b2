@@ -16,6 +16,6 @@ We maken een reismanager app hiervoor hebben we een API nodig die betaling afhan
 Uitendelijk is de keuze gemaakt om KnitPayPro te gebruiken inplaats van Mollie omdat we er later achterkwamen dat Mollie een bussnins acount nodig heeft om een KEY te krijgen dus deze was helaas niet bruikbaar
 
 ## Consequences
-Geen idee nog
+KintPayPro is gemaakt voor Wordpress dit kan problemen opleveren.
 
 
