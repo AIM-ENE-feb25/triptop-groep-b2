@@ -1,0 +1,47 @@
+@startuml
+!include https://raw.githubusercontent.com/plantuml-stdlib/C4-PlantUML/master/C4_Component.puml
+
+top to bottom direction
+
+Person(traveller, "Reiziger", "Een reiziger die een reis met meerdere bestemmingen wil samenstellen.")
+
+Container_Boundary(Web_App, "Web Applicatie") {
+    Component(App, "App", "React", "Hoofdcomponent voor het beheren van de componenten en routes van de applicatie.")
+    Component(Header, "Header", "React", "Navigatiebalk voor het navigeren tussen verschillende secties van de applicatie.")
+    Component(Login, "Login", "React", "Inlogpagina waar gebruikers hun inloggegevens invoeren.")
+    Component(GoogleMaps, "Google Maps", "React", "Interfacing voor het ophalen van route- en kaartgegevens via de Google Maps API.")
+    Component(Travel, "Travel", "React", "Beheert vlucht- en treinreisinformatie, toont reisschema's.")
+    Component(Hotel, "Hotel", "React", "Toont hotelinformatie, inclusief beschikbaarheid en prijzen.")
+    Component(Payment, "Payment", "React", "Behandelt betalingsinformatie en communiceert met de backend voor betalingen.")
+    Component(Food, "Food", "React", "Toont eetlocaties en biedt informatie over restaurants en eetgelegenheden.")
+}
+
+Container(Backend, "Backend", "Spring Boot", "Verwerkt reis- en gebruikersgegevens, zoals boekingen en betalingen.")
+
+System_Ext(GoogleMapsAPI, "Google Maps API", "Google's API voor kaarten, routes en plaatsen.", $link="https://developers.google.com/maps")
+
+Rel(traveller, App, "Navigeert via", "HTTP")
+Rel(App, Header, "Navigeert via", "HTTP")
+Rel(Header, Login, "Navigeert via", "HTTP")
+Rel(Header, GoogleMaps, "Navigeert via", "HTTP")
+Rel(Header, Travel, "Navigeert via", "HTTP")
+Rel(Header, Hotel, "Navigeert via", "HTTP")
+Rel(Header, Payment, "Navigeert via", "HTTP")
+Rel(Header, Food, "Navigeert via", "HTTP")
+Rel(App, Login, "Navigeert via", "HTTP")
+Rel(App, GoogleMaps, "Navigeert via", "HTTP")
+Rel(App, Travel, "Navigeert via", "HTTP")
+Rel(App, Hotel, "Navigeert via", "HTTP")
+Rel(App, Payment, "Navigeert via", "HTTP")
+Rel(App, Food, "Navigeert via", "HTTP")
+
+Rel(Login, Backend, "Stuurt gebruikersinloggegevens naar", "HTTP")
+Rel(Hotel, Backend, "Stuurt hotelgegevens opgevraagd door gebruiker naar", "HTTP")
+Rel(Payment, Backend, "Stuurt betalingsinformatie naar", "HTTP")
+Rel(Travel, Backend, "Stuurt reisinformatie (vluchten, treinen) naar", "HTTP")
+Rel(Food, Backend, "Stuurt opgevraagde eetlocaties naar", "HTTP")
+
+Rel(GoogleMaps, GoogleMapsAPI, "Haalt route- en kaartgegevens op", "HTTP")
+Rel(Payment, Backend, "Stuurt betalingsgegevens voor verwerking", "HTTPS")
+
+@enduml

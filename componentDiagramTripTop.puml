@@ -1,0 +1,64 @@
+@startuml
+!include https://raw.githubusercontent.com/plantuml-stdlib/C4-PlantUML/master/C4_Component.puml
+
+top to bottom direction
+
+Container(WebApp, "Web Application", "React", "User Interface for expense management")
+
+Container_Boundary(Backend, "Backend") {
+    Component(login_controller, "LoginController", "Spring Boot", "Handles user authentication")
+    Component(login_service, "LoginService", "Spring Boot", "Processes login requests")
+    Component(login_repository, "LoginRepository", "Database Access", "Verifies user credentials")
+
+    Component(hotel_controller, "HotelController", "Spring Boot", "Manages hotel requests")
+    Component(hotel_service, "HotelService", "Spring Boot", "Processes hotel data")
+
+    Component(betaal_controller, "BetaalController", "Spring Boot", "Manages payment requests")
+    Component(betaal_service, "BetaalService", "Spring Boot", "Processes payment data")
+
+    Component(vlucht_controller, "VluchtController", "Spring Boot", "Manages flight requests")
+    Component(vlucht_service, "VluchtService", "Spring Boot", "Processes flight data")
+
+    Component(trein_controller, "TreinController", "Spring Boot", "Manages train requests")
+    Component(trein_service, "TreinService", "Spring Boot", "Processes train data")
+
+    Component(eet_controller, "EetController", "Spring Boot", "Manages food requests")
+    Component(eet_service, "EetService", "Processes food data", "Stores and retrieves food data")
+}
+
+Container(Database, "Database", "PostgreSQL", "Stores user, flight, hotel, payment, train, and food data")
+
+System_Ext(identity_provider_api, "Identity Provider API", "Biedt inlogmogelijkheden via onder andere Apple, Google en Microsoft.", $link="https://developer.okta.com/docs/api/openapi/okta-management/management/tag/IdentityProvider/")
+System_Ext(demand_api, "Demand API", "Booking.com's API voor verblijf, autoverhuur, vluchten*, accommodaties* en luchthaventaxi's*.", $link="https://developers.booking.com/demand/docs/open-api/demand-api")
+System_Ext(mollie_api, "Mollie API", "Eén platform voor betalingen via onder andere Klarna, iDEAL, Apple Pay en PayPal.", $link="https://www.mollie.com/nl/")
+System_Ext(all_aboard_api, "The API", "Biedt boek- en beheermogelijkheden voor treinreizen binnen Europa.", $link="https://allaboard.eu/api-solution")
+System_Ext(flight_api, "FlightAPI", "Biedt vluchtprijzen, vluchttijden en vluchtlocaties wereldwijd.", $link="https://www.flightapi.io/")
+System_Ext(grubhub_api, "Grubhub", "Biedt bezorg en afhaalmogelijkheid voor eten en drinken bij diverse restaurants.", $link="https://www.grubhub.com/")
+
+Rel(WebApp, login_controller, "Sends login request (REST API)")
+Rel(WebApp, vlucht_controller, "Manages flights (REST API)")
+Rel(WebApp, hotel_controller, "Manages hotels (REST API)")
+Rel(WebApp, betaal_controller, "Manages payments (REST API)")
+Rel(WebApp, trein_controller, "Manages trains (REST API)")
+Rel(WebApp, eet_controller, "Manages food (REST API)")
+
+Rel(login_controller, login_service, "Validates user credentials")
+Rel(vlucht_controller, vlucht_service, "Processes flights")
+Rel(hotel_controller, hotel_service, "Processes hotels")
+Rel(betaal_controller, betaal_service, "Processes payments")
+Rel(trein_controller, trein_service, "Processes trains")
+Rel(eet_controller, eet_service, "Processes food")
+
+Rel(login_service, login_repository, "Checks credentials in DB")
+
+Rel(login_repository, Database, "Stores and retrieves user data")
+
+Rel(login_service, identity_provider_api, "Verifies user credentials")
+Rel(vlucht_service, flight_api, "Retrieves flight data")
+Rel(hotel_service, demand_api, "Retrieves hotel data")
+Rel(betaal_service, mollie_api, "Processes payments")
+Rel(trein_service, all_aboard_api, "Retrieves train data")
+Rel(eet_service, grubhub_api, "Retrieves food data")
+
+
+@enduml

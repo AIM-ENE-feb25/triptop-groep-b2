@@ -1,0 +1,42 @@
+@startuml
+!include <C4/C4_Container>
+
+Container_Ext(WebApp, "Web Application", "React", "User Interface for expense management")
+
+System_Boundary(c4_system, "Expense Management System") {
+    System_Boundary(Authentication, "Authentication Module") {
+        Container(login_controller, "LoginController", "Spring Boot", "Handles user authentication")
+        Container(login_service, "LoginService", "Spring Boot", "Processes login requests")
+        Container(login_repository, "LoginRepository", "Database Access", "Verifies user credentials")
+    }
+
+    System_Boundary(ExpenseManagement, "Expense Management Module") {
+        Container(expense_controller, "ExpenseController", "Spring Boot", "Manages expense requests")
+        Container(expense_service, "ExpenseService", "Spring Boot", "Processes expense data")
+        Container(expense_repository, "ExpenseRepository", "Database Access", "Stores and retrieves expense data")
+    }
+
+    System_Boundary(Reporting, "Reporting Module") {
+        Container(overview_controller, "ReportController", "Spring Boot", "Handles report requests")
+        Container(overview_service, "ReportService", "Spring Boot", "Processes report generation")
+        Container(overview_repository, "ReportRepository", "Database Access", "Retrieves summary data")
+    }
+}
+
+Container_Ext(Database, "Database", "PostgreSQL", "Stores user, expense, and reporting data")
+
+Rel(WebApp, login_controller, "Sends login request (REST API)")
+Rel(login_controller, login_service, "Validates user credentials")
+Rel(login_service, login_repository, "Checks credentials in DB")
+Rel(login_repository, Database, "Stores and retrieves user data")
+
+Rel(WebApp, expense_controller, "Manages expenses (REST API)")
+Rel(expense_controller, expense_service, "Processes expenses")
+Rel(expense_service, expense_repository, "Stores and retrieves expenses")
+Rel(expense_repository, Database, "Stores expense data")
+
+Rel(WebApp, overview_controller, "Requests reports (REST API)")
+Rel(overview_controller, overview_service, "Processes summary data")
+Rel(overview_service, overview_repository, "Retrieves reporting data")
+Rel(overview_repository, Database, "Stores and retrieves reports")
+@enduml
