@@ -1,0 +1,32 @@
+@startuml C4_Elements
+!include https://raw.githubusercontent.com/plantuml-stdlib/C4-PlantUML/master/C4_Container.puml
+!include <C4/C4>
+!include <C4/C4_Context>
+!include <C4/C4_Component>
+top to bottom direction
+
+System_Boundary("boundary", "FSWD") {
+Component(ControllerA, "Controller Auth", "")
+Component(ControllerB, "Controller Expense", "")
+
+Component(ServiceA, "Service Auth", "")
+Component(ServiceB, "Service Expense", "")
+Component(ServiceC, "Service C", "")
+
+Component(RepositoryA, "Repository User", "")
+Component(RepositoryB, "Repository B", "")
+Component(RepositoryC, "Repository C", "")
+}
+
+Rel(ControllerA, ServiceA, "Uses", "")
+Rel(ControllerB, ServiceA, "Uses", "")
+Rel(ControllerB, ServiceB, "Uses", "")
+Rel(ServiceA, RepositoryA, "Uses", "")
+Rel(ServiceA, RepositoryB, "Uses", "")
+Rel(ServiceB, RepositoryB, "Uses", "")
+Rel(ServiceB, RepositoryC, "Uses", "")
+Rel(ServiceC, RepositoryC, "Uses", "")
+Rel(ControllerA, ServiceC, "Uses", "")
+
+}
+@enduml
