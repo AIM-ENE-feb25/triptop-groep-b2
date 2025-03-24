@@ -1,0 +1,26 @@
+@startuml C4_Elements
+!include https://raw.githubusercontent.com/plantuml-stdlib/C4-PlantUML/master/C4_Container.puml
+!include <C4/C4>
+!include <C4/C4_Context>
+!include <C4/C4_Component>
+top to bottom direction
+
+Container(Frontend, "Frontend", "React")
+
+Container_Boundary("boundary", "Backend ComponentDiagram"){
+Component(App, "TripTop", "Main")
+
+Component(Controller1, "PaymentController", "Node.js")
+Component(Service1, "PaymentService", "Node.js")
+Component(Repository1, "PaymentRepository", "Node.js")
+
+Rel(Controller1, Service1, "Uses", "")
+Rel(Service1, Repository1, "Uses", "")
+Rel(App, Controller1, "Uses", "")
+Rel(Frontend, App, "Uses", "")
+
+
+}
+Container(Database, "Database", "SQL")
+Rel(Repository1, Database, "Uses")
+@enduml

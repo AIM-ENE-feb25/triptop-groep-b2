@@ -1,0 +1,17 @@
+@startuml C4_Elements
+!include https://raw.githubusercontent.com/plantuml-stdlib/C4-PlantUML/master/C4_Container.puml
+!include <C4/C4>
+!include <C4/C4_Context>
+!include <C4/C4_Component>
+top to bottom direction
+
+Container(Backend, "Backend", "")
+
+Container_Boundary("boundary", "Database ComponentDiagram"){
+
+Component(Database, "Database", "")
+
+Rel(Backend, Database, "Uses", "")
+}
+
+@enduml

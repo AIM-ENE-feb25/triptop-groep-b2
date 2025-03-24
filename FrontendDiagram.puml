@@ -1,0 +1,24 @@
+@startuml C4_Elements
+!include https://raw.githubusercontent.com/plantuml-stdlib/C4-PlantUML/master/C4_Container.puml
+!include <C4/C4>
+!include <C4/C4_Context>
+!include <C4/C4_Component>
+top to bottom direction
+
+Person(User, "Customer", "user of the app")
+
+Container_Boundary("boundary", "Frontend ComponentDiagram"){
+Component(App, "TripTop", "Main")
+
+Component(Buttons, "Button", "ReactComponent")
+Component(Header, "Header", "ReactComponent")
+
+
+Rel(App, Buttons, "Uses", "")
+Rel(App, Header, "Uses", "")
+Rel(User, App, "Uses", "")
+
+}
+Container(Backend, "Backend", "API")
+Rel(Buttons, Backend, "Uses")
+@enduml
