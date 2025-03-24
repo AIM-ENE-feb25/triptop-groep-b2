@@ -32,7 +32,7 @@ System_Ext(identity_provider_api, "Identity Provider API", "Biedt inlogmogelijkh
 System_Ext(demand_api, "Demand API", "Booking.com's API voor verblijf, autoverhuur, vluchten*, accommodaties* en luchthaventaxi's*.", $link="https://developers.booking.com/demand/docs/open-api/demand-api")
 System_Ext(mollie_api, "Mollie API", "Eén platform voor betalingen via onder andere Klarna, iDEAL, Apple Pay en PayPal.", $link="https://www.mollie.com/nl/")
 System_Ext(all_aboard_api, "The API", "Biedt boek- en beheermogelijkheden voor treinreizen binnen Europa.", $link="https://allaboard.eu/api-solution")
-System_Ext(flight_api, "FlightAPI", "Biedt vluchtprijzen, vluchttijden en vluchtlocaties wereldwijd.", $link="https://www.flightapi.io/")
+System_Ext(flight_api, "AeroDataBox API", "Biedt vluchtprijzen, vluchttijden en vluchtlocaties wereldwijd.", $link="https://www.flightapi.io/")
 System_Ext(grubhub_api, "Grubhub", "Biedt bezorg en afhaalmogelijkheid voor eten en drinken bij diverse restaurants.", $link="https://www.grubhub.com/")
 
 Rel(WebApp, login_controller, "Sends login request (REST API)")
@@ -60,5 +60,5 @@ Rel(betaal_service, mollie_api, "Processes payments")
 Rel(trein_service, all_aboard_api, "Retrieves train data")
 Rel(eet_service, grubhub_api, "Retrieves food data")
 
-
+SHOW_LEGEND(TRUE)
 @enduml

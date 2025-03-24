@@ -44,4 +44,5 @@ Rel(Food, Backend, "Stuurt opgevraagde eetlocaties naar", "HTTP")
 Rel(GoogleMaps, GoogleMapsAPI, "Haalt route- en kaartgegevens op", "HTTP")
 Rel(Payment, Backend, "Stuurt betalingsgegevens voor verwerking", "HTTPS")
 
+SHOW_LEGEND(TRUE)
 @enduml

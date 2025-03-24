@@ -35,4 +35,5 @@ Rel(Backend, all_aboard_api, "Haalt treinreisgegevens op", "HTTP")
 Rel(Backend, flight_api, "Haalt vluchtgegevens op", "HTTP")
 Rel(Backend, grubhub_api, "Haalt eetgegevens op", "HTTP")
 
+SHOW_LEGEND(TRUE)
 @enduml
