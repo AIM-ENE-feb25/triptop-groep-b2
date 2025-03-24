@@ -1,0 +1,25 @@
+@startuml C4_Elements
+!include https://raw.githubusercontent.com/plantuml-stdlib/C4-PlantUML/master/C4_Container.puml
+!include <C4/C4>
+!include <C4/C4_Context>
+!include <C4/C4_Component>
+top to bottom direction
+
+Container_Boundary("boundary", "Frontend ComponentDiagram"){
+
+Component(App, "App", "Main")
+
+Component(Buttons, "Button", "ReactComponent")
+Component(Header, "Header", "ReactComponent")
+Component(LoginForm, "LoginForm", "ReactComponent")
+Component(Table, "Table", "ReactComponent")
+Component(TableRow, "TableRow", "ReactComponent")
+Component(FormInput, "FormInput", "ReactComponent")
+
+
+
+
+}
+
+Container(Backend, "Backend", "API")
+@enduml

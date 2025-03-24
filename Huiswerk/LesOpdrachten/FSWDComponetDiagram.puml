@@ -5,7 +5,7 @@
 !include <C4/C4_Component>
 top to bottom direction
 
-System_Boundary("boundary", "FSWD") {
+Container_Boundary("boundary", "FSWD") {
 Component(ControllerA, "Controller Auth", "")
 Component(ControllerB, "Controller Expense", "")
 
