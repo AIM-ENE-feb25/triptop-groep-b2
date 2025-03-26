@@ -1,0 +1,29 @@
+@startuml
+!include https://raw.githubusercontent.com/plantuml-stdlib/C4-PlantUML/master/C4_Component.puml
+
+
+actor User
+
+Container(WebApp, "Web Application", "React", "User interface for expense management")
+
+Container_Boundary(Backend, "Backend") {
+    Component(PaymentProvider, "BetaalProvider", "Interface", "Abstracts payment API interactions")
+    Component(BetaalService, "BetaalService", "Spring Boot", "Processes payment data")
+    Component(BetaalController, "BetaalController", "Spring Boot", "Manages payment requests")
+}
+
+System_Ext(MollieAPI, "Mollie API", "Payment processing API")
+
+' Sequence flows with better arrow routing
+User -right-> WebApp: 1. Initiates payment request
+WebApp -right-> BetaalController: 2. Sends payment request (REST API)
+BetaalController -right-> BetaalService: 3. Calls processPayment(paymentDetails)
+BetaalService -right-> PaymentProvider: 4. Calls processPayment(paymentDetails)
+PaymentProvider -right-> MollieAPI: 5. Sends payment request
+MollieAPI -left-> PaymentProvider: 6. Returns payment status
+PaymentProvider -left-> BetaalService: 7. Returns payment status
+BetaalService -left-> BetaalController: 8. Returns payment status
+BetaalController -left-> WebApp: 9. Returns payment status
+WebApp -left-> User: 10. Displays payment result
+
+@enduml

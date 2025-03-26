@@ -1,0 +1,78 @@
+@startuml
+!include https://raw.githubusercontent.com/plantuml-stdlib/C4-PlantUML/master/C4_Component.puml
+
+top to bottom direction
+
+Container(WebApp, "Web Application", "React", "User Interface for expense management")
+
+Container_Boundary(Backend, "Backend") {
+    Component(login_controller, "LoginController", "Spring Boot", "Handles user authentication")
+    Component(login_service, "LoginService", "Spring Boot", "Processes login requests")
+    Component(login_repository, "LoginRepository", "Database Access", "Verifies user credentials")
+
+    Component(hotel_controller, "HotelController", "Spring Boot", "Manages hotel requests")
+    Component(hotel_service, "HotelService", "Spring Boot", "Processes hotel data")
+    Component(hotel_provider, "HotelProvider", "Interface", "Abstracts hotel API interactions")
+
+    Component(betaal_controller, "BetaalController", "Spring Boot", "Manages payment requests")
+    Component(betaal_service, "BetaalService", "Spring Boot", "Processes payment data")
+    Component(payment_provider, "PaymentProvider", "Interface", "Abstracts payment API interactions")
+
+    Component(vlucht_controller, "VluchtController", "Spring Boot", "Manages flight requests")
+    Component(vlucht_service, "VluchtService", "Spring Boot", "Processes flight data")
+    Component(flight_provider, "FlightProvider", "Interface", "Abstracts flight API interactions")
+
+    Component(trein_controller, "TreinController", "Spring Boot", "Manages train requests")
+    Component(trein_service, "TreinService", "Spring Boot", "Processes train data")
+    Component(train_provider, "TrainProvider", "Interface", "Abstracts train API interactions")
+
+    Component(eet_controller, "EetController", "Spring Boot", "Manages food requests")
+    Component(eet_service, "EetService", "Spring Boot", "Processes food data")
+    Component(food_provider, "FoodProvider", "Interface", "Abstracts food API interactions")
+}
+
+Container(Database, "Database", "PostgreSQL", "Stores user, flight, hotel, payment, train, and food data")
+
+System_Ext(identity_provider_api, "Identity Provider API", "Biedt inlogmogelijkheden via onder andere Apple, Google en Microsoft.")
+System_Ext(demand_api, "Booking API", "Voor hotels en autoverhuur.")
+System_Ext(mollie_api, "Mollie API", "Voor betalingen.")
+System_Ext(stripe_api, "Stripe API", "Alternatieve betalingsprovider.")
+System_Ext(all_aboard_api, "The API", "Voor treinreizen in Europa.")
+System_Ext(flight_api, "AeroDataBox API", "Voor vluchtgegevens.")
+System_Ext(grubhub_api, "Grubhub", "Voor voedselbezorging.")
+
+Rel(WebApp, login_controller, "Sends login request (REST API)")
+Rel(WebApp, vlucht_controller, "Manages flights (REST API)")
+Rel(WebApp, hotel_controller, "Manages hotels (REST API)")
+Rel(WebApp, betaal_controller, "Manages payments (REST API)")
+Rel(WebApp, trein_controller, "Manages trains (REST API)")
+Rel(WebApp, eet_controller, "Manages food (REST API)")
+
+Rel(login_controller, login_service, "Validates user credentials")
+Rel(vlucht_controller, vlucht_service, "Processes flights")
+Rel(hotel_controller, hotel_service, "Processes hotels")
+Rel(betaal_controller, betaal_service, "Processes payments")
+Rel(trein_controller, trein_service, "Processes trains")
+Rel(eet_controller, eet_service, "Processes food")
+
+Rel(login_service, login_repository, "Checks credentials in DB")
+Rel(login_repository, Database, "Stores and retrieves user data")
+Rel(login_service, identity_provider_api, "Verifies user credentials")
+
+Rel(vlucht_service, flight_provider, "Uses")
+Rel(flight_provider, flight_api, "Retrieves flight data")
+
+Rel(hotel_service, hotel_provider, "Uses")
+Rel(hotel_provider, demand_api, "Retrieves hotel data")
+
+Rel(betaal_service, payment_provider, "Uses")
+Rel(payment_provider, mollie_api, "Processes payments")
+
+Rel(trein_service, train_provider, "Uses")
+Rel(train_provider, all_aboard_api, "Retrieves train data")
+
+Rel(eet_service, food_provider, "Uses")
+Rel(food_provider, grubhub_api, "Retrieves food data")
+
+SHOW_LEGEND(TRUE)
+@enduml

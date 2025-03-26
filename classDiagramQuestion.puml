@@ -1,0 +1,59 @@
+@startuml
+'https://plantuml.com/class-diagram
+
+class WebApp {
+    +loginUser(credentials: LoginRequest): LoginResponse
+    +initiatePayment(paymentDetails: PaymentDetails): PaymentStatus
+    +manageFlights(flightDetails: FlightDetails): FlightStatus
+    +manageHotels(hotelDetails: HotelDetails): HotelStatus
+}
+
+class BetaalController {
+    +processPayment(paymentDetails: PaymentDetails): PaymentStatus
+}
+
+class BetaalService {
+    +processPayment(paymentDetails: PaymentDetails): PaymentStatus
+}
+
+interface PaymentProvider {
+    +processPayment(paymentDetails: PaymentDetails): PaymentStatus
+}
+
+class MolliePaymentProvider {
+    +processPayment(paymentDetails: PaymentDetails): PaymentStatus
+}
+
+class PaymentStatus {
+    -status: String
+    -transactionId: String
+}
+
+class PaymentDetails {
+    -amount: double
+    -currency: String
+    -paymentMethod: String
+}
+
+class LoginRequest {
+    -username: String
+    -password: String
+}
+
+class LoginResponse {
+    -status: String
+    -userId: String
+}
+
+' Relationships
+WebApp --> BetaalController : "Uses"
+WebApp --> LoginRequest : "Sends login credentials"
+WebApp --> LoginResponse : "Receives login response"
+BetaalController --> BetaalService : "Uses"
+BetaalService --> PaymentProvider : "Uses"
+PaymentProvider <|-- MolliePaymentProvider
+BetaalService --> PaymentDetails : "Accepts"
+BetaalController --> PaymentStatus : "Returns"
+WebApp --> PaymentStatus : "Returns"
+
+@enduml
