@@ -1,0 +1,30 @@
+@startuml C4_DynamicDiagram
+!include https://raw.githubusercontent.com/plantuml-stdlib/C4-PlantUML/master/C4_Container.puml
+!include <C4/C4>
+!include <C4/C4_Context>
+!include <C4/C4_Component>
+left to right direction
+
+title Dynamisch Component Diagram - Google Maps + MapBox (C4)
+
+Person(User, "User", "gebruiker van de applicatie")
+
+Container_Boundary("boundary", "Component Diagram"){
+
+Component(GoogleMaps, "Google Maps Service", "Google Maps API")
+Component(Mapbox, "Mapbox Service", "Mapbox API")
+Component(MapService, "MapService", "Interface")
+Component(MapServiceFactory, "MapServiceFactory", "Factory")
+Component(MapController, "MapController", "REST Controller")
+
+Rel(User, MapController, "1. Verstuurt request voor GOOGLE_MAPS")
+Rel(MapController , MapServiceFactory, "2. Vraagt de juiste MapService op")
+Rel(MapServiceFactory , GoogleMaps, "3. Geeft een MapService implementatie terug (GoogleMapsService of MapBoxService)")
+Rel(MapController , MapService, "4. Roept methodes aan op MapService (abstract)")
+Rel(MapService, GoogleMaps, "5. Maakt API-call naar Google Maps", "of MapBox")
+Rel(GoogleMaps, MapController, "6. Stuurt response terug")
+Rel(MapController, User, "7. Geeft data terug aan gebruiker")
+
+}
+
+@enduml
