@@ -1,0 +1,40 @@
+@startuml
+'https://plantuml.com/class-diagram
+
+class Coordinate <<record>> {
+  -latitude: double
+  -longitude: double
+}
+
+class RouteContext {
+    -currentState: RouteState
+    +setState(newState: RouteState): void
+    +calculateRoute(coordinates: List<Coordinate>): List<Coordinate>
+}
+
+interface RouteState {
+    +calculateRoute(coordinates: List<Coordinate>): List<Coordinate>
+}
+
+class ShortestDistanceState {
+    +calculateRoute(coordinates: List<Coordinate>): List<Coordinate>
+}
+
+class FastestTimeState {
+    +calculateRoute(coordinates: List<Coordinate>): List<Coordinate>
+}
+
+class CheapestCostState {
+    +calculateRoute(coordinates: List<Coordinate>): List<Coordinate>
+}
+
+RouteState <|-- ShortestDistanceState
+RouteState <|-- FastestTimeState
+RouteState <|-- CheapestCostState
+RouteContext --> RouteState
+RouteState ..> Coordinate
+ShortestDistanceState ..> Coordinate
+FastestTimeState ..> Coordinate
+CheapestCostState ..> Coordinate
+
+@enduml
