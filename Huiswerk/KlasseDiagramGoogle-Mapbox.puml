@@ -8,7 +8,7 @@ top to bottom direction
 title ClassDiagram - Google Maps + MapBox (C4)
 Container_Boundary("boundary", "Class Diagram"){
 
-  class MapService {
+  Interface MapService {
     +Route getRoute(Coordinate start, Coordinate end)
     +MapImage getMap(Coordinate location, int zoomLevel)
   }
