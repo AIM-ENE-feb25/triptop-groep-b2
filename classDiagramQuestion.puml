@@ -13,14 +13,24 @@ class BetaalController {
 }
 
 class BetaalService {
+    -paymentStrategy: PaymentStrategy
+    +setPaymentStrategy(strategy: PaymentStrategy)
     +processPayment(paymentDetails: PaymentDetails): PaymentStatus
 }
 
-interface PaymentProvider {
+interface PaymentStrategy {
     +processPayment(paymentDetails: PaymentDetails): PaymentStatus
 }
 
 class MolliePaymentProvider {
+    +processPayment(paymentDetails: PaymentDetails): PaymentStatus
+}
+
+class StripePaymentProvider {
+    +processPayment(paymentDetails: PaymentDetails): PaymentStatus
+}
+
+class PayPalPaymentProvider {
     +processPayment(paymentDetails: PaymentDetails): PaymentStatus
 }
 
@@ -50,10 +60,13 @@ WebApp --> BetaalController : "Uses"
 WebApp --> LoginRequest : "Sends login credentials"
 WebApp --> LoginResponse : "Receives login response"
 BetaalController --> BetaalService : "Uses"
-BetaalService --> PaymentProvider : "Uses"
-PaymentProvider <|-- MolliePaymentProvider
+BetaalService --> PaymentStrategy : "Uses"
 BetaalService --> PaymentDetails : "Accepts"
 BetaalController --> PaymentStatus : "Returns"
 WebApp --> PaymentStatus : "Returns"
+
+PaymentStrategy <|-- MolliePaymentProvider
+PaymentStrategy <|-- StripePaymentProvider
+PaymentStrategy <|-- PayPalPaymentProvider
 
 @enduml
