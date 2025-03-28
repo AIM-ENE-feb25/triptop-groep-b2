@@ -10,13 +10,14 @@ Het systeem moet flexibel blijven als het gaat om externe services. We willen ve
 
 ## Considered Options
 
-|Forces| Strategy Pattern | Adapter Pattern | Facade Pattern | Factory Method Pattern |  
-|---|---|---|---|---|  
-|Losse koppeling | ++ | ++ | + | + |  
-|Onderhoudbaarheid | ++ | + | ++ | - |  
-|Complexiteit | - | 0 | + | -- |  
-|Gemak van wisselen van externe services | ++ | + | 0 | - |  
-|Testbaarheid | ++ | + | - | 0 |  
+|Forces| Strategy Pattern | Adapter Pattern | Facade Pattern | Factory Method Pattern | State Pattern |  
+|---|---|---|---|---|---|  
+|Losse koppeling | ++ | ++ | + | + | ++ |  
+|Onderhoudbaarheid | ++ | + | ++ | - | ++ |  
+|Complexiteit | - | 0 | + | -- | + |  
+|Gemak van wisselen van externe services | ++ | + | 0 | - | + |  
+|Testbaarheid | ++ | + | - | 0 | ++ |  
+|Geschiktheid voor variërende services | ++ | 0 | + | + | ++ |  
 
 ## Decision
 We kiezen voor het **Strategy Pattern**, omdat dit de meest flexibele en modulaire oplossing biedt. Elke externe service wordt geïnjecteerd als een implementatie van een generieke interface, waardoor we eenvoudig kunnen wisselen tussen providers zonder de kernlogica te wijzigen.
