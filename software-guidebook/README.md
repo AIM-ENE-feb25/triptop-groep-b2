@@ -1,11 +1,11 @@
 # Software Guidebook Triptop
 
 ## 1. Introduction
-Dit software guidebook geeft een overzicht van de Triptop-applicatie. Het bevat een samenvatting van het volgende: 
-1. De vereisten, beperkingen en principes. 
-1. De software-architectuur, met inbegrip van de technologiekeuzes op hoog niveau en de structuur van de software. 
+Dit software guidebook geeft een overzicht van de Triptop-applicatie. Het bevat een samenvatting van het volgende:
+1. De vereisten, beperkingen en principes.
+1. De software-architectuur, met inbegrip van de technologiekeuzes op hoog niveau en de structuur van de software.
 1. De ontwerp- en codebeslissingen die zijn genomen om de software te realiseren.
-1. De architectuur van de infrastructuur en hoe de software kan worden geinstalleerd. 
+1. De architectuur van de infrastructuur en hoe de software kan worden geinstalleerd.
 
 ## 2. Context
 
@@ -51,7 +51,7 @@ Als gebruiker wil ik een geplande reis als geheel of per variabele (bouwsteen) b
 
 Als gebruiker wil ik een geboekte reis, of delen daarvan, kunnen annuleren zodat ik mijn geld terug kan krijgen zonder inmenging van een intermediair zoals een reisbureau.
 
-#### 3.1.4 User Story 4: Reisstatus bewaren 
+#### 3.1.4 User Story 4: Reisstatus bewaren
 
 Als gebruiker wil ik mijn reisstatus kunnen bewaren zonder dat ik een extra account hoef aan te maken zodat ik mijn reis kan volgen zonder dat ik daarvoor extra handelingen moet verrichten.
 
@@ -132,7 +132,6 @@ Dit diagram toont de flow van het boeken van een reis binnen de **Triptop** appl
 6. Ten slotte toont de **Web Applicatie** een bevestiging van de boeking aan de **reiziger**.
 
 ###     7.2. Components
-
 > [!IMPORTANT]
 > Voeg toe: Component Diagram plus een Dynamic Diagram van een aantal scenario's inclusief begeleidende tekst.
 
@@ -155,6 +154,7 @@ Door PaymentProvider als tussenlaag te gebruiken, blijft de backend losgekoppeld
 > [!IMPORTANT]
 > Voeg toe: Per ontwerpvraag een Class Diagram plus een Sequence Diagram van een aantal scenario's inclusief begeleidende tekst.
 
+#### 7.3.1
 Hoe kunnen we verschillende externe vervoersservices (zoals Google Maps of een veerdienst API) integreren zonder afhankelijk te worden van hun specifieke implementaties?
 
 ![Klasse Diagram](../opdracht-diagrammen/KlasseDiagram.png)
@@ -164,6 +164,10 @@ Dit C4-klasse diagram toont de architectuur van een kaartsysteem dat zowel Googl
 MapController handelt verzoeken af en maakt gebruik van MapService en MapServiceFactory, die op basis van een providernaam de juiste kaartservice aanmaakt. Coordinate slaat locaties op met breedte- en lengtegraad, Route bevat een lijst van coördinaten die een route vormen, en MapImage houdt kaartafbeeldingen bij als byte-array.
 
 Route, Coordinate en MapImage staan los van de kaartservices, omdat ze generieke datamodellen vertegenwoordigen die onafhankelijk zijn van een specifieke provider. Dit zorgt ervoor dat de structuur van routes, coördinaten en afbeeldingen uniform blijft, ongeacht of ze afkomstig zijn van Google Maps of MapBox. Hierdoor wordt de koppeling tussen de services en de data geminimaliseerd, wat het systeem flexibeler en beter uitbreidbaar maakt.
+
+#### 7.3.2
+![state pattern](../opdracht-diagrammen/class-diagram-dennis.svg)
+Bovenstaand diagram weergeeft de architectuur behorend bij de volgende vraag: **"Hoe zorg je voor een zo kort mogelijke reisroute waarbij gebruik gemaakt wordt van alle bouwstenen? Hoe zorg je ervoor dat de reisroute makkelijk aangepast kan worden als reisafstand geen issue is?"**. De `RouteContext` kan in samenwerking met de `Mapbox API` gebruikt worden om verschillende routes te kiezen, afhankelijk van wat de gebruiker wil, zoals laagste kosten, kortste afstand of kortste reistijd. Door het gebruik van de [State Pattern](https://refactoring.guru/design-patterns/state) kan dit systeem makkelijk uitgebreid worden met meerdere route-opties met eventueel andere preferences, zoals "vermijd tolwegen".
 
 ## 8. Architectural Decision Records
 
@@ -175,7 +179,7 @@ Route, Coordinate en MapImage staan los van de kaartservices, omdat ze generieke
 > [!TIP]
 > These documents have names that are short noun phrases. For example, "ADR 1: Deployment on Ruby on Rails 3.0.10" or "ADR 9: LDAP for Multitenant Integration". The whole ADR should be one or two pages long. We will write each ADR as if it is a conversation with a future developer. This requires good writing style, with full sentences organized into paragraphs. Bullets are acceptable only for visual style, not as an excuse for writing sentence fragments. (Bullets kill people, even PowerPoint bullets.)
 
-#### Context 
+#### Context
 
 > [!TIP]
 > This section describes the forces at play, including technological, political, social, and project local. These forces are probably in tension, and should be called out as such. The language in this section is value-neutral. It is simply describing facts about the problem we're facing and points out factors to take into account or to weigh when making the final decision.
@@ -190,12 +194,12 @@ Route, Coordinate en MapImage staan los van de kaartservices, omdat ze generieke
 > [!TIP]
 > This section describes our response to the forces/problem. It is stated in full sentences, with active voice. "We will …"
 
-#### Status 
+#### Status
 
 > [!TIP]
 > A decision may be "proposed" if the project stakeholders haven't agreed with it yet, or "accepted" once it is agreed. If a later ADR changes or reverses a decision, it may be marked as "deprecated" or "superseded" with a reference to its replacement.
 
-#### Consequences 
+#### Consequences
 
 > [!TIP]
 > This section describes the resulting context, after applying the decision. All consequences should be listed here, not just the "positive" ones. A particular decision may have positive, negative, and neutral consequences, but all of them affect the team and project in the future.
