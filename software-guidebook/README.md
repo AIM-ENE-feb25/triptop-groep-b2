@@ -12,6 +12,22 @@ Dit software guidebook geeft een overzicht van de Triptop-applicatie. Het bevat 
 > [!IMPORTANT]
 > Werk zelf dit hoofdstuk uit met context diagrammen en een beschrijving van de context van de software.
 
+![System Context Diagram](../opdracht-diagrammen/Context_Diagram_Triptop_Systeem.png)
+**Triptop** helpt reizigers bij het plannen van reizen met meerdere bestemmingen. Het platform integreert met externe systemen voor authenticatie, boekingen, betalingen, routeplanning, en meer.
+
+## Gebruikers
+- **Reiziger**: Stelt reizen samen en boekt transport/accommodaties.
+- **Administrator**: Beheert het systeem en de gebruikers.
+
+## Externe Systemen
+- **Identity Provider API**: Authenticatie via Apple, Google, Microsoft.
+- **Demand API (Booking.com)**: Accommodatie- en transportboeking.
+- **Mollie API**: Betalingen via iDEAL, Klarna, PayPal.
+- **Google Maps API**: Routeplanning en kaarten.
+- **All Aboard API**: Treinreizen binnen Europa.
+- **AeroDataBox API**: Vluchttijden en -routes.
+- **Grubhub API**: Eten en drinken via restaurants.
+
 Toelichting op de context van de software inclusief System Context Diagram:
 * Functionaliteit
 * Gebruikers
@@ -82,15 +98,72 @@ Voordat deze casusomschrijving tot stand kwam, heeft de opdrachtgever de volgend
 > [!IMPORTANT]
 > Voeg toe: Container Diagram plus een Dynamic Diagram van een aantal scenario's inclusief begeleidende tekst.
 
+#### Container Diagram
+![Container Diagram](../opdracht-diagrammen/Container_Diagram_Triptop_Systeem.png)
+
+Dit **Container Diagram** geeft een overzicht van de **Triptop** applicatie, waarin de belangrijkste containers en hun interacties worden getoond. Het diagram omvat de **Web Applicatie**, de **Backend** en de **Database**, evenals de externe systemen waarmee Triptop communiceert, zoals de **IdentityProvider API**, **DemandAPI**, **Mollie API**, en anderen. De interacties gaan als volgt:
+
+- **Reizigers** en **Beheerders** gebruiken de **Web Applicatie** om toegang te krijgen tot het systeem.
+- De **Web Applicatie** stuurt verzoeken naar de **Backend** voor verdere verwerking.
+- De **Backend** slaat gegevens op in de **Database** en haalt reisopties op via de **Demand API**.
+- Betalingen worden verwerkt via de **Mollie API**, terwijl andere gegevens, zoals kaartinformatie of treinreisinformatie, opgehaald worden via respectievelijk de **Google Maps API** en de **All Aboard API**.
+
+#### Dynamic Diagrams
+##### Login
+![Dynamic Diagram](../opdracht-diagrammen/Dynamic_Container_Login.png)
+
+Dit diagram illustreert het proces van inloggen binnen de **Triptop** applicatie. Het beschrijft de interacties tussen de **Web Applicatie**, de **Backend**, en de **Identity Provider API** die de inloggegevens van de gebruiker verifieert. Het proces verloopt in vier stappen:
+
+1. De **reiziger** voert zijn inloggegevens in via de **Web Applicatie**.
+2. De **Backend** verwerkt deze inloggegevens en stuurt ze naar de **Identity Provider API** voor verificatie.
+3. De **Identity Provider API** bevestigt of wijst de inlogpoging af.
+4. De **Backend** stuurt het resultaat van de inlogpoging (succes of mislukking) terug naar de **Web Applicatie**, die het resultaat aan de gebruiker toont.
+
+##### Booking
+![Dynamic Diagram](../opdracht-diagrammen/Dynamic_Container_Booking.png)
+
+Dit diagram toont de flow van het boeken van een reis binnen de **Triptop** applicatie. Het proces bestaat uit meerdere interacties tussen de **Web Applicatie**, de **Backend**, de **Database**, en externe systemen zoals de **Demand API** (voor reisopties) en de **Mollie API** (voor betalingen). Het proces verloopt als volgt:
+
+1. De **reiziger** selecteert reisopties via de **Web Applicatie**.
+2. De **Backend** haalt beschikbare reisopties op van de **Demand API**.
+3. De **Web Applicatie** toont de opgehaalde reisopties aan de **reiziger**.
+4. Wanneer de **reiziger** een boeking bevestigt, slaat de **Backend** de boekingsgegevens op in de **Database**.
+5. De **Backend** verwerkt de betaling via de **Mollie API**.
+6. Ten slotte toont de **Web Applicatie** een bevestiging van de boeking aan de **reiziger**.
+
 ###     7.2. Components
 
 > [!IMPORTANT]
 > Voeg toe: Component Diagram plus een Dynamic Diagram van een aantal scenario's inclusief begeleidende tekst.
 
+![Component Backend Diagram](../opdracht-diagrammen/diagramNils.png)
+Dit backend componentendiagram toont de architectuur van een uitgavenbeheerapplicatie waarin gebruikers vluchten, hotels, treinen en eten kunnen boeken en betalingen kunnen uitvoeren. De React WebApp communiceert via REST API’s met een Spring Boot backend, die modulair is opgebouwd met gescheiden controllers en services.
+
+Authenticatie verloopt via een externe Identity Provider API, waardoor gebruikers eenvoudig kunnen inloggen via Apple, Google of Microsoft. Gegevens worden opgeslagen in een PostgreSQL-database, terwijl externe API’s zoals AeroDataBox (vluchten), Booking.com (hotels), Mollie (betalingen), All Aboard (treinen) en Grubhub (eten) worden gebruikt voor dataverwerking.
+
+Elke functionele eenheid volgt een vaste structuur met een controller voor verzoeken, een service voor logica en (indien nodig) een repository voor database-interacties. Dit zorgt voor een schaalbare, onderhoudbare en eenvoudig uitbreidbare backend.
+
+![Dyanimc Diagram](../opdracht-diagrammen/diagram-Dynamic.png)
+Dit dynamische componentendiagram beschrijft de betalingsverwerking in een webapplicatie voor uitgavenbeheer. De gebruiker initieert een betaling via de WebApp (React), die het verzoek doorstuurt naar de backend (Spring Boot).
+
+De backend bestaat uit drie componenten: BetaalController verwerkt inkomende verzoeken, BetaalService voert de betalingslogica uit, en PaymentProvider handelt de communicatie met externe betalingsdiensten af. De Mollie API wordt hier als externe provider gebruikt.
+
+Door PaymentProvider als tussenlaag te gebruiken, blijft de backend losgekoppeld van een specifieke betalingsaanbieder, waardoor het eenvoudig is om andere providers toe te voegen. De scheiding tussen controller, service en provider maakt de code beter onderhoudbaar en uitbreidbaar.
+
 ###     7.3. Design & Code
 
 > [!IMPORTANT]
 > Voeg toe: Per ontwerpvraag een Class Diagram plus een Sequence Diagram van een aantal scenario's inclusief begeleidende tekst.
+
+Hoe kunnen we verschillende externe vervoersservices (zoals Google Maps of een veerdienst API) integreren zonder afhankelijk te worden van hun specifieke implementaties?
+
+![Klasse Diagram](../opdracht-diagrammen/KlasseDiagram.png)
+
+Dit C4-klasse diagram toont de architectuur van een kaartsysteem dat zowel Google Maps als MapBox ondersteunt. De kern wordt gevormd door de interface MapService, die methoden biedt voor het ophalen van routes en kaartafbeeldingen. GoogleMapsService en MapBoxService implementeren deze interface en voegen hun eigen specifieke functionaliteiten toe.
+
+MapController handelt verzoeken af en maakt gebruik van MapService en MapServiceFactory, die op basis van een providernaam de juiste kaartservice aanmaakt. Coordinate slaat locaties op met breedte- en lengtegraad, Route bevat een lijst van coördinaten die een route vormen, en MapImage houdt kaartafbeeldingen bij als byte-array.
+
+Route, Coordinate en MapImage staan los van de kaartservices, omdat ze generieke datamodellen vertegenwoordigen die onafhankelijk zijn van een specifieke provider. Dit zorgt ervoor dat de structuur van routes, coördinaten en afbeeldingen uniform blijft, ongeacht of ze afkomstig zijn van Google Maps of MapBox. Hierdoor wordt de koppeling tussen de services en de data geminimaliseerd, wat het systeem flexibeler en beter uitbreidbaar maakt.
 
 ## 8. Architectural Decision Records
 

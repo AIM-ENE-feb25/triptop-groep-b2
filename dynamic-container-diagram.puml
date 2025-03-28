@@ -1,0 +1,40 @@
+@startuml Dynamic_Container_Login
+!include https://raw.githubusercontent.com/plantuml-stdlib/C4-PlantUML/master/C4_Container.puml
+
+title Dynamisch Container Diagram - Inloggen (C4)
+
+Container(WebApp, "Web Applicatie", "Interface voor reizigers")
+Container(Backend, "Backend", "Verwerkt gebruikersverzoeken")
+Container_Ext(IdentityProvider, "Identity Provider API", "Verifieert inloggegevens")
+
+WebApp -> Backend : 1. Gebruiker voert inloggegevens in
+Backend -> IdentityProvider : 2. Verifieer inloggegevens
+IdentityProvider -> Backend : 3. Bevestiging of afwijzing
+Backend -> WebApp : 4. Inlogresultaat terugsturen
+
+@enduml
+
+@startuml Dynamic_Container_Booking
+!include https://raw.githubusercontent.com/plantuml-stdlib/C4-PlantUML/master/C4_Container.puml
+
+title Dynamisch Container Diagram - Reis boeken (C4)
+
+Container(WebApp, "Web Applicatie", "Interface voor reizigers")
+Container(Backend, "Backend", "Verwerkt reisboekingen")
+Container(Database, "Database", "Slaat reis- en reserveringsgegevens op")
+Container_Ext(DemandAPI, "Demand API", "Haalt reisopties op")
+Container_Ext(MollieAPI, "Mollie API", "Verwerkt betalingen")
+
+'De pijlen vanaf de externe container combineren met die naar de externe containers, dus heb ik deze uitgezet.
+WebApp -> Backend : 1. Gebruiker selecteert reisopties
+Backend -> DemandAPI : 2. Ophalen van reisopties
+'Backend <- DemandAPI : 3. Retourneert beschikbare reizen
+Backend -> WebApp : 3. Toont reisopties
+
+WebApp -> Backend : 4. Gebruiker bevestigt boeking
+Backend -> Database : 5. Opslaan boekingsgegevens
+Backend -> MollieAPI : 6. Verwerken betaling
+'Backend <- MollieAPI : 8. Bevestiging betaling
+Backend -> WebApp : 7. Bevestiging boeking tonen
+
+@enduml

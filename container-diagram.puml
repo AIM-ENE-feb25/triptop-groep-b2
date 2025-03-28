@@ -1,0 +1,45 @@
+@startuml Container_Diagram
+!include https://raw.githubusercontent.com/plantuml-stdlib/C4-PlantUML/master/C4_Container.puml
+
+skinparam {
+    rectangle {
+        StereotypeFontSize 0
+        StereotypeFontColor white
+    }
+}
+
+title Container Diagram - Triptop Systeem
+
+Person(traveller, "Reiziger", "Een reiziger die een reis met meerdere bestemmingen wil samenstellen.")
+Person(admin, "Administrator", "Beheerder van de reis applicatie.")
+
+System_Boundary(Triptop, "Triptop", "Systeem voor het samenstellen van reizen.") {
+    Container(WebApp, "[Web Applicatie]", "Interface voor reizigers en beheerders")
+    Container(Backend, "[Backend]", "Verwerkt gebruikers- en reisboekingsverzoeken")
+    Container(Database, "[Database]", "Slaat reis- en reserveringsgegevens op")
+}
+
+System_Ext(IdentityProvider, "[Identity Provider API]", "Verifieert inloggegevens")
+System_Ext(DemandAPI, "[Demand API]", "Haalt reisopties op")
+System_Ext(MollieAPI, "[Mollie API]", "Verwerkt betalingen")
+System_Ext(GoogleMapsAPI, "[Google Maps API]", "Haalt kaartgegevens op")
+System_Ext(AllAboardAPI, "[All Aboard API]", "Haalt treinreisgegevens op")
+System_Ext(AeroDataBoxAPI, "[AeroDataBox API]", "Haalt vluchtgegevens op")
+System_Ext(GrubhubAPI, "[Grubhub API]", "Biedt eetbestellingen aan")
+
+Rel(traveller, WebApp, "Navigeert via", "HTTP")
+Rel(admin, WebApp, "Navigeert via", "HTTP")
+
+Rel(WebApp, Backend, "Stuurt verzoeken", "HTTP")
+Rel(WebApp, GoogleMapsAPI, "Haalt kaartgegevens op", "HTTP")
+
+Rel(Backend, Database, "Slaat reisgegevens op", "JDBC")
+Rel(Backend, IdentityProvider, "Verifieert inloggegevens", "OAuth")
+Rel(Backend, DemandAPI, "Haalt reisopties op", "REST API")
+Rel(Backend, MollieAPI, "Verwerkt betalingen", "REST API")
+Rel(Backend, AllAboardAPI, "Haalt treinreisgegevens op", "REST API")
+Rel(Backend, AeroDataBoxAPI, "Haalt vluchtgegevens op", "REST API")
+Rel(Backend, GrubhubAPI, "Haalt eetgegevens op", "REST API")
+
+SHOW_LEGEND(TRUE)
+@enduml
