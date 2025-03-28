@@ -2,7 +2,6 @@
 'https://plantuml.com/class-diagram
 
 class WebApp {
-    +loginUser(credentials: LoginRequest): LoginResponse
     +searchFlights(flightQuery: FlightQuery): FlightResults
     +getFlightStatus(flightDetails: FlightDetails): FlightStatus
 }
@@ -56,25 +55,13 @@ class FlightResults {
     -flights: List<FlightDetails>
 }
 
-class LoginRequest {
-    -username: String
-    -password: String
-}
-
-class LoginResponse {
-    -status: String
-    -userId: String
-}
 
 ' Relationships
 WebApp --> VluchtController : "Uses"
-WebApp --> LoginRequest : "Sends login credentials"
-WebApp --> LoginResponse : "Receives login response"
 VluchtController --> VluchtService : "Uses"
 VluchtService --> FlightDataStrategy : "Uses"
 VluchtService --> FlightQuery : "Accepts"
 VluchtController --> FlightResults : "Returns"
-WebApp --> FlightResults : "Receives"
 
 FlightDataStrategy <|-- AeroDataBoxProvider
 FlightDataStrategy <|-- FlightScraperProvider
