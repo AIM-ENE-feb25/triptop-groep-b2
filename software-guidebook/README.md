@@ -136,7 +136,7 @@ Dit diagram toont de flow van het boeken van een reis binnen de **Triptop** appl
 > [!IMPORTANT]
 > Voeg toe: Component Diagram plus een Dynamic Diagram van een aantal scenario's inclusief begeleidende tekst.
 
-![Klasse Diagram](../KlasseDiagram.png)
+
 
 ###     7.3. Design & Code
 
@@ -144,7 +144,7 @@ Dit diagram toont de flow van het boeken van een reis binnen de **Triptop** appl
 > Voeg toe: Per ontwerpvraag een Class Diagram plus een Sequence Diagram van een aantal scenario's inclusief begeleidende tekst.
 
 Hoe kunnen we verschillende externe vervoersservices (zoals Google Maps of een veerdienst API) integreren zonder afhankelijk te worden van hun specifieke implementaties?
-
+![Klasse Diagram](../opdracht-diagrammen/KlasseDiagram.png)
 
 ## 8. Architectural Decision Records
 
