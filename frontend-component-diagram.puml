@@ -1,0 +1,33 @@
+@startuml
+!include https://raw.githubusercontent.com/plantuml-stdlib/C4-PlantUML/master/C4_Component.puml
+
+top to bottom direction
+
+Person(traveller, "Reiziger", "Een reiziger die een reis met meerdere bestemmingen wil samenstellen.")
+
+Container_Boundary(Web_App, "Web Applicatie") {
+    Component(app, "App", "React", "Hoofdcomponent voor het beheren van de componenten en routes van de applicatie.")
+    Component(header, "Header", "React", "Navigatiebalk voor het navigeren tussen verschillende secties van de applicatie.")
+    Component(mapbox, "Google Maps", "React", "Interfacing voor het ophalen van route- en kaartgegevens via de Google Maps API.")
+    Component(travel, "Travel", "React", "Beheert vlucht- en treinreisinformatie, toont reisschema's.")
+    Component(hotel, "Hotel", "React", "Toont hotelinformatie, inclusief beschikbaarheid en prijzen.")
+}
+
+Container(backend, "Backend", "Spring Boot", "Verwerkt reis- en gebruikersgegevens, zoals boekingen en betalingen.")
+
+System_Ext(mapbox_api, "MapBox API", "API voor kaarten, routes en plaatsen.", $link="https://www.mapbox.com/")
+
+Rel(traveller, app, "Navigeert via", "HTTP")
+Rel(app, header, "Navigeert via", "HTTP")
+Rel(header, mapbox, "Navigeert via", "HTTP")
+Rel(header, travel, "Navigeert via", "HTTP")
+Rel(header, hotel, "Navigeert via", "HTTP")
+Rel(app, mapbox, "Navigeert via", "HTTP")
+Rel(app, travel, "Navigeert via", "HTTP")
+Rel(app, hotel, "Navigeert via", "HTTP")
+
+Rel(hotel, backend, "Stuurt hotelgegevens opgevraagd door gebruiker naar", "HTTP")
+Rel(travel, backend, "Stuurt reisinformatie (vluchten, treinen) naar", "HTTP")
+Rel(mapbox, mapbox_api, "Haalt route- en kaartgegevens op", "HTTP")
+
+@enduml
