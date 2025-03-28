@@ -1,0 +1,34 @@
+@startuml
+!include https://raw.githubusercontent.com/plantuml-stdlib/C4-PlantUML/master/C4_Component.puml
+
+top to bottom direction
+
+Container(WebApp, "Web Application", "React", "User Interface for expense management")
+
+Container_Boundary(Backend, "Backend") {
+    Component(hotel_controller, "HotelController", "Spring Boot", "Manages hotel requests")
+    Component(hotel_service, "HotelService", "Spring Boot", "Processes hotel data")
+
+    Component(vlucht_controller, "VluchtController", "Spring Boot", "Manages flight requests")
+    Component(vlucht_service, "VluchtService", "Spring Boot", "Processes flight data")
+
+    Component(trein_controller, "TreinController", "Spring Boot", "Manages train requests")
+    Component(trein_service, "TreinService", "Spring Boot", "Processes train data")
+}
+
+System_Ext(demand_api, "Demand API", "Booking.com's API voor verblijf, autoverhuur, vluchten*, accommodaties* en luchthaventaxi's*.", $link="https://developers.booking.com/demand/docs/open-api/demand-api")
+System_Ext(all_aboard_api, "The API", "Biedt boek- en beheermogelijkheden voor treinreizen binnen Europa.", $link="https://allaboard.eu/api-solution")
+System_Ext(flight_api, "FlightAPI", "Biedt vluchtprijzen, vluchttijden en vluchtlocaties wereldwijd.", $link="https://www.flightapi.io/")
+
+Rel(WebApp, vlucht_controller, "Manages flights (REST API)")
+Rel(WebApp, hotel_controller, "Manages hotels (REST API)")
+Rel(WebApp, trein_controller, "Manages trains (REST API)")
+
+Rel(vlucht_controller, vlucht_service, "Processes flights")
+Rel(hotel_controller, hotel_service, "Processes hotels")
+Rel(trein_controller, trein_service, "Processes trains")
+
+Rel(vlucht_service, flight_api, "Retrieves flight data")
+Rel(hotel_service, demand_api, "Retrieves hotel data")
+Rel(trein_service, all_aboard_api, "Retrieves train data")
+@enduml
