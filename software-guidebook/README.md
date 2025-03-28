@@ -136,7 +136,7 @@ Dit diagram toont de flow van het boeken van een reis binnen de **Triptop** appl
 > [!IMPORTANT]
 > Voeg toe: Component Diagram plus een Dynamic Diagram van een aantal scenario's inclusief begeleidende tekst.
 
-![Klasse Diagram](../KlasseDiagram.png)
+![Klasse Diagram](../opdracht-diagrammen/KlasseDiagram.png)
 
 ###     7.3. Design & Code
 
