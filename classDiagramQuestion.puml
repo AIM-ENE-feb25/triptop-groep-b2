@@ -3,46 +3,57 @@
 
 class WebApp {
     +loginUser(credentials: LoginRequest): LoginResponse
-    +initiatePayment(paymentDetails: PaymentDetails): PaymentStatus
-    +manageFlights(flightDetails: FlightDetails): FlightStatus
-    +manageHotels(hotelDetails: HotelDetails): HotelStatus
+    +searchFlights(flightQuery: FlightQuery): FlightResults
+    +getFlightStatus(flightDetails: FlightDetails): FlightStatus
 }
 
-class BetaalController {
-    +processPayment(paymentDetails: PaymentDetails): PaymentStatus
+class VluchtController {
+    +fetchFlightData(flightQuery: FlightQuery): FlightResults
 }
 
-class BetaalService {
-    -paymentStrategy: PaymentStrategy
-    +setPaymentStrategy(strategy: PaymentStrategy)
-    +processPayment(paymentDetails: PaymentDetails): PaymentStatus
+class VluchtService {
+    -flightDataStrategy: FlightDataStrategy
+    +setFlightDataStrategy(strategy: FlightDataStrategy)
+    +fetchFlightData(flightQuery: FlightQuery): FlightResults
 }
 
-interface PaymentStrategy {
-    +processPayment(paymentDetails: PaymentDetails): PaymentStatus
+interface FlightDataStrategy {
+    +fetchFlightData(flightQuery: FlightQuery): FlightResults
 }
 
-class MolliePaymentProvider {
-    +processPayment(paymentDetails: PaymentDetails): PaymentStatus
+class AeroDataBoxProvider {
+    +fetchFlightData(flightQuery: FlightQuery): FlightResults
 }
 
-class StripePaymentProvider {
-    +processPayment(paymentDetails: PaymentDetails): PaymentStatus
+class FlightScraperProvider {
+    +fetchFlightData(flightQuery: FlightQuery): FlightResults
 }
 
-class PayPalPaymentProvider {
-    +processPayment(paymentDetails: PaymentDetails): PaymentStatus
+class AirScraperProvider {
+    +fetchFlightData(flightQuery: FlightQuery): FlightResults
 }
 
-class PaymentStatus {
+class FlightStatus {
     -status: String
-    -transactionId: String
+    -flightNumber: String
+    -departureTime: String
+    -arrivalTime: String
 }
 
-class PaymentDetails {
-    -amount: double
-    -currency: String
-    -paymentMethod: String
+class FlightDetails {
+    -flightNumber: String
+    -airline: String
+    -departureDate: String
+}
+
+class FlightQuery {
+    -origin: String
+    -destination: String
+    -departureDate: String
+}
+
+class FlightResults {
+    -flights: List<FlightDetails>
 }
 
 class LoginRequest {
@@ -56,17 +67,17 @@ class LoginResponse {
 }
 
 ' Relationships
-WebApp --> BetaalController : "Uses"
+WebApp --> VluchtController : "Uses"
 WebApp --> LoginRequest : "Sends login credentials"
 WebApp --> LoginResponse : "Receives login response"
-BetaalController --> BetaalService : "Uses"
-BetaalService --> PaymentStrategy : "Uses"
-BetaalService --> PaymentDetails : "Accepts"
-BetaalController --> PaymentStatus : "Returns"
-WebApp --> PaymentStatus : "Returns"
+VluchtController --> VluchtService : "Uses"
+VluchtService --> FlightDataStrategy : "Uses"
+VluchtService --> FlightQuery : "Accepts"
+VluchtController --> FlightResults : "Returns"
+WebApp --> FlightResults : "Receives"
 
-PaymentStrategy <|-- MolliePaymentProvider
-PaymentStrategy <|-- StripePaymentProvider
-PaymentStrategy <|-- PayPalPaymentProvider
+FlightDataStrategy <|-- AeroDataBoxProvider
+FlightDataStrategy <|-- FlightScraperProvider
+FlightDataStrategy <|-- AirScraperProvider
 
 @enduml

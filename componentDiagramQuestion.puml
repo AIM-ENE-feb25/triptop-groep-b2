@@ -39,6 +39,8 @@ System_Ext(mollie_api, "Mollie API", "Voor betalingen.")
 System_Ext(stripe_api, "Stripe API", "Alternatieve betalingsprovider.")
 System_Ext(all_aboard_api, "The API", "Voor treinreizen in Europa.")
 System_Ext(flight_api, "AeroDataBox API", "Voor vluchtgegevens.")
+System_Ext(flight_api_2, "FlightScraper API", "Alternatieve vluchtgegevensprovider.")
+System_Ext(flight_api_3, "AirScraper API", "Alternatieve vluchtgegevensprovider.")
 System_Ext(grubhub_api, "Grubhub", "Voor voedselbezorging.")
 
 Rel(WebApp, login_controller, "Sends login request (REST API)")
@@ -61,6 +63,8 @@ Rel(login_service, identity_provider_api, "Verifies user credentials")
 
 Rel(vlucht_service, flight_provider, "Uses")
 Rel(flight_provider, flight_api, "Retrieves flight data")
+Rel(flight_provider, flight_api_2, "Retrieves flight data")
+Rel(flight_provider, flight_api_3, "Retrieves flight data")
 
 Rel(hotel_service, hotel_provider, "Uses")
 Rel(hotel_provider, demand_api, "Retrieves hotel data")
