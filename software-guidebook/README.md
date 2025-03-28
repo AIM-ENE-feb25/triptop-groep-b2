@@ -157,7 +157,7 @@ Door PaymentProvider als tussenlaag te gebruiken, blijft de backend losgekoppeld
 #### 7.3.1
 Hoe kunnen we verschillende externe vervoersservices (zoals Google Maps of een veerdienst API) integreren zonder afhankelijk te worden van hun specifieke implementaties?
 
-![Klasse Diagram](../opdracht-diagrammen/KlasseDiagram.png)
+![Klasse Diagram](../opdracht-diagrammen/KlasseDiagramE.png)
 
 Dit C4-klasse diagram toont de architectuur van een kaartsysteem dat zowel Google Maps als MapBox ondersteunt. De kern wordt gevormd door de interface MapService, die methoden biedt voor het ophalen van routes en kaartafbeeldingen. GoogleMapsService en MapBoxService implementeren deze interface en voegen hun eigen specifieke functionaliteiten toe.
 
