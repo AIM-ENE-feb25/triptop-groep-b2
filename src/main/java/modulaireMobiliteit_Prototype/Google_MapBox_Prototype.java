@@ -1,12 +1,12 @@
-package prototype;
+package modulaireMobiliteit_Prototype;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
 @SpringBootApplication
-public class MollieApiPrototypeApplication {
+public class Google_MapBox_Prototype {
 
     public static void main(String[] args) {
-        SpringApplication.run(MollieApiPrototypeApplication.class, args);
+        SpringApplication.run(oude_Prototype.MollieApiPrototypeApplication.class, args);
     }
 }

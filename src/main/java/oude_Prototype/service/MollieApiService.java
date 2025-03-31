@@ -1,4 +1,4 @@
-package prototype.service;
+package oude_Prototype.service;
 
 import org.springframework.stereotype.Service;
 

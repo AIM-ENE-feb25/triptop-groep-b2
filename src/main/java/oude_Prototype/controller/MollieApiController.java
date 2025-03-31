@@ -1,11 +1,11 @@
-package prototype.controller;
+package oude_Prototype.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
-import prototype.domain.TransactionResponse;
-import prototype.service.MollieApiService;
+import oude_Prototype.domain.TransactionResponse;
+import oude_Prototype.service.MollieApiService;
 
 import java.util.Map;
 

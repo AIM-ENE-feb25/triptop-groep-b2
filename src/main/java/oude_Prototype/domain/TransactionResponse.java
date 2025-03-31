@@ -1,4 +1,4 @@
-package prototype.domain;
+package oude_Prototype.domain;
 
 public class TransactionResponse {
     private String id;
