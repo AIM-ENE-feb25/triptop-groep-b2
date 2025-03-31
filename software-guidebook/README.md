@@ -14,6 +14,7 @@ Dit software guidebook geeft een overzicht van de Triptop-applicatie. Het bevat 
 
 ![System Context Diagram](../opdracht-diagrammen/Context_Diagram_Triptop_Systeem.png)
 **Triptop** helpt reizigers bij het plannen van reizen met meerdere bestemmingen. Het platform integreert met externe systemen voor authenticatie, boekingen, betalingen, routeplanning, en meer.
+DIT MOET UITGEBREIDER OVER DINGEN DIE JE NIET UIT HET PLAATJE KAN HALEN.
 
 ## Gebruikers
 - **Reiziger**: Stelt reizen samen en boekt transport/accommodaties.
@@ -107,6 +108,8 @@ Dit **Container Diagram** geeft een overzicht van de **Triptop** applicatie, waa
 - De **Web Applicatie** stuurt verzoeken naar de **Backend** voor verdere verwerking.
 - De **Backend** slaat gegevens op in de **Database** en haalt reisopties op via de **Demand API**.
 - Betalingen worden verwerkt via de **Mollie API**, terwijl andere gegevens, zoals kaartinformatie of treinreisinformatie, opgehaald worden via respectievelijk de **Google Maps API** en de **All Aboard API**.
+
+DIT IS NIET GOED OMDAT JE DEZE INFORMATIE UIT HET PLAATJE KAN HALEN ZET WAT NUTTERGERS NEER WAT JE NIET UIT HET PLAATJE KAN HALEN.
 
 #### Dynamic Diagrams
 ##### Login
