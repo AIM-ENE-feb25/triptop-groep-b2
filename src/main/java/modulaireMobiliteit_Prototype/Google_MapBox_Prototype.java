@@ -5,8 +5,7 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 
 @SpringBootApplication
 public class Google_MapBox_Prototype {
-
     public static void main(String[] args) {
-        SpringApplication.run(oude_Prototype.MollieApiPrototypeApplication.class, args);
+        SpringApplication.run(Google_MapBox_Prototype.class, args);
     }
 }

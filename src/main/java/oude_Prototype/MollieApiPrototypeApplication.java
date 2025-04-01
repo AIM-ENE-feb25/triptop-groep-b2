@@ -3,10 +3,10 @@ package oude_Prototype;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
-@SpringBootApplication
+//@SpringBootApplication
 public class MollieApiPrototypeApplication {
-
-    public static void main(String[] args) {
-        SpringApplication.run(MollieApiPrototypeApplication.class, args);
-    }
+//
+//    public static void main(String[] args) {
+//        SpringApplication.run(MollieApiPrototypeApplication.class, args);
+//    }
 }

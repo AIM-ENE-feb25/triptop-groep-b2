@@ -1,4 +1,0 @@
-prototype\controller\MollieApiController.class
-prototype\service\MollieApiService.class
-prototype\domain\TransactionResponse.class
-prototype\main\MollieApiPrototypeApplication.class
