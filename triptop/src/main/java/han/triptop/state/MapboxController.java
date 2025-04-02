@@ -1,5 +1,7 @@
-package han.triptop;
+package han.triptop.state;
 
+import org.jetbrains.annotations.Nullable;
+import org.springframework.stereotype.Service;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -33,5 +35,22 @@ public class MapboxController {
   public String nextRouting() {
     this.mapboxService.nextRouting();
     return this.mapboxService.getRouting();
+  }
+
+  @Service
+  public static class MapboxService {
+    private final MapboxRoutingManager mapboxRoutingManager = new MapboxRoutingManager();
+
+    public String getDirections(String origin, @Nullable String[] waypoints, String destination) throws IOException {
+      return this.mapboxRoutingManager.getDirections(origin, waypoints, destination);
+    }
+
+    public String getRouting() {
+      return this.mapboxRoutingManager.getRouting();
+    }
+
+    public void nextRouting() {
+      this.mapboxRoutingManager.nextRouting();
+    }
   }
 }

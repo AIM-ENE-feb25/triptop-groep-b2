@@ -1,4 +1,4 @@
-package han.triptop;
+package han.triptop.state;
 
 public class MapboxRoutingDrivingState implements MapboxRoutingState {
   @Override
