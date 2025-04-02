@@ -109,15 +109,18 @@ Voordat deze casusomschrijving tot stand kwam, heeft de opdrachtgever de volgend
 #### Container Diagram
 ![Container Diagram](../opdracht-diagrammen/Container_Diagram_Triptop_Systeem.png)
 
-Dit **Container Diagram** geeft een overzicht van de **Triptop** applicatie, waarin de belangrijkste containers en hun interacties worden getoond. Het diagram omvat de **Web Applicatie**, de **Backend** en de **Database**, evenals de externe systemen waarmee Triptop communiceert, zoals de **IdentityProvider API**, **DemandAPI**, **Mollie API**, en anderen. De interacties gaan als volgt:
+Triptop is een reisplatform dat meerdere externe systemen integreert. De Web Applicatie is de interface voor de gebruiker, maar de Backend is verantwoordelijk voor de verwerking van gegevens en interacties met externe systemen. De Database slaat reis- en reserveringsinformatie op, maar de specifieke datamodellen en structuren worden niet gedetailleerd beschreven in het diagram.
 
-- **Reizigers** en **Beheerders** gebruiken de **Web Applicatie** om toegang te krijgen tot het systeem.
-- De **Web Applicatie** stuurt verzoeken naar de **Backend** voor verdere verwerking.
-- De **Backend** slaat gegevens op in de **Database** en haalt reisopties op via de **Demand API**.
-- Betalingen worden verwerkt via de **Mollie API**, terwijl andere gegevens, zoals kaartinformatie of treinreisinformatie, opgehaald worden via respectievelijk de **Google Maps API** en de **All Aboard API**.
+**Externe Integraties:**
+**Identity Provider API:** Verwerkt authenticatie via externe providers zoals Google, Apple en Microsoft, maar de methodes en technieken van authenticatie zijn niet verder gespecificeerd.
 
-DIT IS NIET GOED OMDAT JE DEZE INFORMATIE UIT HET PLAATJE KAN HALEN ZET WAT NUTTERGERS NEER WAT JE NIET UIT HET PLAATJE KAN HALEN.
+**Demand API**: Dit systeem haalt reisopties op, maar specifieke parameters voor het aanvragen van gegevens of de dataformaten zijn niet beschreven.
 
+**Mollie API:** Betalingen worden verwerkt, maar het is onduidelijk welke specifieke betalingsopties ondersteund worden of hoe transactiebeveiliging wordt afgehandeld.
+
+Kaart- en route-informatie wordt opgehaald via MapBox en Google Maps API, maar hoe deze systemen worden gecombineerd of welke specifieke kaartfunctionaliteiten worden gebruikt, is niet gedetailleerd.
+
+De backend fungeert dus als een tussenpersoon die verzoeken afhandelt, maar de manier waarop de backend schaalbaar is of hoe foutafhandeling wordt uitgevoerd in de communicatie tussen deze systemen, wordt niet weergegeven in het diagram.
 #### Dynamic Diagrams
 ##### Login
 ![Dynamic Diagram](../opdracht-diagrammen/Dynamic_Container_Login.png)

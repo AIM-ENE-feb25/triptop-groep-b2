@@ -25,15 +25,18 @@ System_Ext(MollieAPI, "[Mollie API]", "Verwerkt betalingen")
 System_Ext(MapBoxAPI, "[MapBox]", "Haalt kaartgegevens op")
 System_Ext(AllAboardAPI, "[All Aboard API]", "Haalt treinreisgegevens op")
 System_Ext(AeroDataBoxAPI, "[AeroDataBox API]", "Haalt vluchtgegevens op")
-System_Ext(FlightScraperAPI, "[FlightScraper API]", "Haalt vluchtgegevens op")
-System_Ext(AirScraperAPI, "[AirScraper API]", "Haalt vluchtgegevens op")
 System_Ext(GrubhubAPI, "[Grubhub API]", "Biedt eetbestellingen aan")
+System_Ext(GoogleMapsAPI, "[Google Maps API]", "Biedt kaartgegevens aan")
+System_Ext(FlightRadar24API, "[FlightRadar24 API]", "Biedt vluchtinformatie en tracking")
 
 Rel(traveller, WebApp, "Navigeert via", "HTTP")
 Rel(admin, WebApp, "Navigeert via", "HTTP")
 
+
+
 Rel(WebApp, Backend, "Stuurt verzoeken", "HTTP")
 Rel(WebApp, MapBoxAPI, "Haalt kaartgegevens op", "HTTP")
+Rel(WebApp, GoogleMapsAPI, "Haalt kaartgegevens op", "HTTP")
 
 Rel(Backend, Database, "Slaat reisgegevens op", "JDBC")
 Rel(Backend, IdentityProvider, "Verifieert inloggegevens", "OAuth")
@@ -41,9 +44,8 @@ Rel(Backend, DemandAPI, "Haalt reisopties op", "REST API")
 Rel(Backend, MollieAPI, "Verwerkt betalingen", "REST API")
 Rel(Backend, AllAboardAPI, "Haalt treinreisgegevens op", "REST API")
 Rel(Backend, AeroDataBoxAPI, "Haalt vluchtgegevens op", "REST API")
-Rel(Backend, FlightScraperAPI, "Haalt vluchtgegevens op", "REST API")
-Rel(Backend, AirScraperAPI, "Haalt vluchtgegevens op", "REST API")
 Rel(Backend, GrubhubAPI, "Haalt eetgegevens op", "REST API")
+Rel(Backend, FlightRadar24API, "Haalt vluchtgegevens op", "REST API")
 
 SHOW_LEGEND(TRUE)
 @enduml
