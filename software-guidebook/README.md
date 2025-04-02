@@ -13,8 +13,15 @@ Dit software guidebook geeft een overzicht van de Triptop-applicatie. Het bevat 
 > Werk zelf dit hoofdstuk uit met context diagrammen en een beschrijving van de context van de software.
 
 ![System Context Diagram](../opdracht-diagrammen/Context_Diagram_Triptop_Systeem.png)
-**Triptop** helpt reizigers bij het plannen van reizen met meerdere bestemmingen. Het platform integreert met externe systemen voor authenticatie, boekingen, betalingen, routeplanning, en meer.
-DIT MOET UITGEBREIDER OVER DINGEN DIE JE NIET UIT HET PLAATJE KAN HALEN.
+**Triptop** is een online platform dat reizigers helpt bij het plannen van reizen met meerdere bestemmingen. Het biedt een gebruiksvriendelijke interface waarmee gebruikers hun reizen kunnen organiseren door verschillende elementen zoals vluchten, treinreizen, verblijven en eet- en drinkopties te combineren. Het platform maakt gebruik van verschillende externe API's om gegevens te verkrijgen en biedt gepersonaliseerde reisopties op basis van de voorkeuren van de reiziger.
+
+Functionaliteiten:
+
+**Multi-bestemmingsplanner:** Reizigers kunnen een reis plannen met meerdere bestemmingen, waarbij Triptop helpt bij het organiseren van routes, verblijven en activiteiten.
+
+**Integratie van externe diensten:** Triptop integreert met externe systemen voor boekingen van vluchten, treinen, hotels en restaurants, evenals betalingen en inlogfunctionaliteiten.
+
+**Flexibiliteit:** Triptop is ontworpen om eenvoudig nieuwe externe API's te integreren, zodat de reiziger toegang heeft tot de nieuwste diensten en mogelijkheden.
 
 ## Gebruikers
 - **Reiziger**: Stelt reizen samen en boekt transport/accommodaties.
