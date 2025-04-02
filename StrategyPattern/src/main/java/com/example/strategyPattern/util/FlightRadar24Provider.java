@@ -1,8 +1,8 @@
 package com.example.strategyPattern.util;
 
 import com.example.strategyPattern.IVluchtDataStrategy;
-import com.example.strategyPattern.domain.VliegveldDetails;
-import com.example.strategyPattern.domain.VluchtDetails;
+import com.example.strategyPattern.domain.AirportDetails;
+import com.example.strategyPattern.domain.FlightDetails;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.springframework.stereotype.Component;
@@ -17,15 +17,15 @@ public class FlightRadar24Provider implements IVluchtDataStrategy {
     String url = "https://flightradar24-com.p.rapidapi.com/v2/flights/search?query=" + flightNumber;
     String response = ClientBuilder.buildClient(url, API_HOST);
 
-    VluchtDetails vluchtDetails;
+    FlightDetails flightDetails;
     try {
-      vluchtDetails = VluchtMapper.mapFromFlightRadar(response);
+      flightDetails = FlightMapper.mapFromFlightRadar(response);
     } catch (Exception e) {
       e.printStackTrace();
       return null;
     }
 
-    return new ObjectMapper().writeValueAsString(vluchtDetails);
+    return new ObjectMapper().writeValueAsString(flightDetails);
   }
 
   @Override
@@ -33,14 +33,14 @@ public class FlightRadar24Provider implements IVluchtDataStrategy {
     String url = "https://flightradar24-com.p.rapidapi.com/airports/search?q=" + location;
     String response = ClientBuilder.buildClient(url, API_HOST);
 
-    VliegveldDetails vliegveldDetails;
+    AirportDetails airportDetails;
     try {
-      vliegveldDetails = VliegveldMapper.mapFromFlightRadar(response);
+      airportDetails = AirportMapper.mapFromFlightRadar(response);
     } catch (Exception e) {
       e.printStackTrace();
       return null;
     }
 
-    return new ObjectMapper().writeValueAsString(vliegveldDetails);
+    return new ObjectMapper().writeValueAsString(airportDetails);
   }
 }

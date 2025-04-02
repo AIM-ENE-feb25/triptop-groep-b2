@@ -8,12 +8,12 @@ import org.springframework.stereotype.Service;
 import java.util.Map;
 
 @Service
-public class VluchtService {
+public class FlightService {
   private final Map<String, IVluchtDataStrategy> strategies;
   private final StrategyService strategyService;
 
   @Autowired
-  public VluchtService(Map<String, IVluchtDataStrategy> strategies, StrategyService strategyService) {
+  public FlightService(Map<String, IVluchtDataStrategy> strategies, StrategyService strategyService) {
     this.strategies = strategies;
     this.strategyService = strategyService;
   }

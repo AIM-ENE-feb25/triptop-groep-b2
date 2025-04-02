@@ -6,12 +6,8 @@ class WebApp {
     +getFlightStatus(flightDetails: FlightDetails): FlightStatus
 }
 
-class VluchtController {
+class FlightController {
     +fetchFlightData(flightQuery: FlightQuery): FlightResults
-}
-
-class VliegveldController {
-    +fetchNearbyAirports(airport: String): AirportResults
 }
 
 class StrategyController {
@@ -19,7 +15,7 @@ class StrategyController {
     +getCurrentStrategy(): String
 }
 
-class VluchtService {
+class FlightService {
     -flightDataStrategy: FlightDataStrategy
     +setFlightDataStrategy(strategy: FlightDataStrategy)
     +fetchFlightData(flightQuery: FlightQuery): FlightResults
@@ -52,13 +48,11 @@ class StrategyConfig {
 }
 
 ' Relationships
-WebApp --> VluchtController : "Uses"
-WebApp --> VliegveldController : "Uses"
+WebApp --> FlightController : "Uses"
 WebApp --> StrategyController : "Uses"
-VluchtController --> VluchtService : "Uses"
-VliegveldController --> VluchtService : "Uses"
+FlightController --> FlightService : "Uses"
 StrategyController --> StrategyService : "Uses"
-VluchtService --> FlightDataStrategy : "Uses"
+FlightService --> FlightDataStrategy : "Uses"
 StrategyService --> StrategyConfig : "Uses"
 
 FlightDataStrategy <|-- AeroDataBoxProvider

@@ -1,6 +1,6 @@
 package com.example.strategyPattern.domain;
 
-public class VliegveldDetails {
+public class AirportDetails {
   private String airportCode;
   private String name;
   private String city;
