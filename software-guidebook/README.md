@@ -349,7 +349,7 @@ De Factory Method Pattern wordt gekozen om deze flexibiliteit te bieden, waarbij
 zonder de koppeling tussen componenten te verhogen.
 ## Considered Options
 
-| Forceres                                    | Adapter Pattern | Facade Pattern | Factory Method Pattern | State Pattern | Strategy Pattern |  
+| Forces                                      | Adapter Pattern | Facade Pattern | Factory Method Pattern | State Pattern | Strategy Pattern |  
 |---------------------------------------------|-----------------|----------------|------------------------|---------------|------------------|
 | **Complexiteit**                            | --              | 0              | +                      | +             | 0                |
 | **Losse koppeling**                         | +               | ++             | ++                     | 0             | +                |
@@ -400,8 +400,13 @@ Wegens schoolredenen kunnen de Factory en Strategy Pattern niet meer gekozen wor
 ## Consequences
 Het gevolg van het niet meer mogen gebruiken van de Strategy Pattern is dat de implementatie minder overzichtelijk is en dat er meer boilerplate geschreven moet worden.
 
-
 ## 9. Deployment, Operation and Support
 
-> [!TIP]
-> Zelf beschrijven van wat je moet doen om de software te installeren en te kunnen runnen.
+Je moet de volgende stappen volgen om de Triptop-applicatie te installeren en uit te voeren:
+
+Springboot hebben geïnstalleerd en een IDE zoals IntelliJ IDEA of Eclipse hebben geïnstalleerd.
+Clone de repository van Triptop vanuit de GitHub-repository.
+Open de backend-map in je IDE en start de Spring Boot-applicatie.
+Je hebt Postman/Insomnia nodig om de API-endpoints te testen voor de prototypes.
+
+
