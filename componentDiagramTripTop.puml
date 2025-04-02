@@ -1,6 +1,8 @@
 @startuml
 !include https://raw.githubusercontent.com/plantuml-stdlib/C4-PlantUML/master/C4_Component.puml
 
+SHOW_LEGEND(true)
+
 top to bottom direction
 
 Container(WebApp, "Web Application", "React", "User Interface for expense management")
@@ -63,6 +65,4 @@ Rel(hotel_service, demand_api, "Retrieves hotel data")
 Rel(betaal_service, mollie_api, "Processes payments")
 Rel(trein_service, all_aboard_api, "Retrieves train data")
 Rel(eet_service, grubhub_api, "Retrieves food data")
-
-SHOW_LEGEND(TRUE)
 @enduml

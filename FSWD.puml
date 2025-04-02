@@ -1,6 +1,8 @@
 @startuml
 !include <C4/C4_Container>
 
+SHOW_LEGEND(true)
+
 Container_Ext(WebApp, "Web Application", "React", "User Interface for expense management")
 
 System_Boundary(c4_system, "Expense Management System") {

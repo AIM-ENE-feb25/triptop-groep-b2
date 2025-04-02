@@ -2,6 +2,8 @@
 !include https://raw.githubusercontent.com/plantuml-stdlib/C4-PlantUML/master/C4_Container.puml
 top to bottom direction
 
+SHOW_LEGEND(true)
+
 Person(traveller, "Reiziger", "Een reiziger die een reis met meerdere bestemmingen wil samenstellen.")
 Person(admin, "Reisbureau medewerker", "Beheerder")
 
@@ -34,6 +36,4 @@ Rel(Backend, mollie_api, "Verwerkt betalingen", "HTTP")
 Rel(Backend, all_aboard_api, "Haalt treinreisgegevens op", "HTTP")
 Rel(Backend, flight_api, "Haalt vluchtgegevens op", "HTTP")
 Rel(Backend, grubhub_api, "Haalt eetgegevens op", "HTTP")
-
-SHOW_LEGEND(TRUE)
 @enduml
