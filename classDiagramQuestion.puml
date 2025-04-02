@@ -45,10 +45,21 @@ class FlightRadar24Provider {
     +fetchNearbyAirports(airport: String): AirportResults
 }
 
+class StrategyConfig {
+    -currentStrategy: String
+    +setCurrentStrategy(strategy: String)
+    +getCurrentStrategy(): String
+}
+
 ' Relationships
 WebApp --> VluchtController : "Uses"
+WebApp --> VliegveldController : "Uses"
+WebApp --> StrategyController : "Uses"
 VluchtController --> VluchtService : "Uses"
+VliegveldController --> VluchtService : "Uses"
+StrategyController --> StrategyService : "Uses"
 VluchtService --> FlightDataStrategy : "Uses"
+StrategyService --> StrategyConfig : "Uses"
 
 FlightDataStrategy <|-- AeroDataBoxProvider
 FlightDataStrategy <|-- FlightRadar24Provider
