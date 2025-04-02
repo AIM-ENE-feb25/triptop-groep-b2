@@ -13,19 +13,19 @@ De Factory Method Pattern wordt gekozen om deze flexibiliteit te bieden, waarbij
 zonder de koppeling tussen componenten te verhogen.
 ## Considered Options
 
-| Forceres | Adapter Pattern | Facade Pattern | Factory Method Pattern |  
-|----------|-----------------|----------------|------------------------|  
-| **Complexiteit** | - | 0 | + |  
-| **Losse koppeling** | ++ | ++ | + |  
-| **Gemak van wisselen van externe services** | ++ | + | - |  
-| **Onderhoudbaarheid** | ++ | + | ++ |  
-| **Testbaarheid** | ++ | + | - | 0 |  
+| Forceres                                    | Adapter Pattern | Facade Pattern | Factory Method Pattern | State Pattern | Strategy Pattern |  
+|---------------------------------------------|-----------------|----------------|------------------------|---------------|------------------|
+| **Complexiteit**                            | --              | 0              | +                      | +             | 0                |
+| **Losse koppeling**                         | +               | ++             | ++                     | 0             | +                |
+| **Gemak van wisselen van externe services** | ++              | +              | +                      | -             | +                |
+| **Onderhoudbaarheid**                       | 0               | -              | ++                     | -             | +                |
+| **Testbaarheid**                            | -               | --             | +                      | 0             | +                | 
 
 ## Decision
 
 Na het evalueren van de verschillende ontwerppatronen is besloten om de **Factory Method Pattern** te implementeren voor het dynamisch creëren van kaartservice-objecten. Dit patroon biedt de juiste balans tussen complexiteit, 
 onderhoudbaarheid en losse koppeling. De keuze is gemaakt om de flexibiliteit te behouden bij het toevoegen van nieuwe kaartservices zonder grote wijzigingen aan de bestaande codebasis. De methoden getRoute en getMap worden gedefinieerd in een abstracte MapService klasse, en de concrete implementaties voor Google Maps en MapBox worden dynamisch gecreëerd door de MapServiceFactory.
-
+Factory methode is de beste keuze ondanks dit waren state en strategy ook opties maar deze waren gekozen door mijn groep en daarom geen optie.
 ## Consequences
 
 **Voordelen:**
