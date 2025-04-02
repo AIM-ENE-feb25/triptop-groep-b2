@@ -1,0 +1,48 @@
+@startuml
+
+class MapboxController {
+  + getDirections(origin: String, waypoints: String[], destination: String): String
+  + getRouting(): String
+  + nextRouting(): String
+}
+
+class MapboxService {
+  + getDirections(origin: String, waypoints: String[], destination: String): String
+  + getRouting(): String
+  + nextRouting(): void
+}
+
+class MapboxRoutingManager {
+  + getDirections(origin: String, waypoints: String[], destination: String): String
+  + getRouting(): String
+  + nextRouting(): void
+}
+
+interface MapboxRoutingState {
+  + getRouting(): String
+  + nextRouting(): MapboxRoutingState
+}
+
+class MapboxRoutingDrivingState {
+  + getRouting(): String
+  + nextRouting(): MapboxRoutingState
+}
+
+class MapboxRoutingCyclingState {
+  + getRouting(): String
+  + nextRouting(): MapboxRoutingState
+}
+
+class MapboxRoutingWalkingState {
+  + getRouting(): String
+  + nextRouting(): MapboxRoutingState
+}
+
+MapboxController "- mapboxService" ..> MapboxService
+MapboxService "- mapboxRoutingManager" ..> MapboxRoutingManager
+MapboxRoutingManager "- routing" ..> MapboxRoutingState
+MapboxRoutingState <|-- MapboxRoutingDrivingState
+MapboxRoutingState <|-- MapboxRoutingCyclingState
+MapboxRoutingState <|-- MapboxRoutingWalkingState
+
+@enduml
