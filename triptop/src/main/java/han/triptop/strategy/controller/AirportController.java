@@ -12,15 +12,15 @@ import org.springframework.web.bind.annotation.RestController;
 @RequestMapping("/api/airports")
 public class AirportController {
 
-  private final FlightService vluchtService;
+  private final FlightService flightService;
 
   @Autowired
-  public AirportController(FlightService vluchtService) {
-    this.vluchtService = vluchtService;
+  public AirportController(FlightService flightService) {
+    this.flightService = flightService;
   }
 
   @GetMapping("/search/{searchTerm}")
   public String getNearestAirport(@PathVariable String searchTerm) throws JsonProcessingException {
-    return vluchtService.getNearestAirport(searchTerm);
+    return flightService.getNearestAirport(searchTerm);
   }
 }
