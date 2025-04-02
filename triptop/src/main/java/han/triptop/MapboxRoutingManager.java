@@ -12,14 +12,6 @@ public class MapboxRoutingManager {
   private final OkHttpClient client = new OkHttpClient();
   private MapboxRoutingState routing = new MapboxRoutingDrivingState();
 
-  public String getRouting() {
-    return this.routing.getRouting();
-  }
-
-  public void nextRouting() {
-    this.routing = this.routing.nextRouting();
-  }
-
   public String getDirections(String origin, String[] waypoints, String destination) throws IOException {
     return this.buildRequest(this.buildUrl(origin, waypoints, destination));
   }
@@ -50,5 +42,13 @@ public class MapboxRoutingManager {
   private String addAccessTokenToUrl(String url) {
     String apiKey = "pk.eyJ1IjoiZHZkd2hhbiIsImEiOiJjbTh4MGNtYmIwMHU2Mmtxc3JrdXFnYjF4In0.a92xTZD6NU7SQUiLWKP_8A";
     return url + "?access_token=" + apiKey;
+  }
+
+  public String getRouting() {
+    return this.routing.getRouting();
+  }
+
+  public void nextRouting() {
+    this.routing = this.routing.nextRouting();
   }
 }
