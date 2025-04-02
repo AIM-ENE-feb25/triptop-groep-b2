@@ -2,37 +2,43 @@ package modulaireMobiliteit_Prototype.service;
 
 import modulaireMobiliteit_Prototype.domain.Coordinate;
 import modulaireMobiliteit_Prototype.domain.MapImage;
-import org.springframework.beans.factory.annotation.Value;
+import org.springframework.http.*;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
-import org.springframework.http.ResponseEntity;
-import org.springframework.http.HttpHeaders;
-import org.springframework.http.HttpEntity;
-
-import java.util.List;
+import org.springframework.web.util.UriComponentsBuilder;
 
 @Service
 public class GoogleMapsService implements MapService {
 
-    @Value("${google.maps.api.url}")
-    private String apiUrl;
-
-    @Value("${google.maps.api.key}")
-    private String apiKey;
+    private final String apiUrl = "https://google-map-places-new-v2.p.rapidapi.com/v1/places";
+    private final String rapidApiKey = "ee6ecdfec2msh83d0f9fb789fbd9p1c008ejsn35278cb79928";  // Zet hier jouw RapidAPI key
+    private final String rapidApiHost = "google-map-places-new-v2.p.rapidapi.com";
 
     private final RestTemplate restTemplate = new RestTemplate();
 
     @Override
     public ResponseEntity<String> getRoute(Coordinate start, Coordinate end) {
-        String requestUrl = apiUrl + "?origin=" + start.getLatitude() + "," + start.getLongitude()
-                + "&destination=" + end.getLatitude() + "," + end.getLongitude()
-                + "&key=" + apiKey;
+        // Hier gebruiken we een place_id als voorbeeld (je kunt dit aanpassen voor routeberekening)
+        String placeId = "ChIJj61dQgK6j4AR4GeTYWZsKWw"; // Dit moet dynamisch komen van je input
 
+        String requestUrl = UriComponentsBuilder.fromHttpUrl(apiUrl + "/" + placeId)
+                .toUriString();
+
+        // Headers instellen
         HttpHeaders headers = new HttpHeaders();
-        headers.set("X-RapidAPI-Key", apiKey);
-        HttpEntity<String> entity = new HttpEntity<>(headers);
+        headers.set("x-rapidapi-key", rapidApiKey);
+        headers.set("x-rapidapi-host", rapidApiHost);
+        headers.set("X-Goog-FieldMask", "*");
+        headers.set("Content-Type", "application/json");
 
-        ResponseEntity<String> response = restTemplate.getForEntity(requestUrl, String.class, entity);
+        // Maak HTTP-request
+        HttpEntity<String> entity = new HttpEntity<>(headers);
+        ResponseEntity<String> response = restTemplate.exchange(
+                requestUrl,
+                HttpMethod.GET,
+                entity,
+                String.class
+        );
 
         System.out.println("Google Maps API Response: " + response.getBody());
 
@@ -41,6 +47,6 @@ public class GoogleMapsService implements MapService {
 
     @Override
     public MapImage getMapImage(Coordinate location, int zoomLevel) {
-        return null;
+        return null; // Niet nodig voor deze implementatie
     }
 }
