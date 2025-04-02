@@ -33,18 +33,18 @@ Container_Boundary("boundary", "Class Diagram"){
     +MapService createService(String provider)
   }
 
-  class Coordinate {
-    +double latitude
-    +double longitude
-  }
-
-  class Route {
-    +List<Coordinate> points
-  }
-
-  class MapImage {
-    +byte[] imageData
-  }
+'  class Coordinate {
+'    +double latitude
+'    +double longitude
+'  }
+'
+'  class Route {
+'    +List<Coordinate> points
+'  }
+'
+'  class MapImage {
+'    +byte[] imageData
+'  }
 
   MapController --> MapService : uses
   MapController --> MapServiceFactory : uses
