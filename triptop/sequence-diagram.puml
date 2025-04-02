@@ -1,0 +1,24 @@
+@startuml
+
+autonumber
+hide unlinked
+
+participant MapboxController
+participant MapboxService
+participant MapboxRoutingManager
+participant MapboxRoutingState
+participant MapboxApi
+participant MapboxRoutingDrivingState
+participant MapboxRoutingCyclingState
+participant MapboxRoutingWalkingState
+
+[-> MapboxController: GET /directions
+MapboxController -> MapboxService: directions = getDirections(origin, waypoints, destination)
+MapboxService -> MapboxRoutingManager: directions = getDirection(origin, waypoints, destination)
+MapboxRoutingManager -> MapboxRoutingState: routing = getRouting()
+MapboxRoutingManager -> MapboxApi: directions = GET /<routing>/<origin>;[waypoints];<destination>?access_token=<access_token>
+MapboxService <- MapboxRoutingManager: directions
+MapboxController <- MapboxService: directions
+[<- MapboxController: directions
+
+@enduml
