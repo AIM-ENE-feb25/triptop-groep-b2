@@ -10,10 +10,25 @@ class VluchtController {
     +fetchFlightData(flightQuery: FlightQuery): FlightResults
 }
 
+class VliegveldController {
+    +fetchNearbyAirports(airport: String): AirportResults
+}
+
+class StrategyController {
+    +setCurrentStrategy(strategy: String)
+    +getCurrentStrategy(): String
+}
+
 class VluchtService {
     -flightDataStrategy: FlightDataStrategy
     +setFlightDataStrategy(strategy: FlightDataStrategy)
     +fetchFlightData(flightQuery: FlightQuery): FlightResults
+}
+
+class StrategyService {
+    -StrategyConfig: StrategyConfig
+    +setCurrentStrategy(strategy: String)
+    +getCurrentStrategy(): String
 }
 
 interface FlightDataStrategy {
@@ -22,49 +37,20 @@ interface FlightDataStrategy {
 
 class AeroDataBoxProvider {
     +fetchFlightData(flightQuery: FlightQuery): FlightResults
+    +fetchNearbyAirports(airport: String): AirportResults
 }
 
-class FlightScraperProvider {
+class FlightRadar24Provider {
     +fetchFlightData(flightQuery: FlightQuery): FlightResults
+    +fetchNearbyAirports(airport: String): AirportResults
 }
-
-class AirScraperProvider {
-    +fetchFlightData(flightQuery: FlightQuery): FlightResults
-}
-
-class FlightStatus {
-    -status: String
-    -flightNumber: String
-    -departureTime: String
-    -arrivalTime: String
-}
-
-class FlightDetails {
-    -flightNumber: String
-    -airline: String
-    -departureDate: String
-}
-
-class FlightQuery {
-    -origin: String
-    -destination: String
-    -departureDate: String
-}
-
-class FlightResults {
-    -flights: List<FlightDetails>
-}
-
 
 ' Relationships
 WebApp --> VluchtController : "Uses"
 VluchtController --> VluchtService : "Uses"
 VluchtService --> FlightDataStrategy : "Uses"
-VluchtService --> FlightQuery : "Accepts"
-VluchtController --> FlightResults : "Returns"
 
 FlightDataStrategy <|-- AeroDataBoxProvider
-FlightDataStrategy <|-- FlightScraperProvider
-FlightDataStrategy <|-- AirScraperProvider
+FlightDataStrategy <|-- FlightRadar24Provider
 
 @enduml
