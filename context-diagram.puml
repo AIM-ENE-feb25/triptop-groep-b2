@@ -1,7 +1,7 @@
 @startuml C4_Elements
-!include https://raw.githubusercontent.com/plantuml-stdlib/C4-PlantUML/master/C4_Container.puml
-!include <C4/C4_Container>
-top to bottom direction
+'!include https://raw.githubusercontent.com/plantuml-stdlib/C4-PlantUML/master/C4_Container.puml
+!include https://raw.githubusercontent.com/plantuml-stdlib/C4-PlantUML/master/C4_Component.puml
+
 
 skinparam {
     rectangle {
@@ -10,33 +10,36 @@ skinparam {
     }
 }
 
-Person(traveller, "[Reiziger]", "Een reiziger die een reis met meerdere bestemmingen wil samenstellen.")
-Person(admin, "[Administrator]", "Beheerder")
+top to bottom direction
 
-System(triptop, "[Triptop]", "Helpt reizigers een trip te organiseren met meerdere bestemmingen.")
+Person(traveller, "Reiziger", "Een reiziger die een reis met meerdere bestemmingen wil samenstellen.")
+Person(admin, "Administrator", "Beheerder")
 
-System_Ext(identity_provider_api, "[Identity Provider API]", "Biedt inlogmogelijkheden via onder andere Apple, Google en Microsoft.", $link="https://developer.okta.com/docs/api/openapi/okta-management/management/tag/IdentityProvider/")
-System_Ext(demand_api, "[Demand API]", "Booking.com's API voor verblijf, autoverhuur, vluchten\*, accommodaties\* en luchthaventaxi's\*.", $link="https://developers.booking.com/demand/docs/open-api/demand-api")
-System_Ext(mollie_api, "[Mollie API]", "Eén platform voor betalingen via onder andere Klarna, iDEAL, Apple Pay en PayPal.", $link="https://www.mollie.com/nl/")
-System_Ext(MapBox_api, "[MapBox Platform]", "Google's API voor kaarten, routes en plekken.", $link="https://developers.google.com/maps")
-System_Ext(all_aboard_api, "[The API]", "Biedt boek- en beheermogelijkheden voor treinreizen binnen Europa.", $link="https://allaboard.eu/api-solution")
-System_Ext(aeroDataBox_api, "[AeroDataBox API]", "Biedt vliegvelden, vluchttijden en vluchtroutes wereldwijd.", $link="https://rapidapi.com/aedbx-aedbx/api/aerodatabox")
-System_Ext(grubhub_api, "[Grubhub]", "Biedt bezorg en afhaalmogelijkheid voor eten en drinken bij diverse restaurants.", $link="https://www.grubhub.com/")
-System_Ext(Flightradar24_api, "[Flightradar24]", "Biedt vluchtinformatie en tracking wereldwijd.", $link="https://www.flightradar24.com/")
-System_Ext(Googlemaps_api, "[Google Maps]", "Biedt kaarten, routes en plekken wereldwijd.", $link="https://developers.google.com/maps")
+System_Boundary(boundary, "Triptop System") {
+    System(triptop, "Triptop", "Helpt reizigers een trip te organiseren met meerdere bestemmingen.")
+}
 
-Rel(traveller, triptop, "maakt reisplan met")
-Rel(admin, triptop, "beheert")
+System_Ext(identity_provider_api, "Identity Provider API", "Biedt inlogmogelijkheden via onder andere Apple, Google en Microsoft.", $link="https://developer.okta.com/docs/api/openapi/okta-management/management/tag/IdentityProvider/")
+System_Ext(demand_api, "Demand API", "Booking.com's API voor verblijf, autoverhuur, vluchten, accommodaties en luchthaventaxi's.", $link="https://developers.booking.com/demand/docs/open-api/demand-api")
+System_Ext(mollie_api, "Mollie API", "Eén platform voor betalingen via onder andere Klarna, iDEAL, Apple Pay en PayPal.", $link="https://www.mollie.com/nl/")
+System_Ext(MapBox_api, "MapBox Platform", "Google's API voor kaarten, routes en plekken.", $link="https://developers.google.com/maps")
+System_Ext(all_aboard_api, "The API", "Biedt boek- en beheermogelijkheden voor treinreizen binnen Europa.", $link="https://allaboard.eu/api-solution")
+System_Ext(aeroDataBox_api, "AeroDataBox API", "Biedt vliegvelden, vluchttijden en vluchtroutes wereldwijd.", $link="https://rapidapi.com/aedbx-aedbx/api/aerodatabox")
+System_Ext(grubhub_api, "Grubhub", "Biedt bezorg- en afhaalmogelijkheid voor eten en drinken.", $link="https://www.grubhub.com/")
+System_Ext(Flightradar24_api, "Flightradar24", "Biedt vluchtinformatie en tracking wereldwijd.", $link="https://www.flightradar24.com/")
+System_Ext(Googlemaps_api, "Google Maps", "Biedt kaarten, routes en plekken wereldwijd.", $link="https://developers.google.com/maps")
 
-Rel(triptop, identity_provider_api, "zorgt voor inlogfunctionaliteit met")
-Rel(triptop, demand_api, "suggereert verblijven met")
-Rel(triptop, mollie_api, "handelt betalingen af met")
-Rel(triptop, MapBox_api, "bepaalt routes tussen bestemmingen met")
-Rel(triptop, all_aboard_api, "beheert en houdt treinreizen bij met")
-Rel(triptop, aeroDataBox_api, "beheert en houdt vluchten bij met")
-Rel(triptop, grubhub_api, "stelt eet- en drinkmogelijkheden voor met")
-Rel(triptop, Flightradar24_api, "biedt vluchtinformatie en tracking met")
-Rel(triptop, Googlemaps_api, "biedt kaarten en locaties met")
+Rel(traveller, triptop, "Maakt reisplan met")
+Rel(admin, triptop, "Beheert")
+Rel(triptop, identity_provider_api, "Zorgt voor inlogfunctionaliteit met")
+Rel(triptop, demand_api, "Suggereert verblijven met")
+Rel(triptop, mollie_api, "Handelt betalingen af met")
+Rel(triptop, MapBox_api, "Bepaalt routes tussen bestemmingen met")
+Rel(triptop, all_aboard_api, "Beheert en houdt treinreizen bij met")
+Rel(triptop, aeroDataBox_api, "Beheert en houdt vluchten bij met")
+Rel(triptop, grubhub_api, "Stelt eet- en drinkmogelijkheden voor met")
+Rel(triptop, Flightradar24_api, "Biedt vluchtinformatie en tracking met")
+Rel(triptop, Googlemaps_api, "Biedt kaarten en locaties met")
 
 SHOW_LEGEND(TRUE)
 @enduml

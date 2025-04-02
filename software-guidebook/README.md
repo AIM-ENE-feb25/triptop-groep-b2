@@ -155,6 +155,18 @@ Authenticatie verloopt via een externe Identity Provider API, waardoor gebruiker
 
 Elke functionele eenheid volgt een vaste structuur met een controller voor verzoeken, een service voor logica en (indien nodig) een repository voor database-interacties. Dit zorgt voor een schaalbare, onderhoudbare en eenvoudig uitbreidbare backend.
 
+
+| Class::Attribuut                              | Is input voor API+Endpoint                          | Wordt gevuld door API+Endpoint | Wordt geleverd door eindgebruiker | Moet worden opgeslagen in de applicatie |
+|-----------------------------------------------|-----------------------------------------------------|--------------------------------|-----------------------------------|-----------------------------------------|
+| MapService::getRoute(start, end)              | Google Maps API /directions, MapBox API /directions | ✅                              | ✅                                 | ❌                                       |
+| MapService::getMap(location, zoomLevel)       | Google Maps API /staticmap, MapBox API /static      | ✅                              | ✅                                 | ❌                                       |
+| GoogleMapsService::someGoogleSpecificMethod() | Google Maps API specifieke functionaliteit          | ✅                              | ❌                                 | ❌                                       |
+| MapBoxService::someMapBoxSpecificMethod()     | MapBox API specifieke functionaliteit               | ✅                              | ❌                                 | ❌                                       |
+| MapController::handleRequest(request)         | ❌                                                   | ❌                              | ✅                                 | ❌                                       |
+| MapServiceFactory::createService(provider)    | ❌                                                   | ❌                              | ✅                                 | ❌                                       |
+
+
+
 ![Dyanimc Diagram](../opdracht-diagrammen/diagram-Dynamic.png)
 Dit dynamische componentendiagram beschrijft de betalingsverwerking in een webapplicatie voor uitgavenbeheer. De gebruiker initieert een betaling via de WebApp (React), die het verzoek doorstuurt naar de backend (Spring Boot).
 
