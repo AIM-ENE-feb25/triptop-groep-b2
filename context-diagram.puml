@@ -23,6 +23,7 @@ System_Ext(all_aboard_api, "[The API]", "Biedt boek- en beheermogelijkheden voor
 System_Ext(aeroDataBox_api, "[AeroDataBox API]", "Biedt vliegvelden, vluchttijden en vluchtroutes wereldwijd.", $link="https://rapidapi.com/aedbx-aedbx/api/aerodatabox")
 System_Ext(grubhub_api, "[Grubhub]", "Biedt bezorg en afhaalmogelijkheid voor eten en drinken bij diverse restaurants.", $link="https://www.grubhub.com/")
 System_Ext(Flightradar24_api, "[Flightradar24]", "Biedt vluchtinformatie en tracking wereldwijd.", $link="https://www.flightradar24.com/")
+System_Ext(Googlemaps_api, "[Google Maps]", "Biedt kaarten, routes en plekken wereldwijd.", $link="https://developers.google.com/maps")
 
 Rel(traveller, triptop, "maakt reisplan met")
 Rel(admin, triptop, "beheert")
@@ -35,6 +36,7 @@ Rel(triptop, all_aboard_api, "beheert en houdt treinreizen bij met")
 Rel(triptop, aeroDataBox_api, "beheert en houdt vluchten bij met")
 Rel(triptop, grubhub_api, "stelt eet- en drinkmogelijkheden voor met")
 Rel(triptop, Flightradar24_api, "biedt vluchtinformatie en tracking met")
+Rel(triptop, Googlemaps_api, "biedt kaarten en locaties met")
 
 SHOW_LEGEND(TRUE)
 @enduml
