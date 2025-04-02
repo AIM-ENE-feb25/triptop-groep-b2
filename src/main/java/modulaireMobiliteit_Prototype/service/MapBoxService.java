@@ -4,21 +4,17 @@ import modulaireMobiliteit_Prototype.domain.Coordinate;
 import modulaireMobiliteit_Prototype.domain.MapImage;
 import modulaireMobiliteit_Prototype.domain.Route;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.http.*;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
 import org.springframework.web.util.UriComponentsBuilder;
 
 import java.util.List;
-
 @Service
 public class MapBoxService implements MapService {
 
     @Value("${mapbox.api.url}")
     private String apiUrl;
-
-    @Value("${mapbox.api.host}")
-    private String apiHost;
 
     @Value("${mapbox.api.key}")
     private String apiKey;
@@ -26,32 +22,30 @@ public class MapBoxService implements MapService {
     private final RestTemplate restTemplate = new RestTemplate();
 
     @Override
-    public Route getRoute(Coordinate start, Coordinate end) {
+    public ResponseEntity<String> getRoute(Coordinate start, Coordinate end) {
+        // Maak de URL
+        String coordinates = start.getLongitude() + "," + start.getLatitude() + ";" +
+                end.getLongitude() + "," + end.getLatitude();
         String requestUrl = UriComponentsBuilder.fromHttpUrl(apiUrl)
-                .pathSegment(
-                        start.getLongitude() + "," + start.getLatitude(),
-                        end.getLongitude() + "," + end.getLatitude()
-                )
+                .pathSegment("", coordinates)
+                .queryParam("access_token", apiKey)
                 .queryParam("overview", "full")
+                .queryParam("steps", "true")
                 .queryParam("geometries", "geojson")
                 .toUriString();
 
-        HttpHeaders headers = new HttpHeaders();
-        headers.add("x-rapidapi-host", apiHost);
-        headers.add("x-rapidapi-key", apiKey);
-        headers.setContentType(MediaType.APPLICATION_JSON);
+        // Maak de API-aanroep
+        ResponseEntity<String> response = restTemplate.getForEntity(requestUrl, String.class);
 
-        HttpEntity<String> entity = new HttpEntity<>(headers);
+        // Print de response voor debugging
+        System.out.println("MapBox API Response: " + response.getBody());
 
-        ResponseEntity<String> response = restTemplate.exchange(requestUrl, HttpMethod.GET, entity, String.class);
-
-        System.out.println("MapBox API Response via RapidAPI: " + response.getBody());
-
-        return new Route(List.of(start, end)); // Later response parsing toevoegen
+        // Stuur de volledige response.body terug naar de controller en Postman
+        return response;
     }
 
     @Override
     public MapImage getMapImage(Coordinate location, int zoomLevel) {
-        return null;
+        return null; // Niet van toepassing in dit geval
     }
 }

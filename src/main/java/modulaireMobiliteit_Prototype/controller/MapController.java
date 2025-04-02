@@ -4,6 +4,7 @@ import modulaireMobiliteit_Prototype.domain.Coordinate;
 import modulaireMobiliteit_Prototype.domain.Route;
 import modulaireMobiliteit_Prototype.service.MapService;
 import modulaireMobiliteit_Prototype.factory.MapServiceFactory;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
@@ -17,7 +18,7 @@ public class MapController {
     }
 
     @GetMapping("/route")
-    public Route getRoute(
+    public ResponseEntity<String> getRoute(
             @RequestParam String provider,
             @RequestParam double startLat,
             @RequestParam double startLng,

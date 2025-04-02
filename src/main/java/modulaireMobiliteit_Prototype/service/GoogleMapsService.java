@@ -2,7 +2,6 @@ package modulaireMobiliteit_Prototype.service;
 
 import modulaireMobiliteit_Prototype.domain.Coordinate;
 import modulaireMobiliteit_Prototype.domain.MapImage;
-import modulaireMobiliteit_Prototype.domain.Route;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
@@ -21,11 +20,10 @@ public class GoogleMapsService implements MapService {
     @Value("${google.maps.api.key}")
     private String apiKey;
 
-
     private final RestTemplate restTemplate = new RestTemplate();
 
     @Override
-    public Route getRoute(Coordinate start, Coordinate end) {
+    public ResponseEntity<String> getRoute(Coordinate start, Coordinate end) {
         String requestUrl = apiUrl + "?origin=" + start.getLatitude() + "," + start.getLongitude()
                 + "&destination=" + end.getLatitude() + "," + end.getLongitude()
                 + "&key=" + apiKey;
@@ -38,7 +36,7 @@ public class GoogleMapsService implements MapService {
 
         System.out.println("Google Maps API Response: " + response.getBody());
 
-        return new Route(List.of(start, end)); // Hier moet je de response nog parsen
+        return response;
     }
 
     @Override
