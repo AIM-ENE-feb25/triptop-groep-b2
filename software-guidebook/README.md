@@ -201,10 +201,139 @@ Het diagram toont de structuur van de klassen, maar laat bepaalde details weg, z
 
 ## 8. Architectural Decision Records
 
-> [!IMPORTANT]
-> Voeg toe: 3 tot 5 ADR's die beslissingen beschrijven die zijn genomen tijdens het ontwerpen en bouwen van de software.
+### 8.1. ADR-0001-Payment Options
 
-### 8.1. ADR-0005-Dynamische-Kaartservices-met-de-FactoryMethod
+# Payment Options
+**Datum**: 2025-03-21
+
+## Status
+**Accepted**
+
+## Context
+We maken een reismanager-app en hiervoor hebben we een Payment API nodig die betalingen afhandelt. Welke API het meest geschikt is, willen we graag weten.
+
+## Considered Options
+
+| Forces                         | Mollie | Knit Pay Pro  | PayPal |
+|---------------------------------|--------|---------------|--------|
+| Standaard API's beschikbaar     | --     | ?             | ++     |
+| Eenvoudig te gebruiken in Java  | 0      | -             | 0      |
+|Documentatie                     | -      | --            | ++     |
+|Beveliging                       | +      | 0             | +      |
+
+## Decision
+Uiteindelijk is de keuze gemaakt om PayPal te gebruiken in plaats van Mollie, omdat we er later achterkwamen dat Mollie een business account nodig heeft om een API-key te verkrijgen. Helaas was Mollie hierdoor niet bruikbaar, hoewel het een goede optie had kunnen zijn. PayPal is veel kennis over te vinden omdat het bekend is.
+
+## Consequences
+PayPal is een bekend en betrouwbaar API met goed gedocumenteerde bronnen. Het is volgens bronnen makkelijk te integreren, maar het kan mogelijk problemen opleveren met beveiliging en netwerkverbindingen.
+
+### 8.2. ADR-0002-Flights-Options
+
+# Flights Options
+
+**Datum:** 2025-03-21
+
+## Status
+**Accepted**
+
+## Context
+Voor onze reismanager-app hebben we een Flights API nodig die vluchten kan opzoeken. We willen bepalen welke API hiervoor het meest geschikt is.
+
+## Considered Options
+
+| Factoren                     | AeroDataBox | FlightsAPI | AmadeusAPI |
+|------------------------------|------------|-----------|------------|
+| Informatie beschikbaar       | +          | 0         | 0          |
+| Eenvoudig te gebruiken       | ++         | --        | +          |
+| Real-time vluchtinformatie   | ++         | -         | 0          |
+| Documentatie                 | +          | -         | ++         |
+
+## Decision
+Uiteindelijk hebben we gekozen voor **AeroDataBox**. De belangrijkste redenen hiervoor zijn:
+- **Kosten:** FlightsAPI vereist een maandelijkse betaling, terwijl AeroDataBox gratis of goedkoper is.
+- **Focus op vluchten:** AeroDataBox biedt uitgebreide informatie over vluchten, waaronder vluchttracking, vluchtstatus en luchthaveninformatie.
+- **Gebruiksvriendelijkheid:** Vergeleken met AmadeusAPI is AeroDataBox veel eenvoudiger te gebruiken, omdat AmadeusAPI een complexere implementatie vereist.
+
+## Consequences
+AeroDataBox is ideaal voor real-time tracking en vluchtinformatie. Echter, het biedt geen ondersteuning voor hotels en boekingsservices. Voor deze functionaliteiten zullen we een aanvullende API moeten zoeken.
+
+### 8.3. ADR-0003-Mapbox
+
+# Mapbox
+
+**Datum:** 21/03/2025
+
+## Status
+Accepted
+
+## Context
+We hebben een API nodig die routes naar bestemmingen kan berekenen en hierbij richtingen kan aangeven. De API moet eenvoudig te integreren zijn binnen ons bestaande systeem, voldoende documentatie bieden en indien nodig aanpasbaar zijn. Daarnaast is prijs een belangrijke factor, evenals gebruiksvriendelijkheid voor zowel ontwikkelaars als eindgebruikers.
+
+## Considered Options
+| Forces | Google Maps | Apple Maps | OpenStreetMap (OSM) | Mapbox |
+|---|---|---|---|---|
+| Prijs | 0 | ++ | ++ | + |
+| Aanpasbaarheid | 0 | - | ++ | ++ |
+| Integreerbaarheid | + | - | 0 | ++ |
+| Gebruiksvriendelijkheid | ++ | ++ | 0 | ++ |
+| Beschikbare documentatie | ++ | - | + | ++ |
+
+### Criteria
+- **Prijs**: Google Maps heeft een gratis laag, maar kosten kunnen snel oplopen. Apple Maps is gratis, maar beperkt in gebruik buiten het Apple-ecosysteem. OSM en Mapbox zijn goedkoper en bieden flexibele prijsmodellen.
+- **Aanpasbaarheid**: Google Maps biedt beperkte aanpassingsmogelijkheden. Apple Maps is gesloten en moeilijk aanpasbaar. OSM en Mapbox bieden uitgebreide mogelijkheden voor maatwerk.
+- **Integreerbaarheid**: Google Maps en Mapbox bieden eenvoudige SDK’s en API’s. Apple Maps heeft beperkte ondersteuning buiten iOS/macOS. OSM vereist meer inspanning voor integratie.
+- **Gebruiksvriendelijkheid**: Google Maps en Apple Maps bieden intuïtieve en gebruiksvriendelijke interfaces. OSM vereist meer technische kennis. Mapbox biedt een goede balans tussen flexibiliteit en gebruiksgemak.
+- **Documentatie**: Google Maps en Mapbox bieden uitgebreide documentatie. Apple Maps heeft minder documentatie beschikbaar. OSM heeft documentatie, maar deze is soms gefragmenteerd.
+
+## Decision
+
+Na evaluatie van de verschillende opties hebben we besloten om voor **Mapbox** te kiezen. Mapbox scoort hoog op vrijwel alle relevante criteria en biedt een goede balans tussen kosten, flexibiliteit en gebruiksvriendelijkheid. De belangrijkste redenen voor deze keuze zijn de aanpasbaarheid van Mapbox, die uitgebreide mogelijkheden biedt voor het aanpassen van kaarten, routes en styling. Daarnaast zijn de integratie-opties goed, aangezien de SDK’s en API’s goed gedocumenteerd zijn en eenvoudig in bestaande systemen te integreren. Wat betreft betaalbaarheid is Mapbox een kosteneffectief alternatief voor Google Maps, met flexibele prijsmodellen, hoewel het niet gratis is. Bovendien biedt de uitstekende documentatie van Mapbox een belangrijke meerwaarde, aangezien deze uitgebreid en goed gestructureerd is, wat de integratie en het onderhoud vergemakkelijkt.
+
+## Consequences
+
+De keuze voor Mapbox heeft enkele gevolgen die moeten worden meegenomen in de implementatie. De kostenstructuur is een belangrijk punt, aangezien, hoewel Mapbox goedkoper is dan Google Maps, er toch een budget gereserveerd moet worden voor gebruikskosten, vooral bij opschaling. De ondersteuning en community van Mapbox zijn goed, maar deze zijn minder breed dan die van Google Maps. Daarnaast maakt Mapbox deels gebruik van OSM-gegevens, wat invloed kan hebben op de nauwkeurigheid en updates van de kaarten. Ten slotte kunnen mogelijke toekomstige veranderingen in de licentie- en prijsstructuur van Mapbox invloed hebben op de langetermijnstrategie.
+
+Door deze aspecten in acht te nemen, kunnen we een robuuste en schaalbare implementatie realiseren. Mapbox biedt een krachtige oplossing die goed aansluit bij onze behoeften, met minimale nadelen.
+
+
+### 8.4. ADR-0004-Gebruik-van-interface-gebaseerde-afhankelijkheden
+# Gebruik van interface-gebaseerde afhankelijkheden
+
+Date: 26-3-2025
+
+## Status
+Accepted
+
+## Context
+Het systeem moet flexibel blijven als het gaat om externe services. We willen vermijden dat business logic direct afhankelijk is van specifieke API’s zoals Mollie of AeroDataBox.
+
+## Considered Options
+
+|Forces| Strategy Pattern | Adapter Pattern | Facade Pattern | Factory Method Pattern | State Pattern |  
+|---|---|---|---|---|---|  
+|Losse koppeling | ++ | ++ | + | + | ++ |  
+|Onderhoudbaarheid | ++ | + | ++ | - | ++ |  
+|Complexiteit | - | 0 | + | -- | + |  
+|Gemak van wisselen van externe services | ++ | + | 0 | - | + |  
+|Testbaarheid | ++ | + | - | 0 | ++ |  
+|Geschiktheid voor variërende services | ++ | 0 | + | + | ++ |  
+
+## Decision
+We kiezen voor het **Strategy Pattern**, omdat dit de meest flexibele en modulaire oplossing biedt. Elke externe service wordt geïnjecteerd als een implementatie van een generieke interface, waardoor we eenvoudig kunnen wisselen tussen providers zonder de kernlogica te wijzigen.
+
+## Consequences
+**Voordelen:**
+- Externe services zijn eenvoudig verwisselbaar.
+- Business logic blijft gescheiden van de specifieke service-implementatie.
+- Ondersteunt uitbreiding met nieuwe services zonder impact op bestaande code.
+- Maakt unit testing eenvoudiger door dependency injection.
+
+**Nadelen:**
+- Meer complexiteit dan een hardcoded implementatie.
+- Vereist duidelijke interfaces en dependency injection.
+
+
+### 8.5. ADR-0005-Dynamische-Kaartservices-met-de-FactoryMethod
 # Navigating the Right Path: Dynamische Kaartservices met de Factory Method
 
 **Date:** 28-3-2025
@@ -244,152 +373,33 @@ Factory methode is de beste keuze ondanks dit waren state en strategy ook opties
 - **Minder dynamische flexibiliteit**: Het systeem is niet zo dynamisch in het wisselen van kaartproviders tijdens runtime. Dit kan een beperking zijn als er behoefte is om op de achtergrond snel van provider te wisselen zonder herstart.
 - **Testbaarheid**: Het testen van verschillende kaartservices kan moeilijker zijn zonder een goed mock-systeem voor de Factory Method. Het is minder flexibel dan bij bijvoorbeeld de Facade Pattern, waar mock-services gemakkelijker kunnen worden ingevoegd.
 
+### 8.6. ADR-0006-State-pattern
 
+# Kortste Reisroute en Flexibiliteit
 
-#### Context
+**Datum:** 31/03/2025
 
-> [!TIP]
-> This section describes the forces at play, including technological, political, social, and project local. These forces are probably in tension, and should be called out as such. The language in this section is value-neutral. It is simply describing facts about the problem we're facing and points out factors to take into account or to weigh when making the final decision.
+## Status
+Accepted
 
-#### Considered Options
+## Context
+Bij het plannen van een reisroute moet rekening worden gehouden met twee belangrijke factoren: de route moet zo kort mogelijk zijn en alle bouwstenen omvatten en de route moet eenvoudig aanpasbaar zijn wanneer de reisafstand geen beperkende factor is.
 
-> [!TIP]
-> This section describes the options that were considered, and gives some indication as to why the chosen option was selected.
+## Considered Options
+| Forces | Adapter | State | Factory | Strategy | Facade |
+|---|---|---|---|---|---|
+| Makkelijk uitbreidbaar | + | ++ | + | ++ | 0 |
+| Weinig boilerplate | 0 | -- | - | + | ++ |
+| Vermindert coupling | + | ++ | 0 | + | - |
+| Ondersteunt dynamische aanpassingen | ++ | 0 | + | ++ | - |
+| Houdt overzichtelijke structuur | 0 | -- | - | + | ++ |
 
-#### Decision
+## Decision
+Wegens schoolredenen kunnen de Factory en Strategy Pattern niet meer gekozen worden. Verder zijn de Adapter en Facade Pattern geen goede oplossingen voor dit probleem. Hierom kiezen wij voor het implementeren van de State Pattern, ondanks dat dit niet de beste oplossing is.
 
-> [!TIP]
-> This section describes our response to the forces/problem. It is stated in full sentences, with active voice. "We will …"
+## Consequences
+Het gevolg van het niet meer mogen gebruiken van de Strategy Pattern is dat de implementatie minder overzichtelijk is en dat er meer boilerplate geschreven moet worden.
 
-#### Status
-
-> [!TIP]
-> A decision may be "proposed" if the project stakeholders haven't agreed with it yet, or "accepted" once it is agreed. If a later ADR changes or reverses a decision, it may be marked as "deprecated" or "superseded" with a reference to its replacement.
-
-#### Consequences
-
-> [!TIP]
-> This section describes the resulting context, after applying the decision. All consequences should be listed here, not just the "positive" ones. A particular decision may have positive, negative, and neutral consequences, but all of them affect the team and project in the future.
-
-### 8.2. ADR-002 TITLE
-
-> [!TIP]
-> These documents have names that are short noun phrases. For example, "ADR 1: Deployment on Ruby on Rails 3.0.10" or "ADR 9: LDAP for Multitenant Integration". The whole ADR should be one or two pages long. We will write each ADR as if it is a conversation with a future developer. This requires good writing style, with full sentences organized into paragraphs. Bullets are acceptable only for visual style, not as an excuse for writing sentence fragments. (Bullets kill people, even PowerPoint bullets.)
-
-#### Context
-
-> [!TIP]
-> This section describes the forces at play, including technological, political, social, and project local. These forces are probably in tension, and should be called out as such. The language in this section is value-neutral. It is simply describing facts about the problem we're facing and points out factors to take into account or to weigh when making the final decision.
-
-#### Considered Options
-
-> [!TIP]
-> This section describes the options that were considered, and gives some indication as to why the chosen option was selected.
-
-#### Decision
-
-> [!TIP]
-> This section describes our response to the forces/problem. It is stated in full sentences, with active voice. "We will …"
-
-#### Status
-
-> [!TIP]
-> A decision may be "proposed" if the project stakeholders haven't agreed with it yet, or "accepted" once it is agreed. If a later ADR changes or reverses a decision, it may be marked as "deprecated" or "superseded" with a reference to its replacement.
-
-#### Consequences
-
-> [!TIP]
-> This section describes the resulting context, after applying the decision. All consequences should be listed here, not just the "positive" ones. A particular decision may have positive, negative, and neutral consequences, but all of them affect the team and project in the future.
-
-### 8.3. ADR-003 TITLE
-
-> [!TIP]
-> These documents have names that are short noun phrases. For example, "ADR 1: Deployment on Ruby on Rails 3.0.10" or "ADR 9: LDAP for Multitenant Integration". The whole ADR should be one or two pages long. We will write each ADR as if it is a conversation with a future developer. This requires good writing style, with full sentences organized into paragraphs. Bullets are acceptable only for visual style, not as an excuse for writing sentence fragments. (Bullets kill people, even PowerPoint bullets.)
-
-#### Context
-
-> [!TIP]
-> This section describes the forces at play, including technological, political, social, and project local. These forces are probably in tension, and should be called out as such. The language in this section is value-neutral. It is simply describing facts about the problem we're facing and points out factors to take into account or to weigh when making the final decision.
-
-#### Considered Options
-
-> [!TIP]
-> This section describes the options that were considered, and gives some indication as to why the chosen option was selected.
-
-#### Decision
-
-> [!TIP]
-> This section describes our response to the forces/problem. It is stated in full sentences, with active voice. "We will …"
-
-#### Status
-
-> [!TIP]
-> A decision may be "proposed" if the project stakeholders haven't agreed with it yet, or "accepted" once it is agreed. If a later ADR changes or reverses a decision, it may be marked as "deprecated" or "superseded" with a reference to its replacement.
-
-#### Consequences
-
-> [!TIP]
-> This section describes the resulting context, after applying the decision. All consequences should be listed here, not just the "positive" ones. A particular decision may have positive, negative, and neutral consequences, but all of them affect the team and project in the future.
-
-### 8.4. ADR-004 TITLE
-
-> [!TIP]
-> These documents have names that are short noun phrases. For example, "ADR 1: Deployment on Ruby on Rails 3.0.10" or "ADR 9: LDAP for Multitenant Integration". The whole ADR should be one or two pages long. We will write each ADR as if it is a conversation with a future developer. This requires good writing style, with full sentences organized into paragraphs. Bullets are acceptable only for visual style, not as an excuse for writing sentence fragments. (Bullets kill people, even PowerPoint bullets.)
-
-#### Context
-
-> [!TIP]
-> This section describes the forces at play, including technological, political, social, and project local. These forces are probably in tension, and should be called out as such. The language in this section is value-neutral. It is simply describing facts about the problem we're facing and points out factors to take into account or to weigh when making the final decision.
-
-#### Considered Options
-
-> [!TIP]
-> This section describes the options that were considered, and gives some indication as to why the chosen option was selected.
-
-#### Decision
-
-> [!TIP]
-> This section describes our response to the forces/problem. It is stated in full sentences, with active voice. "We will …"
-
-#### Status
-
-> [!TIP]
-> A decision may be "proposed" if the project stakeholders haven't agreed with it yet, or "accepted" once it is agreed. If a later ADR changes or reverses a decision, it may be marked as "deprecated" or "superseded" with a reference to its replacement.
-
-#### Consequences
-
-> [!TIP]
-> This section describes the resulting context, after applying the decision. All consequences should be listed here, not just the "positive" ones. A particular decision may have positive, negative, and neutral consequences, but all of them affect the team and project in the future.
-
-### 8.5. ADR-005 TITLE
-
-> [!TIP]
-> These documents have names that are short noun phrases. For example, "ADR 1: Deployment on Ruby on Rails 3.0.10" or "ADR 9: LDAP for Multitenant Integration". The whole ADR should be one or two pages long. We will write each ADR as if it is a conversation with a future developer. This requires good writing style, with full sentences organized into paragraphs. Bullets are acceptable only for visual style, not as an excuse for writing sentence fragments. (Bullets kill people, even PowerPoint bullets.)
-
-#### Context
-
-> [!TIP]
-> This section describes the forces at play, including technological, political, social, and project local. These forces are probably in tension, and should be called out as such. The language in this section is value-neutral. It is simply describing facts about the problem we're facing and points out factors to take into account or to weigh when making the final decision.
-
-#### Considered Options
-
-> [!TIP]
-> This section describes the options that were considered, and gives some indication as to why the chosen option was selected.
-
-#### Decision
-
-> [!TIP]
-> This section describes our response to the forces/problem. It is stated in full sentences, with active voice. "We will …"
-
-#### Status
-
-> [!TIP]
-> A decision may be "proposed" if the project stakeholders haven't agreed with it yet, or "accepted" once it is agreed. If a later ADR changes or reverses a decision, it may be marked as "deprecated" or "superseded" with a reference to its replacement.
-
-#### Consequences
-
-> [!TIP]
-> This section describes the resulting context, after applying the decision. All consequences should be listed here, not just the "positive" ones. A particular decision may have positive, negative, and neutral consequences, but all of them affect the team and project in the future.
 
 ## 9. Deployment, Operation and Support
 
