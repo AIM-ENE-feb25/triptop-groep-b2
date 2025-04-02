@@ -37,4 +37,6 @@ Backend -> MollieAPI : 6. Verwerken betaling
 'Backend <- MollieAPI : 8. Bevestiging betaling
 Backend -> WebApp : 7. Bevestiging boeking tonen
 
+SHOW_LEGEND(true)
+
 @enduml
