@@ -8,6 +8,7 @@ class WebApp {
 
 class FlightController {
     +fetchFlightData(flightQuery: FlightQuery): FlightResults
+    +fetchNearbyAirports(airport: String): AirportResults
 }
 
 class StrategyController {
@@ -19,10 +20,11 @@ class FlightService {
     -flightDataStrategy: FlightDataStrategy
     +setFlightDataStrategy(strategy: FlightDataStrategy)
     +fetchFlightData(flightQuery: FlightQuery): FlightResults
+    +fetchNearbyAirports(airport: String): AirportResults
 }
 
 class StrategyService {
-    -StrategyConfig: StrategyConfig
+    -strategyConfig: StrategyConfig
     +setCurrentStrategy(strategy: String)
     +getCurrentStrategy(): String
 }
@@ -48,14 +50,14 @@ class StrategyConfig {
 }
 
 ' Relationships
-WebApp --> FlightController : "Uses"
-WebApp --> StrategyController : "Uses"
-FlightController --> FlightService : "Uses"
-StrategyController --> StrategyService : "Uses"
-FlightService --> FlightDataStrategy : "Uses"
-StrategyService --> StrategyConfig : "Uses"
+WebApp --> FlightController : "Handles flight search"
+WebApp --> StrategyController : "Manages strategy selection"
+FlightController --> FlightService : "Requests flight data"
+StrategyController --> StrategyService : "Delegates strategy handling"
+FlightService o-- FlightDataStrategy : "Uses selected strategy"
+StrategyService *-- StrategyConfig : "Stores current strategy"
 
-FlightDataStrategy <|-- AeroDataBoxProvider
-FlightDataStrategy <|-- FlightRadar24Provider
+FlightDataStrategy <|.. AeroDataBoxProvider : "Implements"
+FlightDataStrategy <|.. FlightRadar24Provider : "Implements"
 
 @enduml
