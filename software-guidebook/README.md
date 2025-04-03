@@ -448,6 +448,10 @@ Om de Triptop-applicatie te installeren en uit te voeren, volg je de volgende st
   mapbox.api.url=https://api.mapbox.com/directions/v5/mapbox/driving
   mapbox.api.key=JOUW_MAPBOX_API_KEY
   ```
+- Voeg een `.env` bestand toe met API-sleutels:
+```
+
+```
 
 #### 4. **Start de applicatie**
 - Gebruik Maven om de applicatie te starten of start het via the IDE:
