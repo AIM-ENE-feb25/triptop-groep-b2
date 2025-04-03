@@ -147,21 +147,21 @@ Dit diagram toont de flow van het boeken van een reis binnen de **Triptop** appl
 > [!IMPORTANT]
 > Voeg toe: Component Diagram plus een Dynamic Diagram van een aantal scenario's inclusief begeleidende tekst.
 
-#### 7.2.1 Component Diagram
+#### 7.2.1 Component Diagram Frontend
 ![Component Frontend Diagram](../opdracht-diagrammen/componentDiagramFrontend.png)
 
-De Frontend van TripTop bevat verschillende React-componenten, zoals App, Header, Login, Kaart, Travel, Hotel, Payment, en Food, die communiceren met de Backend.
+De frontend van TripTop is ontworpen om een naadloze en gebruiksvriendelijke ervaring te bieden voor reizigers bij het plannen van hun reizen. De applicatie is opgebouwd met React en bestaat uit verschillende componenten die samenwerken om de gebruiker door de reisplanning te leiden. Belangrijk is de flexibiliteit van de interface, waarbij gebruikers snel kunnen schakelen tussen verschillende secties zoals Hotel, Travel, Kaart en Food zonder verlies van context.
 
-Voor de Login functionaliteit wordt een externe API gebruikt om de gebruiker in te loggen, waarbij een token in de database wordt opgeslagen om de sessie van de gebruiker bij te houden.
+De Header zorgt voor eenvoudige navigatie tussen de verschillende secties, terwijl de Login-component het gebruikers mogelijk maakt zich snel in te loggen via gestandaardiseerde inlogopties. Het systeem is geoptimaliseerd voor het snel ophalen en weergeven van gegevens, zoals route-informatie van de MapBox API, en reisopties van de backend.
 
-#### 7.2.2 Component Diagram
+De frontend zorgt voor een dynamische interactie met de backend, waarbij gebruikers hun reisgegevens en betalingen kunnen beheren via de Payment en Hotel componenten. De frontend is dus niet alleen een weergave van de data, maar fungeert als een interactief platform waar de gebruiker zijn reis samenstelt, boekt en betaalt met minimale vertraging.
+
+#### 7.2.2 Component Diagram Backend
 ![Component Backend Diagram](../opdracht-diagrammen/componentDiagramBackend.png)
 
-Dit backend componentendiagram toont de architectuur van een uitgavenbeheerapplicatie waarin gebruikers vluchten, hotels, treinen en eten kunnen boeken en betalingen kunnen uitvoeren. De React WebApp communiceert via REST API’s met een Spring Boot backend, die modulair is opgebouwd met gescheiden controllers en services.
+Het backend van het systeem is opgebouwd met Spring Boot en bestaat uit verschillende componenten die elk een specifieke taak vervullen in de verwerking van reisgerelateerde gegevens. Het beheert niet alleen de interacties met de externe API’s voor hotels, vluchten, treinen, betalingen en eten, maar zorgt ook voor de interne verwerking van gegevens en de opslag in de PostgreSQL database. Belangrijk is dat de backend een gedetailleerde scheiding heeft tussen de controllers, services en providers, waardoor elke functionaliteit modulair en flexibel is. Dit maakt het mogelijk om eenvoudig nieuwe externe systemen te integreren of bestaande services aan te passen zonder de rest van de backend te beïnvloeden.
 
-Authenticatie verloopt via een externe Identity Provider API, waardoor gebruikers eenvoudig kunnen inloggen via Apple, Google of Microsoft. Gegevens worden opgeslagen in een PostgreSQL-database, terwijl externe API’s zoals AeroDataBox (vluchten), Booking.com (hotels), Mollie (betalingen), All Aboard (treinen) en Grubhub (eten) worden gebruikt voor dataverwerking.
-
-Elke functionele eenheid volgt een vaste structuur met een controller voor verzoeken, een service voor logica en (indien nodig) een repository voor database-interacties. Dit zorgt voor een schaalbare, onderhoudbare en eenvoudig uitbreidbare backend.
+De backend zorgt voor een betrouwbare afhandeling van loginverzoeken door gebruik te maken van een gestandaardiseerde LoginController en een LoginService, die gebruikersgegevens valideren. Het systeem maakt ook gebruik van abstracties via providers, zoals HotelProvider en PaymentProvider, die de communicatie met externe systemen zoals Mollie API voor betalingen en Grubhub API voor eten afhandelen. Deze abstracties zorgen ervoor dat de backend eenvoudig kan communiceren met externe API's, en het maakt de backend uitbreidbaar voor andere systemen die in de toekomst mogelijk geïntegreerd moeten worden.
 
 #### 7.2.3 Component Diagram
 ![Dyanimc Diagram](../opdracht-diagrammen/dynamicComponentDiagramBackendBetalen.png)
@@ -235,7 +235,9 @@ In bovenstaand diagram is de architectuur, bijbehorend bij de vraag **"Hoe zorg 
 #### 7.3.3
 ![Strategy pattern](../opdracht-diagrammen/class-diagram-nils.png)
 
-In het klasse diagram zijn verschillende specifieke details niet zichtbaar. Het diagram toont niet de gedetailleerde attributen van domeinobjecten zoals FlightDetails en AirportDetails. Daarnaast worden de interne werking van utility-klassen zoals FlightMapper en AirportMapper niet weergegeven. Deze mappers behandelen de conversie van API-responses naar domeinobjecten, maar hun logica en de exacte structuur van de gegevens die ze verwerken, zijn niet vertegenwoordigd in het diagram. Het diagram maakt gebruik van het strategy design pattern
+De frontend van de webapplicatie biedt een intuïtieve gebruikersinterface die gebruikers in staat stelt om eenvoudig naar vluchtinformatie te zoeken en vluchtstatussen te bekijken. De gebruikers kunnen vluchtnummers invoeren in zoekvelden en de resultaten worden direct getoond, zoals de huidige vluchtstatus of vertragingen. Bovendien biedt de frontend de mogelijkheid om een specifieke zoekstrategie te kiezen, zoals het ophalen van gegevens van AeroDataBox of FlightRadar24. Deze keuze wordt doorgestuurd naar de backend via de StrategyController, die ervoor zorgt dat de juiste strategie wordt toegepast voor het ophalen van de gewenste gegevens.
+
+De communicatie tussen de frontend en de backend gebeurt asynchroon, wat betekent dat de pagina niet opnieuw hoeft te laden bij het ophalen van nieuwe informatie, wat de gebruikerservaring versnelt en de applicatie naadloos maakt. Als er fouten optreden, bijvoorbeeld bij het invoeren van een ongeldig vluchtnummer of locatie, toont de frontend duidelijke foutmeldingen om de gebruiker hierover te informeren. Dit zorgt ervoor dat de applicatie zowel snel als gebruiksvriendelijk is, met een efficiënte en duidelijke interactie tussen de frontend en de backend.
 
 #### 7.3.3.1 Ophalen van vluchten
 ![Sequence diagram ophalen van vluchten](../opdracht-diagrammen/sequenceDiagramSearchFlights.png)
