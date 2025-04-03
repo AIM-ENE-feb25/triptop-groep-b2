@@ -233,6 +233,9 @@ In bovenstaand diagram is de architectuur, bijbehorend bij de vraag **"Hoe zorg 
 ![Strategy Pattern](../opdracht-diagrammen/classDiagramQuestion.png)
 Het diagram toont de structuur van de klassen, maar laat bepaalde details weg, zoals de specifieke logica van de FlightDataStrategy providers, de werking van de FlightStatus (bijvoorbeeld hoe en wanneer de status wordt bijgewerkt), en de beveiliging/validatie van login- en autorisatieprocessen. Ook is de relatie tussen FlightStatus en FlightDetails niet expliciet weergegeven, ondanks de mogelijke logische koppeling via het vluchtnummer.
 
+#### 7.3.4
+![Samengevoegde diagram](../opdracht-diagrammen/SamenGevoegdeKlassenDiagram.png)
+
 ## 8. Architectural Decision Records
 
 ### 8.1. ADR-0001-Payment Options
