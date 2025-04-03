@@ -93,11 +93,12 @@ Voordat deze casusomschrijving tot stand kwam, heeft de opdrachtgever de volgend
 
 > [!IMPORTANT]
 > Beschrijf zelf de beperkingen die op voorhand bekend zijn die invloed hebben op keuzes die wel of niet gemaakt kunnen of mogen worden.
-
 ## 6. Principles
 
 > [!IMPORTANT]
 > Beschrijf zelf de belangrijkste architecturele en design principes die zijn toegepast in de software.
+
+
 
 ## 7. Software Architecture
 
@@ -407,6 +408,6 @@ Je moet de volgende stappen volgen om de Triptop-applicatie te installeren en ui
 Springboot hebben geïnstalleerd en een IDE zoals IntelliJ IDEA of Eclipse hebben geïnstalleerd.
 Clone de repository van Triptop vanuit de GitHub-repository.
 Open de backend-map in je IDE en start de Spring Boot-applicatie.
-Je hebt Postman/Insomnia nodig om de API-endpoints te testen voor de prototypes.
+Open de frontend-map in een terminal en voer het commando npm install uit om de benodigde afhankelijkheden te installeren.
 
 
