@@ -174,14 +174,14 @@ Dit diagram toont de flow van het boeken van een reis binnen de **Triptop** appl
 > Voeg toe: Component Diagram plus een Dynamic Diagram van een aantal scenario's inclusief begeleidende tekst.
 
 #### 7.2.1 Component Diagram
-![Component Frontend Diagram](../opdracht-diagrammen/component-diagram-frontend.png)
+![Component Frontend Diagram](../opdracht-diagrammen/componentDiagramFrontend.png)
 
 De Frontend van TripTop bevat verschillende React-componenten, zoals App, Header, Login, Kaart, Travel, Hotel, Payment, en Food, die communiceren met de Backend.
 
 Voor de Login functionaliteit wordt een externe API gebruikt om de gebruiker in te loggen, waarbij een token in de database wordt opgeslagen om de sessie van de gebruiker bij te houden.
 
 #### 7.2.2 Component Diagram
-![Component Backend Diagram](../opdracht-diagrammen/diagramNils.png)
+![Component Backend Diagram](../opdracht-diagrammen/componentDiagramBackend.png)
 
 Dit backend componentendiagram toont de architectuur van een uitgavenbeheerapplicatie waarin gebruikers vluchten, hotels, treinen en eten kunnen boeken en betalingen kunnen uitvoeren. De React WebApp communiceert via REST API’s met een Spring Boot backend, die modulair is opgebouwd met gescheiden controllers en services.
 
@@ -190,7 +190,7 @@ Authenticatie verloopt via een externe Identity Provider API, waardoor gebruiker
 Elke functionele eenheid volgt een vaste structuur met een controller voor verzoeken, een service voor logica en (indien nodig) een repository voor database-interacties. Dit zorgt voor een schaalbare, onderhoudbare en eenvoudig uitbreidbare backend.
 
 #### 7.2.3 Component Diagram
-![Dyanimc Diagram](../opdracht-diagrammen/diagram-Dynamic.png)
+![Dyanimc Diagram](../opdracht-diagrammen/dynamicComponentDiagramBackendBetalen.png)
 
 Dit dynamische componentendiagram beschrijft de betalingsverwerking in een webapplicatie voor uitgavenbeheer. De gebruiker initieert een betaling via de WebApp (React), die het verzoek doorstuurt naar de backend (Spring Boot).
 
