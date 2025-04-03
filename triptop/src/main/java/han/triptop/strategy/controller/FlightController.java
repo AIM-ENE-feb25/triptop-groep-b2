@@ -11,16 +11,21 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 @RequestMapping("/api/flights")
 public class FlightController {
-  private final FlightService aeroDataBoxService;
+  private final FlightService flightService;
 
   @Autowired
-  public FlightController(FlightService aeroDataBoxService) {
-    this.aeroDataBoxService = aeroDataBoxService;
+  public FlightController(FlightService flightService) {
+    this.flightService = flightService;
   }
 
   // Endpoint to get flight data
   @GetMapping("/{flightNumber}")
   public String getFlightData(@PathVariable String flightNumber) throws JsonProcessingException {
-    return aeroDataBoxService.getFlightData(flightNumber);
+    return flightService.getFlightData(flightNumber);
+  }
+
+  @GetMapping("/search/{searchTerm}")
+  public String getNearestAirport(@PathVariable String searchTerm) throws JsonProcessingException {
+    return flightService.getNearestAirport(searchTerm);
   }
 }

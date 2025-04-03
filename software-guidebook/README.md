@@ -98,7 +98,26 @@ Voordat deze casusomschrijving tot stand kwam, heeft de opdrachtgever de volgend
 > [!IMPORTANT]
 > Beschrijf zelf de belangrijkste architecturele en design principes die zijn toegepast in de software.
 
+### 1. Modulariteit & Scheiding van Verantwoordelijkheden
+- De software maakt gebruik van een **Factory Pattern** (`MapServiceFactory`) om de keuze tussen verschillende kaartdiensten (Google Maps en Mapbox) flexibel te houden.
+- Elke kaartservice (`GoogleMapsService` en `MapBoxService`) implementeert een gemeenschappelijke interface (`MapService`), wat zorgt voor duidelijke scheiding van verantwoordelijkheden.
 
+### 2. Configuratie via Properties
+- API-keys en basis-URL’s worden opgeslagen in een `application.properties` bestand, zodat ze niet hardcoded in de code staan.
+- Dit verhoogt de veiligheid en flexibiliteit van de applicatie.
+
+### 3. RESTful API Design
+- De applicatie biedt een duidelijke en consistente API (`/maps/route`) waarin de gebruiker dynamisch een provider kan kiezen via query parameters.
+- HTTP GET requests worden gebruikt om routes op te vragen, wat past bij RESTful principes.
+
+### 4. Externe API Integratie
+- **Google Maps API** wordt aangesproken via **RapidAPI**, waarbij authenticatie gebeurt met de juiste headers (`x-rapidapi-key`).
+- **Mapbox API** wordt direct benaderd via een correcte URL-constructie met `RestTemplate`.
+- De API-aanroepen worden dynamisch gegenereerd op basis van de opgegeven coördinaten en instellingen.
+
+### 5. Logging & Debugging
+- Responses van de API's worden gelogd (`System.out.println`), zodat fouten zoals "Invalid API Key" of "NoSegment" snel gedetecteerd kunnen worden.
+- Dit helpt bij het debuggen en optimaliseren van de integratie met externe kaartservices.
 
 ## 7. Software Architecture
 
@@ -156,17 +175,28 @@ Authenticatie verloopt via een externe Identity Provider API, waardoor gebruiker
 
 Elke functionele eenheid volgt een vaste structuur met een controller voor verzoeken, een service voor logica en (indien nodig) een repository voor database-interacties. Dit zorgt voor een schaalbare, onderhoudbare en eenvoudig uitbreidbare backend.
 
-
-| Class::Attribuut                              | Is input voor API+Endpoint                          | Wordt gevuld door API+Endpoint | Wordt geleverd door eindgebruiker | Moet worden opgeslagen in de applicatie |
-|-----------------------------------------------|-----------------------------------------------------|--------------------------------|-----------------------------------|-----------------------------------------|
-| MapService::getRoute(start, end)              | Google Maps API /directions, MapBox API /directions | ✅                              | ✅                                 | ❌                                       |
-| MapService::getMap(location, zoomLevel)       | Google Maps API /staticmap, MapBox API /static      | ✅                              | ✅                                 | ❌                                       |
-| GoogleMapsService::someGoogleSpecificMethod() | Google Maps API specifieke functionaliteit          | ✅                              | ❌                                 | ❌                                       |
-| MapBoxService::someMapBoxSpecificMethod()     | MapBox API specifieke functionaliteit               | ✅                              | ❌                                 | ❌                                       |
-| MapController::handleRequest(request)         | ❌                                                   | ❌                              | ✅                                 | ❌                                       |
-| MapServiceFactory::createService(provider)    | ❌                                                   | ❌                              | ✅                                 | ❌                                       |
-
-
+| Class::Attribuut                                                | Is input voor API+Endpoint                          | Wordt gevuld door API+Endpoint | Wordt geleverd door eindgebruiker | Moet worden opgeslagen in de applicatie |
+|-----------------------------------------------------------------|-----------------------------------------------------|--------------------------------|-----------------------------------|-----------------------------------------|
+| MapService::getRoute(start, end)                                | Google Maps API /directions, MapBox API /directions | ✅                              | ✅                                 | ❌                                       |
+| MapService::getMap(location, zoomLevel)                         | Google Maps API /staticmap, MapBox API /static      | ✅                              | ✅                                 | ❌                                       |
+| GoogleMapsService::someGoogleSpecificMethod()                   | Google Maps API specifieke functionaliteit          | ✅                              | ❌                                 | ❌                                       |
+| MapBoxService::someMapBoxSpecificMethod()                       | MapBox API specifieke functionaliteit               | ✅                              | ❌                                 | ❌                                       |
+| MapController::handleRequest(request)                           | ❌                                                 | ❌                              | ✅                                 | ❌                                       |
+| MapServiceFactory::createService(provider)                      | ❌                                                 | ❌                              | ✅                                 | ❌                                       |
+| MapboxController::getDirections(origin, waypoints, destination) | GET /directions                                    | ✅                              | ✅                                 | ❌                                       |
+| MapboxController::getRouting()                                  | GET /routing                                       | ✅                              | ❌                                 | ❌                                       |
+| MapboxController::nextRouting()                                 | POST /routing                                      | ✅                              | ❌                                 | ❌                                       |
+| WebApp::searchFlights(flightQuery)                              | AeroDataBox API /flights/search, FR24 API /flights | ✅                              | ✅                                 | ❌                                       |
+| WebApp::getFlightStatus(flightDetails)                          | AeroDataBox API /flights/status, FR24 API /status  | ✅                              | ✅                                 | ❌                                       |
+| FlightController::fetchFlightData(flightQuery)                  | AeroDataBox API /flights/search, FR24 API /flights | ✅                              | ✅                                 | ❌                                       |
+| FlightService::fetchFlightData(flightQuery)                     | AeroDataBox API /flights/search, FR24 API /flights | ✅                              | ✅                                 | ❌                                       |
+| FlightService::setFlightDataStrategy(strategy)                  | ❌                                                 | ❌                              | ✅                                 | ✅                                       |
+| StrategyService::setCurrentStrategy(strategy)                   | ❌                                                 | ❌                              | ✅                                 | ✅                                       |
+| StrategyService::getCurrentStrategy()                           | ❌                                                 | ✅                              | ❌                                 | ✅                                       |
+| AeroDataBoxProvider::fetchFlightData(flightQuery)               | AeroDataBox API /flights/search                    | ✅                              | ✅                                 | ❌                                       |
+| AeroDataBoxProvider::fetchNearbyAirports(airport)               | AeroDataBox API /airports/nearby                   | ✅                              | ✅                                 | ❌                                       |
+| FlightRadar24Provider::fetchFlightData(flightQuery)             | FlightRadar24 API /flights/search                  | ✅                              | ✅                                 | ❌                                       |
+| FlightRadar24Provider::fetchNearbyAirports(airport)             | FlightRadar24 API /airports/nearby                 | ✅                              | ✅                                 | ❌                                       |
 
 ![Dyanimc Diagram](../opdracht-diagrammen/diagram-Dynamic.png)
 Dit dynamische componentendiagram beschrijft de betalingsverwerking in een webapplicatie voor uitgavenbeheer. De gebruiker initieert een betaling via de WebApp (React), die het verzoek doorstuurt naar de backend (Spring Boot).
@@ -199,6 +229,9 @@ In bovenstaand diagram is de architectuur, bijbehorend bij de vraag **"Hoe zorg 
 #### 7.3.3
 ![Strategy Pattern](../opdracht-diagrammen/classDiagramQuestion.png)
 Het diagram toont de structuur van de klassen, maar laat bepaalde details weg, zoals de specifieke logica van de FlightDataStrategy providers, de werking van de FlightStatus (bijvoorbeeld hoe en wanneer de status wordt bijgewerkt), en de beveiliging/validatie van login- en autorisatieprocessen. Ook is de relatie tussen FlightStatus en FlightDetails niet expliciet weergegeven, ondanks de mogelijke logische koppeling via het vluchtnummer.
+
+#### 7.3.4
+![Samengevoegde diagram](../opdracht-diagrammen/SamenGevoegdeKlassenDiagram.png)
 
 ## 8. Architectural Decision Records
 
@@ -310,14 +343,14 @@ Het systeem moet flexibel blijven als het gaat om externe services. We willen ve
 
 ## Considered Options
 
-|Forces| Strategy Pattern | Adapter Pattern | Facade Pattern | Factory Method Pattern | State Pattern |  
-|---|---|---|---|---|---|  
-|Losse koppeling | ++ | ++ | + | + | ++ |  
-|Onderhoudbaarheid | ++ | + | ++ | - | ++ |  
-|Complexiteit | - | 0 | + | -- | + |  
-|Gemak van wisselen van externe services | ++ | + | 0 | - | + |  
-|Testbaarheid | ++ | + | - | 0 | ++ |  
-|Geschiktheid voor variërende services | ++ | 0 | + | + | ++ |  
+| Forces                                  | Strategy Pattern | Adapter Pattern | Facade Pattern | Factory Method Pattern | State Pattern |
+|-----------------------------------------|------------------|-----------------|----------------|------------------------|---------------|
+| Losse koppeling                         | ++               | ++              | +              | +                      | ++            |
+| Onderhoudbaarheid                       | ++               | +               | ++             | -                      | ++            |
+| Complexiteit                            | +                | 0               | -              | ++                     | -             |
+| Gemak van wisselen van externe services | ++               | +               | 0              | -                      | +             |
+| Testbaarheid                            | ++               | +               | -              | 0                      | ++            |
+| Geschiktheid voor variërende services   | ++               | 0               | +              | +                      | ++            |
 
 ## Decision
 We kiezen voor het **Strategy Pattern**, omdat dit de meest flexibele en modulaire oplossing biedt. Elke externe service wordt geïnjecteerd als een implementatie van een generieke interface, waardoor we eenvoudig kunnen wisselen tussen providers zonder de kernlogica te wijzigen.
@@ -350,13 +383,13 @@ De Factory Method Pattern wordt gekozen om deze flexibiliteit te bieden, waarbij
 zonder de koppeling tussen componenten te verhogen.
 ## Considered Options
 
-| Forces                                      | Adapter Pattern | Facade Pattern | Factory Method Pattern | State Pattern | Strategy Pattern |  
+| Forces                                      | Adapter Pattern | Facade Pattern | Factory Method Pattern | State Pattern | Strategy Pattern |
 |---------------------------------------------|-----------------|----------------|------------------------|---------------|------------------|
 | **Complexiteit**                            | --              | 0              | +                      | +             | 0                |
 | **Losse koppeling**                         | +               | ++             | ++                     | 0             | +                |
 | **Gemak van wisselen van externe services** | ++              | +              | +                      | -             | +                |
 | **Onderhoudbaarheid**                       | 0               | -              | ++                     | -             | +                |
-| **Testbaarheid**                            | -               | --             | +                      | 0             | +                | 
+| **Testbaarheid**                            | -               | --             | +                      | 0             | +                |
 
 ## Decision
 
@@ -403,11 +436,47 @@ Het gevolg van het niet meer mogen gebruiken van de Strategy Pattern is dat de i
 
 ## 9. Deployment, Operation and Support
 
-Je moet de volgende stappen volgen om de Triptop-applicatie te installeren en uit te voeren:
+### Stappen voor Deployment
+Om de Triptop-applicatie te installeren en uit te voeren, volg je de volgende stappen:
 
-Springboot hebben geïnstalleerd en een IDE zoals IntelliJ IDEA of Eclipse hebben geïnstalleerd.
-Clone de repository van Triptop vanuit de GitHub-repository.
-Open de backend-map in je IDE en start de Spring Boot-applicatie.
-Open de frontend-map in een terminal en voer het commando npm install uit om de benodigde afhankelijkheden te installeren.
+#### 1. **Voorbereiding van de omgeving**
+- Zorg ervoor dat **Java 17** en **Spring Boot** zijn geïnstalleerd.
+- Installeer een geschikte IDE zoals **IntelliJ IDEA** of **Eclipse**.
 
+#### 2. **Code verkrijgen**
+- Clone de repository vanuit GitHub:
+- Navigeer naar de backend-map:
 
+#### 3. **Configuratie instellen**
+- Voeg een `application.properties` bestand toe met API-sleutels:
+  ```properties
+  google.maps.api.url=https://google-map-places-new-v2.p.rapidapi.com
+  google.maps.api.key=JOUW_RAPIDAPI_KEY
+
+  mapbox.api.url=https://api.mapbox.com/directions/v5/mapbox/driving
+  mapbox.api.key=JOUW_MAPBOX_API_KEY
+  ```
+- Voeg ook een `.env` bestand toe met API-sleutels:
+```
+  RAPIDAPI_KEY=JOUW_RAPIDAPI_KEY
+  RAPIDAPI_HOST=aerodatabox.p.rapidapi.com
+  FlightScraper_Host=sky-scanner3.p.rapidapi.com
+  AirScraper_Host=sky-scrapper.p.rapidapi.com
+```
+
+#### 4. **Start de applicatie**
+- Gebruik Maven om de applicatie te starten of start het via the IDE:
+  ```sh
+  mvn spring-boot:run
+  ```
+
+#### 5. **Test de API**
+- Gebruik **Postman** of **Insomnia** om de API-endpoints te testen.
+- Een voorbeeldverzoek voor het ophalen van informatie via Mapbox:
+  ```http
+  GET http://localhost:8080/maps/route?provider=mapbox&startLat=52.3676&startLng=4.9041&endLat=51.5074&endLng=-0.1278
+  ```
+### Onderhoud en Support
+- **Logging**: Fouten en waarschuwingen worden gelogd via SLF4J/Logback.
+- **Monitoring**: Toekomstige integratie met een monitoring-tool zoals Prometheus/Grafana.
+- **Bugfixing**: Issues worden bijgehouden in GitHub Issues en opgelost via pull requests.
