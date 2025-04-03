@@ -14,33 +14,14 @@ Dit software guidebook geeft een overzicht van de Triptop-applicatie. Het bevat 
 
 ![System Context Diagram](../opdracht-diagrammen/Context_Diagram_Triptop_Systeem.png)
 
-**Triptop** is een online platform dat reizigers helpt bij het plannen van reizen met meerdere bestemmingen. Het biedt een gebruiksvriendelijke interface waarmee gebruikers hun reizen kunnen organiseren door verschillende elementen zoals vluchten, treinreizen, verblijven en eet- en drinkopties te combineren. Het platform maakt gebruik van verschillende externe API's om gegevens te verkrijgen en biedt gepersonaliseerde reisopties op basis van de voorkeuren van de reiziger.
+In de frontend van **Triptop** kunnen reizigers hun vakantie plannen door verschillende reiscomponenten, zoals overnachtingen, vervoer en activiteiten, te combineren. De gebruikersinterface biedt reizigers de mogelijkheid om deze bouwstenen toe te voegen, te beheren en te boeken. Elke component heeft een duidelijke status, zoals "gepland", "betaald", "geregeld" of "uitgevoerd", die wordt weergegeven zodat reizigers altijd weten in welke fase hun reis zich bevindt.
 
-Functionaliteiten:
+Reizigers kunnen eenvoudig schakelen tussen verschillende externe systemen, zoals boekingsplatforms voor overnachtingen of vervoersdiensten, binnen de applicatie.
 
-**Multi-bestemmingsplanner:** Reizigers kunnen een reis plannen met meerdere bestemmingen, waarbij Triptop helpt bij het organiseren van routes, verblijven en activiteiten.
+Daarnaast maakt Triptop gebruik van een centrale identity provider waarmee reizigers zich kunnen inloggen via accounts zoals Google, Microsoft of Airbnb. Dit elimineert de noodzaak voor het aanmaken van een apart Triptop-account en zorgt voor een gestroomlijnde gebruikerservaring.
 
-**Integratie van externe diensten:** Triptop integreert met externe systemen voor boekingen van vluchten, treinen, hotels en restaurants, evenals betalingen en inlogfunctionaliteiten.
+De frontend houdt reizigers op de hoogte van de voortgang van hun reis. Dit omvat het tonen van updates over de status van boekingen, betalingen en andere belangrijke reisinformatie. De applicatie biedt ook de mogelijkheid om reisplannen aan te passen, annuleren of betalingen te verrichten, wat essentieel is voor de functionaliteit van het platform. De gebruikersinterface is ontworpen om deze interacties op een duidelijke, gebruiksvriendelijke manier te presenteren, wat bijdraagt aan een optimale ervaring voor de reiziger.
 
-**Flexibiliteit:** Triptop is ontworpen om eenvoudig nieuwe externe API's te integreren, zodat de reiziger toegang heeft tot de nieuwste diensten en mogelijkheden.
-
-## Gebruikers
-- **Reiziger**: Stelt reizen samen en boekt transport/accommodaties.
-- **Administrator**: Beheert het systeem en de gebruikers.
-
-## Externe Systemen
-- **Identity Provider API**: Authenticatie via Apple, Google, Microsoft.
-- **Demand API (Booking.com)**: Accommodatie- en transportboeking.
-- **Mollie API**: Betalingen via iDEAL, Klarna, PayPal.
-- **Google Maps API**: Routeplanning en kaarten.
-- **All Aboard API**: Treinreizen binnen Europa.
-- **AeroDataBox API**: Vluchttijden en -routes.
-- **Grubhub API**: Eten en drinken via restaurants.
-
-Toelichting op de context van de software inclusief System Context Diagram:
-* Functionaliteit
-* Gebruikers
-* Externe systemen
 
 ## 3. Functional Overview
 
@@ -134,18 +115,11 @@ Voordat deze casusomschrijving tot stand kwam, heeft de opdrachtgever de volgend
 #### 7.1.1 Container Diagram
 ![Container Diagram](../opdracht-diagrammen/Container_Diagram_Triptop_Systeem.png)
 
-Triptop is een reisplatform dat meerdere externe systemen integreert. De Web Applicatie is de interface voor de gebruiker, maar de Backend is verantwoordelijk voor de verwerking van gegevens en interacties met externe systemen. De Database slaat reis- en reserveringsinformatie op, maar de specifieke datamodellen en structuren worden niet gedetailleerd beschreven in het diagram.
+Het Triptop-systeem bestaat uit verschillende componenten die samenwerken om een reisplatform te ondersteunen. De Webapplicatie biedt de interface voor gebruikers, terwijl de Backend de logica en verwerking van reisboekingen afhandelt. De Database slaat belangrijke reis- en gebruikersgegevens op.
 
-**Externe Integraties:**
-**Identity Provider API:** Verwerkt authenticatie via externe providers zoals Google, Apple en Microsoft, maar de methodes en technieken van authenticatie zijn niet verder gespecificeerd.
+Externe systemen zoals de Identity Provider API en betalingssystemen zoals Mollie API zijn geïntegreerd voor gebruikersauthenticatie en betalingsverwerking. Daarnaast wordt er gebruik gemaakt van verschillende externe APIs voor reisopties, vervoersinformatie en eet- en drinkmogelijkheden.
 
-**Demand API**: Dit systeem haalt reisopties op, maar specifieke parameters voor het aanvragen van gegevens of de dataformaten zijn niet beschreven.
-
-**Mollie API:** Betalingen worden verwerkt, maar het is onduidelijk welke specifieke betalingsopties ondersteund worden of hoe transactiebeveiliging wordt afgehandeld.
-
-Kaart- en route-informatie wordt opgehaald via MapBox en Google Maps API, maar hoe deze systemen worden gecombineerd of welke specifieke kaartfunctionaliteiten worden gebruikt, is niet gedetailleerd.
-
-De backend fungeert dus als een tussenpersoon die verzoeken afhandelt, maar de manier waarop de backend schaalbaar is of hoe foutafhandeling wordt uitgevoerd in de communicatie tussen deze systemen, wordt niet weergegeven in het diagram.
+De communicatie tussen de verschillende onderdelen van het systeem zorgt voor een gestroomlijnde ervaring voor de reiziger, waarbij gegevens over reizen en boekingen up-to-date worden gehouden en verwerkt.
 #### 7.1.2 Dynamic Diagrams
 ##### 7.1.2.1 Login
 ![Dynamic Diagram](../opdracht-diagrammen/Dynamic_Container_Login.png)
