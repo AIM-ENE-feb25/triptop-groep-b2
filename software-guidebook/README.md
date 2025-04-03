@@ -425,11 +425,41 @@ Het gevolg van het niet meer mogen gebruiken van de Strategy Pattern is dat de i
 
 ## 9. Deployment, Operation and Support
 
-Je moet de volgende stappen volgen om de Triptop-applicatie te installeren en uit te voeren:
+### Stappen voor Deployment
+Om de Triptop-applicatie te installeren en uit te voeren, volg je de volgende stappen:
 
-Springboot hebben geïnstalleerd en een IDE zoals IntelliJ IDEA of Eclipse hebben geïnstalleerd.
-Clone de repository van Triptop vanuit de GitHub-repository.
-Open de backend-map in je IDE en start de Spring Boot-applicatie.
-Je hebt Postman/Insomnia nodig om de API-endpoints te testen voor de prototypes.
+#### 1. **Voorbereiding van de omgeving**
+- Zorg ervoor dat **Java 17** en **Spring Boot** zijn geïnstalleerd.
+- Installeer een geschikte IDE zoals **IntelliJ IDEA** of **Eclipse**.
 
+#### 2. **Code verkrijgen**
+- Clone de repository vanuit GitHub:
+- Navigeer naar de backend-map:
+
+#### 3. **Configuratie instellen**
+- Voeg een `application.properties` bestand toe met API-sleutels:
+  ```properties 
+  google.maps.api.url=https://google-map-places-new-v2.p.rapidapi.com
+  google.maps.api.key=JOUW_RAPIDAPI_KEY
+
+  mapbox.api.url=https://api.mapbox.com/directions/v5/mapbox/driving
+  mapbox.api.key=JOUW_MAPBOX_API_KEY
+  ```
+
+#### 4. **Start de applicatie**
+- Gebruik Maven om de applicatie te starten of start het via the IDE:
+  ```sh
+  mvn spring-boot:run
+  ```
+
+#### 5. **Test de API**
+- Gebruik **Postman** of **Insomnia** om de API-endpoints te testen.
+- Een voorbeeldverzoek voor het ophalen van informatie via Mapbox:
+  ```http
+  GET http://localhost:8080/maps/route?provider=mapbox&startLat=52.3676&startLng=4.9041&endLat=51.5074&endLng=-0.1278
+  ```
+### Onderhoud en Support
+- **Logging**: Fouten en waarschuwingen worden gelogd via SLF4J/Logback.
+- **Monitoring**: Toekomstige integratie met een monitoring-tool zoals Prometheus/Grafana.
+- **Bugfixing**: Issues worden bijgehouden in GitHub Issues en opgelost via pull requests.
 
