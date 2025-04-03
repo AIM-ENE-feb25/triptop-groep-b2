@@ -2,13 +2,13 @@
 'https://plantuml.com/class-diagram
 
 class WebApp {
-    +searchFlights(flightQuery: FlightQuery): FlightResults
-    +getFlightStatus(flightDetails: FlightDetails): FlightStatus
+    +searchFlights(): void
+    +getFlightStatus(): void
 }
 
 class FlightController {
-    +fetchFlightData(flightQuery: FlightQuery): FlightResults
-    +fetchNearbyAirports(airport: String): AirportResults
+    +fetchFlightData(flightNumber: String): String
+    +fetchNearbyAirports(location: String): String
 }
 
 class StrategyController {
@@ -17,10 +17,10 @@ class StrategyController {
 }
 
 class FlightService {
-    -flightDataStrategy: FlightDataStrategy
-    +setFlightDataStrategy(strategy: FlightDataStrategy)
-    +fetchFlightData(flightQuery: FlightQuery): FlightResults
-    +fetchNearbyAirports(airport: String): AirportResults
+    -flightDataStrategy: IVluchtDataStrategy
+    +setFlightDataStrategy(strategy: IVluchtDataStrategy)
+    +fetchFlightData(flightNumber: String): String
+    +fetchNearbyAirports(location: String): String
 }
 
 class StrategyService {
@@ -29,18 +29,19 @@ class StrategyService {
     +getCurrentStrategy(): String
 }
 
-interface FlightDataStrategy {
-    +fetchFlightData(flightQuery: FlightQuery): FlightResults
+interface IVluchtDataStrategy {
+    +getFlightData(flightNumber: String): String
+    +getNearestAirport(location: String): String
 }
 
 class AeroDataBoxProvider {
-    +fetchFlightData(flightQuery: FlightQuery): FlightResults
-    +fetchNearbyAirports(airport: String): AirportResults
+    +getFlightData(flightNumber: String): String
+    +getNearestAirport(location: String): String
 }
 
 class FlightRadar24Provider {
-    +fetchFlightData(flightQuery: FlightQuery): FlightResults
-    +fetchNearbyAirports(airport: String): AirportResults
+    +getFlightData(flightNumber: String): String
+    +getNearestAirport(location: String): String
 }
 
 class StrategyConfig {
@@ -54,10 +55,10 @@ WebApp --> FlightController : "Handles flight search"
 WebApp --> StrategyController : "Manages strategy selection"
 FlightController --> FlightService : "Requests flight data"
 StrategyController --> StrategyService : "Delegates strategy handling"
-FlightService o-- FlightDataStrategy : "Uses selected strategy"
+FlightService o-- IVluchtDataStrategy : "Uses selected strategy"
 StrategyService *-- StrategyConfig : "Stores current strategy"
 
-FlightDataStrategy <|.. AeroDataBoxProvider : "Implements"
-FlightDataStrategy <|.. FlightRadar24Provider : "Implements"
+IVluchtDataStrategy <|.. AeroDataBoxProvider : "Implements"
+IVluchtDataStrategy <|.. FlightRadar24Provider : "Implements"
 
 @enduml
