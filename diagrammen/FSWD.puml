@@ -1,7 +1,7 @@
 @startuml
 !include <C4/C4_Container>
 
-SHOW_LEGEND(true)
+LAYOUT_WITH_LEGEND()
 
 Container_Ext(WebApp, "Web Application", "React", "User Interface for expense management")
 

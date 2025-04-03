@@ -2,7 +2,7 @@
 !include https://raw.githubusercontent.com/plantuml-stdlib/C4-PlantUML/master/C4_Container.puml
 top to bottom direction
 
-SHOW_LEGEND(true)
+LAYOUT_WITH_LEGEND()
 
 Person(traveller, "Reiziger", "Een reiziger die een reis met meerdere bestemmingen wil samenstellen.")
 Person(admin, "Reisbureau medewerker", "Beheerder")

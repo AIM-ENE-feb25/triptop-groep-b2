@@ -1,11 +1,12 @@
 @startuml
 !include https://raw.githubusercontent.com/plantuml-stdlib/C4-PlantUML/master/C4_Component.puml
 
-SHOW_LEGEND(true)
+LAYOUT_WITH_LEGEND()
 
 top to bottom direction
 
 Person(traveller, "Reiziger", "Een reiziger die een reis met meerdere bestemmingen wil samenstellen.")
+Person(admin, "Reisbureau medewerker", "Beheerder")
 
 System_Boundary(TripTop, "TripTop", "Systeem voor het samenstellen van reizen.") {
     Container_Boundary(Web_App, "Web Applicatie") {
