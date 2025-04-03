@@ -228,7 +228,7 @@ In bovenstaand diagram is de architectuur, bijbehorend bij de vraag **"Hoe zorg 
 
 #### 7.3.3
 ![Strategy Pattern](../opdracht-diagrammen/class-diagram-nils.png)
-In het klasse diagram zijn verschillende specifieke details niet zichtbaar. Het diagram toont niet de gedetailleerde attributen van domeinobjecten zoals FlightDetails en AirportDetails. Daarnaast worden de interne werking van utility-klassen zoals FlightMapper en AirportMapper niet weergegeven. Deze mappers behandelen de conversie van API-responses naar domeinobjecten, maar hun logica en de exacte structuur van de gegevens die ze verwerken, zijn niet vertegenwoordigd in het diagram. Het diagram maakt gebruik van het strategy design pattern.
+In het klasse diagram zijn verschillende specifieke details niet zichtbaar. Het diagram toont niet de gedetailleerde attributen van domeinobjecten zoals FlightDetails en AirportDetails. Daarnaast worden de interne werking van utility-klassen zoals FlightMapper en AirportMapper niet weergegeven. Deze mappers behandelen de conversie van API-responses naar domeinobjecten, maar hun logica en de exacte structuur van de gegevens die ze verwerken, zijn niet vertegenwoordigd in het diagram. Het diagram maakt gebruik van het strategy design pattern
 
 #### 7.3.4
 ![Samengevoegde diagram](../opdracht-diagrammen/SamenGevoegdeKlassenDiagram.png)
