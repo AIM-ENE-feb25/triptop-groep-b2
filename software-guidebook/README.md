@@ -179,14 +179,17 @@ Authenticatie verloopt via een externe Identity Provider API, waardoor gebruiker
 Elke functionele eenheid volgt een vaste structuur met een controller voor verzoeken, een service voor logica en (indien nodig) een repository voor database-interacties. Dit zorgt voor een schaalbare, onderhoudbare en eenvoudig uitbreidbare backend.
 
 
-| Class::Attribuut                              | Is input voor API+Endpoint                          | Wordt gevuld door API+Endpoint | Wordt geleverd door eindgebruiker | Moet worden opgeslagen in de applicatie |
-|-----------------------------------------------|-----------------------------------------------------|--------------------------------|-----------------------------------|-----------------------------------------|
-| MapService::getRoute(start, end)              | Google Maps API /directions, MapBox API /directions | ✅                              | ✅                                 | ❌                                       |
-| MapService::getMap(location, zoomLevel)       | Google Maps API /staticmap, MapBox API /static      | ✅                              | ✅                                 | ❌                                       |
-| GoogleMapsService::someGoogleSpecificMethod() | Google Maps API specifieke functionaliteit          | ✅                              | ❌                                 | ❌                                       |
-| MapBoxService::someMapBoxSpecificMethod()     | MapBox API specifieke functionaliteit               | ✅                              | ❌                                 | ❌                                       |
-| MapController::handleRequest(request)         | ❌                                                   | ❌                              | ✅                                 | ❌                                       |
-| MapServiceFactory::createService(provider)    | ❌                                                   | ❌                              | ✅                                 | ❌                                       |
+|Class::Attribuut|Is input voor API+Endpoint|Wordt gevuld door API+Endpoint|Wordt geleverd door eindgebruiker|Moet worden opgeslagen in de applicatie|
+|-|-|-|-|-|
+|MapService::getRoute(start, end)|Google Maps API /directions, MapBox API /directions|✅|✅|❌|
+|MapService::getMap(location, zoomLevel)|Google Maps API /staticmap, MapBox API /static|✅|✅|❌|
+|GoogleMapsService::someGoogleSpecificMethod()|Google Maps API specifieke functionaliteit|✅|❌|❌|
+|MapBoxService::someMapBoxSpecificMethod()|MapBox API specifieke functionaliteit|✅|❌|❌|
+|MapController::handleRequest(request)|❌|❌|✅|❌|
+|MapServiceFactory::createService(provider)|❌|❌|✅|❌|
+|MapboxController::getDirections(origin, waypoints, destination)|GET /directions|✅|✅|❌|
+|MapboxController::getRouting()|GET /routing|✅|❌|❌|
+|MapboxController::nextRouting()|POST /routing|✅|❌|❌|
 
 
 
@@ -332,14 +335,14 @@ Het systeem moet flexibel blijven als het gaat om externe services. We willen ve
 
 ## Considered Options
 
-|Forces| Strategy Pattern | Adapter Pattern | Facade Pattern | Factory Method Pattern | State Pattern |  
-|---|---|---|---|---|---|  
-|Losse koppeling | ++ | ++ | + | + | ++ |  
-|Onderhoudbaarheid | ++ | + | ++ | - | ++ |  
-|Complexiteit | - | 0 | + | -- | + |  
-|Gemak van wisselen van externe services | ++ | + | 0 | - | + |  
-|Testbaarheid | ++ | + | - | 0 | ++ |  
-|Geschiktheid voor variërende services | ++ | 0 | + | + | ++ |  
+|Forces| Strategy Pattern | Adapter Pattern | Facade Pattern | Factory Method Pattern | State Pattern |
+|---|---|---|---|---|---|
+|Losse koppeling | ++ | ++ | + | + | ++ |
+|Onderhoudbaarheid | ++ | + | ++ | - | ++ |
+|Complexiteit | - | 0 | + | -- | + |
+|Gemak van wisselen van externe services | ++ | + | 0 | - | + |
+|Testbaarheid | ++ | + | - | 0 | ++ |
+|Geschiktheid voor variërende services | ++ | 0 | + | + | ++ |
 
 ## Decision
 We kiezen voor het **Strategy Pattern**, omdat dit de meest flexibele en modulaire oplossing biedt. Elke externe service wordt geïnjecteerd als een implementatie van een generieke interface, waardoor we eenvoudig kunnen wisselen tussen providers zonder de kernlogica te wijzigen.
@@ -372,13 +375,13 @@ De Factory Method Pattern wordt gekozen om deze flexibiliteit te bieden, waarbij
 zonder de koppeling tussen componenten te verhogen.
 ## Considered Options
 
-| Forces                                      | Adapter Pattern | Facade Pattern | Factory Method Pattern | State Pattern | Strategy Pattern |  
+| Forces                                      | Adapter Pattern | Facade Pattern | Factory Method Pattern | State Pattern | Strategy Pattern |
 |---------------------------------------------|-----------------|----------------|------------------------|---------------|------------------|
 | **Complexiteit**                            | --              | 0              | +                      | +             | 0                |
 | **Losse koppeling**                         | +               | ++             | ++                     | 0             | +                |
 | **Gemak van wisselen van externe services** | ++              | +              | +                      | -             | +                |
 | **Onderhoudbaarheid**                       | 0               | -              | ++                     | -             | +                |
-| **Testbaarheid**                            | -               | --             | +                      | 0             | +                | 
+| **Testbaarheid**                            | -               | --             | +                      | 0             | +                |
 
 ## Decision
 
@@ -438,7 +441,7 @@ Om de Triptop-applicatie te installeren en uit te voeren, volg je de volgende st
 
 #### 3. **Configuratie instellen**
 - Voeg een `application.properties` bestand toe met API-sleutels:
-  ```properties 
+  ```properties
   google.maps.api.url=https://google-map-places-new-v2.p.rapidapi.com
   google.maps.api.key=JOUW_RAPIDAPI_KEY
 
@@ -462,4 +465,3 @@ Om de Triptop-applicatie te installeren en uit te voeren, volg je de volgende st
 - **Logging**: Fouten en waarschuwingen worden gelogd via SLF4J/Logback.
 - **Monitoring**: Toekomstige integratie met een monitoring-tool zoals Prometheus/Grafana.
 - **Bugfixing**: Issues worden bijgehouden in GitHub Issues en opgelost via pull requests.
-
