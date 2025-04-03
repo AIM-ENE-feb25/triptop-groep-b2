@@ -232,6 +232,7 @@ Het diagram toont de structuur van de klassen, maar laat bepaalde details weg, z
 
 #### 7.3.4
 ![Samengevoegde diagram](../opdracht-diagrammen/SamenGevoegdeKlassenDiagram.png)
+Het diagram toont de architectuur en de interacties tussen verschillende klassen binnen het systeem. De structuur is onderverdeeld in meerdere componenten, elk verantwoordelijk voor specifieke functionaliteiten.
 
 ## 8. Architectural Decision Records
 
