@@ -13,6 +13,7 @@ Dit software guidebook geeft een overzicht van de Triptop-applicatie. Het bevat 
 > Werk zelf dit hoofdstuk uit met context diagrammen en een beschrijving van de context van de software.
 
 ![System Context Diagram](../opdracht-diagrammen/Context_Diagram_Triptop_Systeem.png)
+
 **Triptop** is een online platform dat reizigers helpt bij het plannen van reizen met meerdere bestemmingen. Het biedt een gebruiksvriendelijke interface waarmee gebruikers hun reizen kunnen organiseren door verschillende elementen zoals vluchten, treinreizen, verblijven en eet- en drinkopties te combineren. Het platform maakt gebruik van verschillende externe API's om gegevens te verkrijgen en biedt gepersonaliseerde reisopties op basis van de voorkeuren van de reiziger.
 
 Functionaliteiten:
@@ -169,6 +170,7 @@ Dit diagram toont de flow van het boeken van een reis binnen de **Triptop** appl
 > Voeg toe: Component Diagram plus een Dynamic Diagram van een aantal scenario's inclusief begeleidende tekst.
 
 ![Component Backend Diagram](../opdracht-diagrammen/diagramNils.png)
+
 Dit backend componentendiagram toont de architectuur van een uitgavenbeheerapplicatie waarin gebruikers vluchten, hotels, treinen en eten kunnen boeken en betalingen kunnen uitvoeren. De React WebApp communiceert via REST API’s met een Spring Boot backend, die modulair is opgebouwd met gescheiden controllers en services.
 
 Authenticatie verloopt via een externe Identity Provider API, waardoor gebruikers eenvoudig kunnen inloggen via Apple, Google of Microsoft. Gegevens worden opgeslagen in een PostgreSQL-database, terwijl externe API’s zoals AeroDataBox (vluchten), Booking.com (hotels), Mollie (betalingen), All Aboard (treinen) en Grubhub (eten) worden gebruikt voor dataverwerking.
@@ -199,6 +201,7 @@ Elke functionele eenheid volgt een vaste structuur met een controller voor verzo
 | FlightRadar24Provider::fetchNearbyAirports(airport)             | FlightRadar24 API /airports/nearby                 | ✅                              | ✅                                 | ❌                                       |
 
 ![Dyanimc Diagram](../opdracht-diagrammen/diagram-Dynamic.png)
+
 Dit dynamische componentendiagram beschrijft de betalingsverwerking in een webapplicatie voor uitgavenbeheer. De gebruiker initieert een betaling via de WebApp (React), die het verzoek doorstuurt naar de backend (Spring Boot).
 
 De backend bestaat uit drie componenten: BetaalController verwerkt inkomende verzoeken, BetaalService voert de betalingslogica uit, en PaymentProvider handelt de communicatie met externe betalingsdiensten af. De Mollie API wordt hier als externe provider gebruikt.
@@ -223,11 +226,13 @@ Route, Coordinate en MapImage staan los van de kaartservices (daarom heb ik ze n
 
 #### 7.3.2
 ![state pattern](../opdracht-diagrammen/class-diagram-dennis.svg)
+
 In bovenstaand diagram is de architectuur, bijbehorend bij de vraag **"Hoe zorg je voor een zo kort mogelijke reisroute waarbij gebruik gemaakt wordt van alle bouwstenen? Hoe zorg je ervoor dat de reisroute makkelijk aangepast kan worden als reisafstand geen issue is?"**, te zien. Hiervoor hebben we het State Pattern gebruikt, aangezien deze gekozen was als gevolg van een voorgaande opdracht van school (zie [deze ADR](../ADRs/0006-State-pattern.md) voor meer informatie). In `MapboxRoutingManager` is een klein deel weggelaten. Dit deel is verantwoordelijk voor het opstellen van de URL, die gestuurd wordt naar de Mapbox API. `MapboxController#getDirections` heeft de `@GetMapping("/directions")`-annotation erboven staan. Ook zijn alle parameters hiervan annotated met `@RequestParam`, waarbij de `waypoints`'s `@RequestParam` de field `required` op `false` heeft staan. `MapboxController#getRouting` en `MapboxController#nextRouting` hebben de `@GetMapping("/routing")` en `@PostMapping("/routing)"`-annotation erboven staan, respectievelijk.
 
 
 #### 7.3.3
 ![Strategy Pattern](../opdracht-diagrammen/class-diagram-nils.png)
+
 In het klasse diagram zijn verschillende specifieke details niet zichtbaar. Het diagram toont niet de gedetailleerde attributen van domeinobjecten zoals FlightDetails en AirportDetails. Daarnaast worden de interne werking van utility-klassen zoals FlightMapper en AirportMapper niet weergegeven. Deze mappers behandelen de conversie van API-responses naar domeinobjecten, maar hun logica en de exacte structuur van de gegevens die ze verwerken, zijn niet vertegenwoordigd in het diagram. Het diagram maakt gebruik van het strategy design pattern
 
 #### 7.3.4
