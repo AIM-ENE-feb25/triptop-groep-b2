@@ -1,0 +1,29 @@
+@startuml
+actor Gebruiker
+participant WebApp
+participant FlightController
+participant FlightService
+participant IVluchtDataStrategy
+participant AeroDataBoxProvider
+participant FlightRadar24Provider
+
+Gebruiker -> WebApp : zoekDichtstbijzijndeVliegveld(locatie)
+WebApp -> FlightController : fetchNearbyAirports(locatie)
+FlightController -> FlightService : fetchNearbyAirports(locatie)
+FlightService -> IVluchtDataStrategy : getNearestAirport(locatie)
+
+alt Strategy: AeroDataBoxProvider
+    IVluchtDataStrategy -> AeroDataBoxProvider : getNearestAirport(locatie)
+    AeroDataBoxProvider --> IVluchtDataStrategy : vliegveldData
+end
+
+alt Strategy: FlightRadar24Provider
+    IVluchtDataStrategy -> FlightRadar24Provider : getNearestAirport(locatie)
+    FlightRadar24Provider --> IVluchtDataStrategy : vliegveldData
+end
+
+IVluchtDataStrategy --> FlightService : vliegveldData
+FlightService --> FlightController : vliegveldData
+FlightController --> WebApp : vliegveldData
+WebApp --> Gebruiker : Dichtstbijzijnde vliegveld tonen
+@enduml

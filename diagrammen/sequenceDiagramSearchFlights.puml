@@ -1,0 +1,31 @@
+@startuml
+'https://plantuml.com/sequence-diagram
+
+actor Gebruiker
+participant WebApp
+participant FlightController
+participant FlightService
+participant IVluchtDataStrategy
+participant AeroDataBoxProvider
+participant FlightRadar24Provider
+
+Gebruiker -> WebApp : searchFlights()
+WebApp -> FlightController : fetchFlightData(flightNumber)
+FlightController -> FlightService : fetchFlightData(flightNumber)
+FlightService -> IVluchtDataStrategy : getFlightData(flightNumber)
+
+alt Strategy: AeroDataBoxProvider
+    IVluchtDataStrategy -> AeroDataBoxProvider : getFlightData(flightNumber)
+    AeroDataBoxProvider --> IVluchtDataStrategy : flightData
+end
+
+alt Strategy: FlightRadar24Provider
+    IVluchtDataStrategy -> FlightRadar24Provider : getFlightData(flightNumber)
+    FlightRadar24Provider --> IVluchtDataStrategy : flightData
+end
+
+IVluchtDataStrategy --> FlightService : flightData
+FlightService --> FlightController : flightData
+FlightController --> WebApp : flightData
+WebApp --> Gebruiker : vluchtinformatie tonen
+@enduml

@@ -1,0 +1,16 @@
+@startuml
+actor Beheerder
+participant WebApp
+participant StrategyController
+participant StrategyService
+participant StrategyConfig
+
+Beheerder -> WebApp : setCurrentStrategy(strategy)
+WebApp -> StrategyController : setCurrentStrategy(strategy)
+StrategyController -> StrategyService : setCurrentStrategy(strategy)
+StrategyService -> StrategyConfig : setCurrentStrategy(strategy)
+StrategyConfig --> StrategyService : bevestiging
+StrategyService --> StrategyController : bevestiging
+StrategyController --> WebApp : bevestiging
+WebApp --> Beheerder : Strategie gewijzigd
+@enduml
