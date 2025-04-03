@@ -178,20 +178,28 @@ Authenticatie verloopt via een externe Identity Provider API, waardoor gebruiker
 
 Elke functionele eenheid volgt een vaste structuur met een controller voor verzoeken, een service voor logica en (indien nodig) een repository voor database-interacties. Dit zorgt voor een schaalbare, onderhoudbare en eenvoudig uitbreidbare backend.
 
-
-|Class::Attribuut|Is input voor API+Endpoint|Wordt gevuld door API+Endpoint|Wordt geleverd door eindgebruiker|Moet worden opgeslagen in de applicatie|
-|-|-|-|-|-|
-|MapService::getRoute(start, end)|Google Maps API /directions, MapBox API /directions|✅|✅|❌|
-|MapService::getMap(location, zoomLevel)|Google Maps API /staticmap, MapBox API /static|✅|✅|❌|
-|GoogleMapsService::someGoogleSpecificMethod()|Google Maps API specifieke functionaliteit|✅|❌|❌|
-|MapBoxService::someMapBoxSpecificMethod()|MapBox API specifieke functionaliteit|✅|❌|❌|
-|MapController::handleRequest(request)|❌|❌|✅|❌|
-|MapServiceFactory::createService(provider)|❌|❌|✅|❌|
-|MapboxController::getDirections(origin, waypoints, destination)|GET /directions|✅|✅|❌|
-|MapboxController::getRouting()|GET /routing|✅|❌|❌|
-|MapboxController::nextRouting()|POST /routing|✅|❌|❌|
-
-
+| Class::Attribuut                                                | Is input voor API+Endpoint                          | Wordt gevuld door API+Endpoint | Wordt geleverd door eindgebruiker | Moet worden opgeslagen in de applicatie |
+|-----------------------------------------------------------------|-----------------------------------------------------|--------------------------------|-----------------------------------|-----------------------------------------|
+| MapService::getRoute(start, end)                                | Google Maps API /directions, MapBox API /directions | ✅                              | ✅                                 | ❌                                       |
+| MapService::getMap(location, zoomLevel)                         | Google Maps API /staticmap, MapBox API /static      | ✅                              | ✅                                 | ❌                                       |
+| GoogleMapsService::someGoogleSpecificMethod()                   | Google Maps API specifieke functionaliteit          | ✅                              | ❌                                 | ❌                                       |
+| MapBoxService::someMapBoxSpecificMethod()                       | MapBox API specifieke functionaliteit               | ✅                              | ❌                                 | ❌                                       |
+| MapController::handleRequest(request)                           | ❌                                                 | ❌                              | ✅                                 | ❌                                       |
+| MapServiceFactory::createService(provider)                      | ❌                                                 | ❌                              | ✅                                 | ❌                                       |
+| MapboxController::getDirections(origin, waypoints, destination) | GET /directions                                    | ✅                              | ✅                                 | ❌                                       |
+| MapboxController::getRouting()                                  | GET /routing                                       | ✅                              | ❌                                 | ❌                                       |
+| MapboxController::nextRouting()                                 | POST /routing                                      | ✅                              | ❌                                 | ❌                                       |
+| WebApp::searchFlights(flightQuery)                              | AeroDataBox API /flights/search, FR24 API /flights | ✅                              | ✅                                 | ❌                                       |
+| WebApp::getFlightStatus(flightDetails)                          | AeroDataBox API /flights/status, FR24 API /status  | ✅                              | ✅                                 | ❌                                       |
+| FlightController::fetchFlightData(flightQuery)                  | AeroDataBox API /flights/search, FR24 API /flights | ✅                              | ✅                                 | ❌                                       |
+| FlightService::fetchFlightData(flightQuery)                     | AeroDataBox API /flights/search, FR24 API /flights | ✅                              | ✅                                 | ❌                                       |
+| FlightService::setFlightDataStrategy(strategy)                  | ❌                                                 | ❌                              | ✅                                 | ✅                                       |
+| StrategyService::setCurrentStrategy(strategy)                   | ❌                                                 | ❌                              | ✅                                 | ✅                                       |
+| StrategyService::getCurrentStrategy()                           | ❌                                                 | ✅                              | ❌                                 | ✅                                       |
+| AeroDataBoxProvider::fetchFlightData(flightQuery)               | AeroDataBox API /flights/search                    | ✅                              | ✅                                 | ❌                                       |
+| AeroDataBoxProvider::fetchNearbyAirports(airport)               | AeroDataBox API /airports/nearby                   | ✅                              | ✅                                 | ❌                                       |
+| FlightRadar24Provider::fetchFlightData(flightQuery)             | FlightRadar24 API /flights/search                  | ✅                              | ✅                                 | ❌                                       |
+| FlightRadar24Provider::fetchNearbyAirports(airport)             | FlightRadar24 API /airports/nearby                 | ✅                              | ✅                                 | ❌                                       |
 
 ![Dyanimc Diagram](../opdracht-diagrammen/diagram-Dynamic.png)
 Dit dynamische componentendiagram beschrijft de betalingsverwerking in een webapplicatie voor uitgavenbeheer. De gebruiker initieert een betaling via de WebApp (React), die het verzoek doorstuurt naar de backend (Spring Boot).
@@ -335,14 +343,14 @@ Het systeem moet flexibel blijven als het gaat om externe services. We willen ve
 
 ## Considered Options
 
-|Forces| Strategy Pattern | Adapter Pattern | Facade Pattern | Factory Method Pattern | State Pattern |
-|---|---|---|---|---|---|
-|Losse koppeling | ++ | ++ | + | + | ++ |
-|Onderhoudbaarheid | ++ | + | ++ | - | ++ |
-|Complexiteit | - | 0 | + | -- | + |
-|Gemak van wisselen van externe services | ++ | + | 0 | - | + |
-|Testbaarheid | ++ | + | - | 0 | ++ |
-|Geschiktheid voor variërende services | ++ | 0 | + | + | ++ |
+| Forces                                  | Strategy Pattern | Adapter Pattern | Facade Pattern | Factory Method Pattern | State Pattern |
+|-----------------------------------------|------------------|-----------------|----------------|------------------------|---------------|
+| Losse koppeling                         | ++               | ++              | +              | +                      | ++            |
+| Onderhoudbaarheid                       | ++               | +               | ++             | -                      | ++            |
+| Complexiteit                            | +                | 0               | -              | ++                     | -             |
+| Gemak van wisselen van externe services | ++               | +               | 0              | -                      | +             |
+| Testbaarheid                            | ++               | +               | -              | 0                      | ++            |
+| Geschiktheid voor variërende services   | ++               | 0               | +              | +                      | ++            |
 
 ## Decision
 We kiezen voor het **Strategy Pattern**, omdat dit de meest flexibele en modulaire oplossing biedt. Elke externe service wordt geïnjecteerd als een implementatie van een generieke interface, waardoor we eenvoudig kunnen wisselen tussen providers zonder de kernlogica te wijzigen.
@@ -448,9 +456,12 @@ Om de Triptop-applicatie te installeren en uit te voeren, volg je de volgende st
   mapbox.api.url=https://api.mapbox.com/directions/v5/mapbox/driving
   mapbox.api.key=JOUW_MAPBOX_API_KEY
   ```
-- Voeg een `.env` bestand toe met API-sleutels:
+- Voeg ook een `.env` bestand toe met API-sleutels:
 ```
-
+  RAPIDAPI_KEY=JOUW_RAPIDAPI_KEY
+  RAPIDAPI_HOST=aerodatabox.p.rapidapi.com
+  FlightScraper_Host=sky-scanner3.p.rapidapi.com
+  AirScraper_Host=sky-scrapper.p.rapidapi.com
 ```
 
 #### 4. **Start de applicatie**
