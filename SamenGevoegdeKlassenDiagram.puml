@@ -1,0 +1,150 @@
+@startuml C4_ClassDiagram
+!include https://raw.githubusercontent.com/plantuml-stdlib/C4-PlantUML/master/C4_Container.puml
+!include <C4/C4>
+!include <C4/C4_Context>
+!include <C4/C4_Component>
+top to bottom direction
+
+title Combined Class Diagram
+
+Container_Boundary("boundary", "Class Diagram"){
+
+  Interface MapService {
+    +Route getRoute(Coordinate start, Coordinate end)
+    +MapImage getMap(Coordinate location, int zoomLevel)
+  }
+
+  class GoogleMapsService {
+    +Route getRoute(Coordinate start, Coordinate end)
+    +MapImage getMap(Coordinate location, int zoomLevel)
+    +someGoogleSpecificMethod()
+  }
+
+  class MapBoxService {
+    +Route getRoute(Coordinate start, Coordinate end)
+    +MapImage getMap(Coordinate location, int zoomLevel)
+    +someMapBoxSpecificMethod()
+  }
+
+  class MapController {
+    +void handleRequest(Request request)
+  }
+
+  class MapServiceFactory {
+    +MapService createService(String provider)
+  }
+
+  MapController --> MapService : uses
+  MapController --> MapServiceFactory : uses
+  MapServiceFactory --> GoogleMapsService : creates
+  MapServiceFactory --> MapBoxService : creates
+  GoogleMapsService ..|> MapService : implements
+  MapBoxService ..|> MapService : implements
+
+  class MapboxController {
+    +getDirections(origin: String, waypoints: String[], destination: String): String
+    +getRouting(): String
+    +nextRouting(): String
+  }
+
+  class MapboxService {
+    +getDirections(origin: String, waypoints: String[], destination: String): String
+    +getRouting(): String
+    +nextRouting(): void
+  }
+
+  class MapboxRoutingManager {
+    +getDirections(origin: String, waypoints: String[], destination: String): String
+    +getRouting(): String
+    +nextRouting(): void
+  }
+
+  interface MapboxRoutingState {
+    +getRouting(): String
+    +nextRouting(): MapboxRoutingState
+  }
+
+  class MapboxRoutingDrivingState {
+    +getRouting(): String
+    +nextRouting(): MapboxRoutingState
+  }
+
+  class MapboxRoutingCyclingState {
+    +getRouting(): String
+    +nextRouting(): MapboxRoutingState
+  }
+
+  class MapboxRoutingWalkingState {
+    +getRouting(): String
+    +nextRouting(): MapboxRoutingState
+  }
+
+  MapboxController "- mapboxService" ..> MapboxService
+  MapboxService "- mapboxRoutingManager" ..> MapboxRoutingManager
+  MapboxRoutingManager "- routing" ..> MapboxRoutingState
+  MapboxRoutingState <|-- MapboxRoutingDrivingState
+  MapboxRoutingState <|-- MapboxRoutingCyclingState
+  MapboxRoutingState <|-- MapboxRoutingWalkingState
+
+  class WebApp {
+    +searchFlights(flightQuery: FlightQuery): FlightResults
+    +getFlightStatus(flightDetails: FlightDetails): FlightStatus
+  }
+
+  class FlightController {
+    +fetchFlightData(flightQuery: FlightQuery): FlightResults
+    +fetchNearbyAirports(airport: String): AirportResults
+  }
+
+  class StrategyController {
+    +setCurrentStrategy(strategy: String)
+    +getCurrentStrategy(): String
+  }
+
+  class FlightService {
+    -flightDataStrategy: FlightDataStrategy
+    +setFlightDataStrategy(strategy: FlightDataStrategy)
+    +fetchFlightData(flightQuery: FlightQuery): FlightResults
+    +fetchNearbyAirports(airport: String): AirportResults
+  }
+
+  class StrategyService {
+    -strategyConfig: StrategyConfig
+    +setCurrentStrategy(strategy: String)
+    +getCurrentStrategy(): String
+  }
+
+  interface FlightDataStrategy {
+    +fetchFlightData(flightQuery: FlightQuery): FlightResults
+  }
+
+  class AeroDataBoxProvider {
+    +fetchFlightData(flightQuery: FlightQuery): FlightResults
+    +fetchNearbyAirports(airport: String): AirportResults
+  }
+
+  class FlightRadar24Provider {
+    +fetchFlightData(flightQuery: FlightQuery): FlightResults
+    +fetchNearbyAirports(airport: String): AirportResults
+  }
+
+  class StrategyConfig {
+    -currentStrategy: String
+    +setCurrentStrategy(strategy: String)
+    +getCurrentStrategy(): String
+  }
+
+  WebApp --> FlightController : "Handles flight search"
+  WebApp --> StrategyController : "Manages strategy selection"
+  FlightController --> FlightService : "Requests flight data"
+  StrategyController --> StrategyService : "Delegates strategy handling"
+  FlightService o-- FlightDataStrategy : "Uses selected strategy"
+  StrategyService *-- StrategyConfig : "Stores current strategy"
+  FlightDataStrategy <|.. AeroDataBoxProvider : "Implements"
+  FlightDataStrategy <|.. FlightRadar24Provider : "Implements"
+}
+
+WebApp --> MapboxController : "Uses"
+WebApp --> MapController
+
+@enduml
