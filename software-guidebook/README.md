@@ -94,10 +94,33 @@ Voordat deze casusomschrijving tot stand kwam, heeft de opdrachtgever de volgend
 > [!IMPORTANT]
 > Beschrijf zelf de beperkingen die op voorhand bekend zijn die invloed hebben op keuzes die wel of niet gemaakt kunnen of mogen worden.
 
-## 6. Principles
 
+
+
+## 6. Principles
 > [!IMPORTANT]
 > Beschrijf zelf de belangrijkste architecturele en design principes die zijn toegepast in de software.
+
+### 1. Modulariteit & Scheiding van Verantwoordelijkheden
+- De software maakt gebruik van een **Factory Pattern** (`MapServiceFactory`) om de keuze tussen verschillende kaartdiensten (Google Maps en Mapbox) flexibel te houden.
+- Elke kaartservice (`GoogleMapsService` en `MapBoxService`) implementeert een gemeenschappelijke interface (`MapService`), wat zorgt voor duidelijke scheiding van verantwoordelijkheden.
+
+### 2. Configuratie via Properties
+- API-keys en basis-URL’s worden opgeslagen in een `application.properties` bestand, zodat ze niet hardcoded in de code staan.
+- Dit verhoogt de veiligheid en flexibiliteit van de applicatie.
+
+### 3. RESTful API Design
+- De applicatie biedt een duidelijke en consistente API (`/maps/route`) waarin de gebruiker dynamisch een provider kan kiezen via query parameters.
+- HTTP GET requests worden gebruikt om routes op te vragen, wat past bij RESTful principes.
+
+### 4. Externe API Integratie
+- **Google Maps API** wordt aangesproken via **RapidAPI**, waarbij authenticatie gebeurt met de juiste headers (`x-rapidapi-key`).
+- **Mapbox API** wordt direct benaderd via een correcte URL-constructie met `RestTemplate`.
+- De API-aanroepen worden dynamisch gegenereerd op basis van de opgegeven coördinaten en instellingen.
+
+### 5. Logging & Debugging
+- Responses van de API's worden gelogd (`System.out.println`), zodat fouten zoals "Invalid API Key" of "NoSegment" snel gedetecteerd kunnen worden.
+- Dit helpt bij het debuggen en optimaliseren van de integratie met externe kaartservices.
 
 ## 7. Software Architecture
 
