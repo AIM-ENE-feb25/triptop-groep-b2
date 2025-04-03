@@ -230,7 +230,7 @@ In bovenstaand diagram is de architectuur, bijbehorend bij de vraag **"Hoe zorg 
 
 
 #### 7.3.3
-![Strategy Pattern](../opdracht-diagrammen/classDiagramQuestion.png)
+![Strategy Pattern](../opdracht-diagrammen/class-diagram-nils.png)
 Het diagram toont de structuur van de klassen, maar laat bepaalde details weg, zoals de specifieke logica van de FlightDataStrategy providers, de werking van de FlightStatus (bijvoorbeeld hoe en wanneer de status wordt bijgewerkt), en de beveiliging/validatie van login- en autorisatieprocessen. Ook is de relatie tussen FlightStatus en FlightDetails niet expliciet weergegeven, ondanks de mogelijke logische koppeling via het vluchtnummer.
 
 #### 7.3.4
