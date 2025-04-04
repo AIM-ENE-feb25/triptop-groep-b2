@@ -80,8 +80,6 @@ Voordat deze casusomschrijving tot stand kwam, heeft de opdrachtgever de volgend
 > [!IMPORTANT]
 > Beschrijf zelf de belangrijkste architecturele en design principes die zijn toegepast in de software.
 
-## 6. Principes
-
 ### 1. Modulariteit & Scheiding van Verantwoordelijkheden
 - **Factory Pattern**: Flexibele keuze tussen kaartdiensten (Google Maps, Mapbox) via `MapServiceFactory`.
 - **Interface Segregation**: Kaartservices implementeren gemeenschappelijke interface `MapService` voor scheiding van verantwoordelijkheden.
