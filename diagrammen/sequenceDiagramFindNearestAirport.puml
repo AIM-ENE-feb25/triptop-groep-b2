@@ -7,23 +7,23 @@ participant IFlightDataStrategy
 participant AeroDataBoxProvider
 participant FlightRadar24Provider
 
-Gebruiker -> WebApp : zoekDichtstbijzijndeVliegveld(locatie)
-WebApp -> FlightController : fetchNearbyAirports(locatie)
-FlightController -> FlightService : fetchNearbyAirports(locatie)
-FlightService -> IFlightDataStrategy : getNearestAirport(locatie)
+Gebruiker -> WebApp : searchNearestAirport(locatie)
+WebApp -> FlightController : nearestAirport = fetchNearbyAirports(locatie)
+FlightController -> FlightService : nearestAirport = fetchNearbyAirports(locatie)
+FlightService -> IFlightDataStrategy : nearestAirport = getNearestAirport(locatie)
 
 alt Strategy: AeroDataBoxProvider
-    IFlightDataStrategy -> AeroDataBoxProvider : getNearestAirport(locatie)
-    AeroDataBoxProvider --> IFlightDataStrategy : vliegveldData
+    IFlightDataStrategy -> AeroDataBoxProvider :nearestAirport =  getNearestAirport(locatie)
+    AeroDataBoxProvider --> IFlightDataStrategy : nearestAirport
 end
 
 alt Strategy: FlightRadar24Provider
-    IFlightDataStrategy -> FlightRadar24Provider : getNearestAirport(locatie)
-    FlightRadar24Provider --> IFlightDataStrategy : vliegveldData
+    IFlightDataStrategy -> FlightRadar24Provider : nearestAirport = getNearestAirport(locatie)
+    FlightRadar24Provider --> IFlightDataStrategy : nearestAirport
 end
 
-IFlightDataStrategy --> FlightService : vliegveldData
-FlightService --> FlightController : vliegveldData
-FlightController --> WebApp : vliegveldData
-WebApp --> Gebruiker : Dichtstbijzijnde vliegveld tonen
+IFlightDataStrategy --> FlightService : nearestAirport
+FlightService --> FlightController : nearestAirport
+FlightController --> WebApp : nearestAirport
+WebApp --> Gebruiker : Show nearest airport
 @enduml

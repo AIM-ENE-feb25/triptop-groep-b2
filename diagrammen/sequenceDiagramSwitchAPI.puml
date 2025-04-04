@@ -9,8 +9,8 @@ Beheerder -> WebApp : setCurrentStrategy(strategy)
 WebApp -> StrategyController : setCurrentStrategy(strategy)
 StrategyController -> StrategyService : setCurrentStrategy(strategy)
 StrategyService -> StrategyConfig : setCurrentStrategy(strategy)
-StrategyConfig --> StrategyService : bevestiging
-StrategyService --> StrategyController : bevestiging
-StrategyController --> WebApp : bevestiging
-WebApp --> Beheerder : Strategie gewijzigd
+StrategyConfig --> StrategyService : confirmation
+StrategyService --> StrategyController : confirmation
+StrategyController --> WebApp : confirmation
+WebApp --> Beheerder : confirmation
 @enduml

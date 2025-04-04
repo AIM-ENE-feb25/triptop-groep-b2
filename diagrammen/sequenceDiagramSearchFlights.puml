@@ -10,17 +10,17 @@ participant AeroDataBoxProvider
 participant FlightRadar24Provider
 
 Gebruiker -> WebApp : searchFlights()
-WebApp -> FlightController : fetchFlightData(flightNumber)
-FlightController -> FlightService : fetchFlightData(flightNumber)
-FlightService -> IFlightDataStrategy : getFlightData(flightNumber)
+WebApp -> FlightController : flightData = fetchFlightData(flightNumber)
+FlightController -> FlightService : flightData = fetchFlightData(flightNumber)
+FlightService -> IFlightDataStrategy : flightData = getFlightData(flightNumber)
 
 alt Strategy: AeroDataBoxProvider
-    IFlightDataStrategy -> AeroDataBoxProvider : getFlightData(flightNumber)
+    IFlightDataStrategy -> AeroDataBoxProvider : flightData = getFlightData(flightNumber)
     AeroDataBoxProvider --> IFlightDataStrategy : flightData
 end
 
 alt Strategy: FlightRadar24Provider
-    IFlightDataStrategy -> FlightRadar24Provider : getFlightData(flightNumber)
+    IFlightDataStrategy -> FlightRadar24Provider : flightData = getFlightData(flightNumber)
     FlightRadar24Provider --> IFlightDataStrategy : flightData
 end
 
