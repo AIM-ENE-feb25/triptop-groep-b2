@@ -1,0 +1,20 @@
+@startuml
+actor Gebruiker
+participant "MapController" as MC
+participant "MapServiceFactory" as MSF
+participant "MapService" as MS
+participant "GoogleMapsService" as GMS
+participant "MapBoxService" as MBS
+participant "Google Maps API / Mapbox API" as API
+
+Gebruiker -> MC: GET /maps/route?provider={provider}&start={...}&end={...}
+MC -> MSF: getMapService(provider)
+MSF -> GMS: return GoogleMapsService (indien "googlemaps")
+MSF -> MBS: return MapBoxService (indien "mapbox")
+MC -> MS: getRoute(start, end)
+MS -> API: GET route request (afhankelijk van provider)
+API -> MS: Response met routegegevens
+MS -> MC: Routegegevens
+MC -> Gebruiker: HTTP Response met routegegevens
+
+@enduml

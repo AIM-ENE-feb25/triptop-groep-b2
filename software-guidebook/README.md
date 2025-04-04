@@ -80,8 +80,6 @@ Voordat deze casusomschrijving tot stand kwam, heeft de opdrachtgever de volgend
 > [!IMPORTANT]
 > Beschrijf zelf de belangrijkste architecturele en design principes die zijn toegepast in de software.
 
-## 6. Principes
-
 ### 1. Modulariteit & Scheiding van Verantwoordelijkheden
 - **Factory Pattern**: Flexibele keuze tussen kaartdiensten (Google Maps, Mapbox) via `MapServiceFactory`.
 - **Interface Segregation**: Kaartservices implementeren gemeenschappelijke interface `MapService` voor scheiding van verantwoordelijkheden.
@@ -226,6 +224,29 @@ Dit C4-klasse diagram toont de architectuur van een kaartsysteem dat zowel Googl
 MapController handelt verzoeken af en maakt gebruik van MapService en MapServiceFactory, die op basis van een providernaam de juiste kaartservice aanmaakt. Coordinate slaat locaties op met breedte- en lengtegraad, Route bevat een lijst van coördinaten die een route vormen, en MapImage houdt kaartafbeeldingen bij als byte-array.
 
 Route, Coordinate en MapImage staan los van de kaartservices (daarom heb ik ze niet in het plaatje gedaan), omdat ze generieke datamodellen vertegenwoordigen die onafhankelijk zijn van een specifieke provider. Dit zorgt ervoor dat de structuur van routes, coördinaten en afbeeldingen uniform blijft, ongeacht of ze afkomstig zijn van Google Maps of MapBox. Hierdoor wordt de koppeling tussen de services en de data geminimaliseerd, wat het systeem flexibeler en beter uitbreidbaar maakt.
+
+![Sequentie Diagram](../opdracht-diagrammen/SequentieDiagram.png)
+
+### Beschrijving van het Sequentiediagram
+
+Het diagram toont hoe de **Triptop**-app routes ophaalt via **Google Maps** of **Mapbox**, afhankelijk van de opgegeven `provider`. De `MapServiceFactory` bepaalt op basis van deze waarde welke implementatie van `MapService` wordt gebruikt. Die service stuurt vervolgens een HTTP GET-verzoek naar de juiste externe API.
+
+####  Dynamische Service Selectie
+Afhankelijk van de parameter `provider` wordt automatisch gekozen tussen:
+- `GoogleMapsService`
+- `MapBoxService`
+
+Dit maakt het systeem flexibel en uitbreidbaar.
+
+####  Externe API-communicatie
+- **Google Maps** gebruikt een vaste `placeId` en vereist RapidAPI-headers.
+- **Mapbox** gebruikt coördinaten in het formaat `lng,lat` met extra queryparameters zoals `geometries=geojson`.
+
+####  Behandeling van API-responses
+De API-respons wordt direct teruggegeven aan de gebruiker, zonder extra foutafhandeling of verwerking.
+
+####  Uitbreidbaarheid
+De structuur is modulair en makkelijk uit te breiden met andere kaartdiensten, zoals OpenStreetMap of HERE Maps.
 
 #### 7.3.2
 ![state pattern class](../opdracht-diagrammen/class-diagram-dennis.svg)
