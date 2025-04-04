@@ -29,7 +29,7 @@ class StrategyService {
     +getCurrentStrategy(): String
 }
 
-interface IVluchtDataStrategy {
+interface IFlightDataStrategy {
     +getFlightData(flightNumber: String): String
     +getNearestAirport(location: String): String
 }
