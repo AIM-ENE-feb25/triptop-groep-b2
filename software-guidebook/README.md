@@ -13,33 +13,15 @@ Dit software guidebook geeft een overzicht van de Triptop-applicatie. Het bevat 
 > Werk zelf dit hoofdstuk uit met context diagrammen en een beschrijving van de context van de software.
 
 ![System Context Diagram](../opdracht-diagrammen/Context_Diagram_Triptop_Systeem.png)
-**Triptop** is een online platform dat reizigers helpt bij het plannen van reizen met meerdere bestemmingen. Het biedt een gebruiksvriendelijke interface waarmee gebruikers hun reizen kunnen organiseren door verschillende elementen zoals vluchten, treinreizen, verblijven en eet- en drinkopties te combineren. Het platform maakt gebruik van verschillende externe API's om gegevens te verkrijgen en biedt gepersonaliseerde reisopties op basis van de voorkeuren van de reiziger.
 
-Functionaliteiten:
+In de frontend van **Triptop** kunnen reizigers hun vakantie plannen door verschillende reiscomponenten, zoals overnachtingen, vervoer en activiteiten, te combineren. De gebruikersinterface biedt reizigers de mogelijkheid om deze bouwstenen toe te voegen, te beheren en te boeken. Elke component heeft een duidelijke status, zoals "gepland", "betaald", "geregeld" of "uitgevoerd", die wordt weergegeven zodat reizigers altijd weten in welke fase hun reis zich bevindt.
 
-**Multi-bestemmingsplanner:** Reizigers kunnen een reis plannen met meerdere bestemmingen, waarbij Triptop helpt bij het organiseren van routes, verblijven en activiteiten.
+Reizigers kunnen eenvoudig schakelen tussen verschillende externe systemen, zoals boekingsplatforms voor overnachtingen of vervoersdiensten, binnen de applicatie.
 
-**Integratie van externe diensten:** Triptop integreert met externe systemen voor boekingen van vluchten, treinen, hotels en restaurants, evenals betalingen en inlogfunctionaliteiten.
+Daarnaast maakt Triptop gebruik van een centrale identity provider waarmee reizigers zich kunnen inloggen via accounts zoals Google, Microsoft of Airbnb. Dit elimineert de noodzaak voor het aanmaken van een apart Triptop-account en zorgt voor een gestroomlijnde gebruikerservaring.
 
-**Flexibiliteit:** Triptop is ontworpen om eenvoudig nieuwe externe API's te integreren, zodat de reiziger toegang heeft tot de nieuwste diensten en mogelijkheden.
+De frontend houdt reizigers op de hoogte van de voortgang van hun reis. Dit omvat het tonen van updates over de status van boekingen, betalingen en andere belangrijke reisinformatie. De applicatie biedt ook de mogelijkheid om reisplannen aan te passen, annuleren of betalingen te verrichten, wat essentieel is voor de functionaliteit van het platform. De gebruikersinterface is ontworpen om deze interacties op een duidelijke, gebruiksvriendelijke manier te presenteren, wat bijdraagt aan een optimale ervaring voor de reiziger.
 
-## Gebruikers
-- **Reiziger**: Stelt reizen samen en boekt transport/accommodaties.
-- **Administrator**: Beheert het systeem en de gebruikers.
-
-## Externe Systemen
-- **Identity Provider API**: Authenticatie via Apple, Google, Microsoft.
-- **Demand API (Booking.com)**: Accommodatie- en transportboeking.
-- **Mollie API**: Betalingen via iDEAL, Klarna, PayPal.
-- **Google Maps API**: Routeplanning en kaarten.
-- **All Aboard API**: Treinreizen binnen Europa.
-- **AeroDataBox API**: Vluchttijden en -routes.
-- **Grubhub API**: Eten en drinken via restaurants.
-
-Toelichting op de context van de software inclusief System Context Diagram:
-* Functionaliteit
-* Gebruikers
-* Externe systemen
 
 ## 3. Functional Overview
 
@@ -99,25 +81,27 @@ Voordat deze casusomschrijving tot stand kwam, heeft de opdrachtgever de volgend
 > Beschrijf zelf de belangrijkste architecturele en design principes die zijn toegepast in de software.
 
 ### 1. Modulariteit & Scheiding van Verantwoordelijkheden
-- De software maakt gebruik van een **Factory Pattern** (`MapServiceFactory`) om de keuze tussen verschillende kaartdiensten (Google Maps en Mapbox) flexibel te houden.
-- Elke kaartservice (`GoogleMapsService` en `MapBoxService`) implementeert een gemeenschappelijke interface (`MapService`), wat zorgt voor duidelijke scheiding van verantwoordelijkheden.
+- **Factory Pattern**: Flexibele keuze tussen kaartdiensten (Google Maps, Mapbox) via `MapServiceFactory`.
+- **Interface Segregation**: Kaartservices implementeren gemeenschappelijke interface `MapService` voor scheiding van verantwoordelijkheden.
+- **Strategy Pattern**: Keuze van vluchtinformatieprovider (AeroDataBox, FlightRadar24) via strategieën (`IVluchtDataStrategy`).
 
 ### 2. Configuratie via Properties
-- API-keys en basis-URL’s worden opgeslagen in een `application.properties` bestand, zodat ze niet hardcoded in de code staan.
-- Dit verhoogt de veiligheid en flexibiliteit van de applicatie.
+- API-keys en URL's worden opgeslagen in `application.properties` en `.env` voor veiligheid en flexibiliteit.
 
 ### 3. RESTful API Design
-- De applicatie biedt een duidelijke en consistente API (`/maps/route`) waarin de gebruiker dynamisch een provider kan kiezen via query parameters.
-- HTTP GET requests worden gebruikt om routes op te vragen, wat past bij RESTful principes.
+- Duidelijke en consistente API (`/maps/route`) met HTTP GET requests voor het ophalen van routes.
+- RESTful principes worden nageleefd: stateless, query parameters voor dynamische keuze van providers.
 
 ### 4. Externe API Integratie
-- **Google Maps API** wordt aangesproken via **RapidAPI**, waarbij authenticatie gebeurt met de juiste headers (`x-rapidapi-key`).
-- **Mapbox API** wordt direct benaderd via een correcte URL-constructie met `RestTemplate`.
-- De API-aanroepen worden dynamisch gegenereerd op basis van de opgegeven coördinaten en instellingen.
+- **Google Maps API** via RapidAPI met authenticatie via headers.
+- **Mapbox API** via directe URL-constructie.
+- **AeroDataBox** en **FlightRadar24** via RapidAPI met benodigde headers.
 
 ### 5. Logging & Debugging
-- Responses van de API's worden gelogd (`System.out.println`), zodat fouten zoals "Invalid API Key" of "NoSegment" snel gedetecteerd kunnen worden.
-- Dit helpt bij het debuggen en optimaliseren van de integratie met externe kaartservices.
+- API-responses worden gelogd voor snelle foutdetectie en debugging, zoals "Invalid API Key" of "NoSegment".
+
+### 6. Design Patterns
+- **Factory** en **Strategy Patterns** zorgen voor uitbreidbaarheid en scheiding van verantwoordelijkheden, wat de onderhoudbaarheid verhoogt.
 
 ## 7. Software Architecture
 
@@ -126,23 +110,16 @@ Voordat deze casusomschrijving tot stand kwam, heeft de opdrachtgever de volgend
 > [!IMPORTANT]
 > Voeg toe: Container Diagram plus een Dynamic Diagram van een aantal scenario's inclusief begeleidende tekst.
 
-#### Container Diagram
+#### 7.1.1 Container Diagram
 ![Container Diagram](../opdracht-diagrammen/Container_Diagram_Triptop_Systeem.png)
 
-Triptop is een reisplatform dat meerdere externe systemen integreert. De Web Applicatie is de interface voor de gebruiker, maar de Backend is verantwoordelijk voor de verwerking van gegevens en interacties met externe systemen. De Database slaat reis- en reserveringsinformatie op, maar de specifieke datamodellen en structuren worden niet gedetailleerd beschreven in het diagram.
+Het Triptop-systeem bestaat uit verschillende componenten die samenwerken om een reisplatform te ondersteunen. De Webapplicatie biedt de interface voor gebruikers, terwijl de Backend de logica en verwerking van reisboekingen afhandelt. De Database slaat belangrijke reis- en gebruikersgegevens op.
 
-**Externe Integraties:**
-**Identity Provider API:** Verwerkt authenticatie via externe providers zoals Google, Apple en Microsoft, maar de methodes en technieken van authenticatie zijn niet verder gespecificeerd.
+Externe systemen zoals de Identity Provider API en betalingssystemen zoals Mollie API zijn geïntegreerd voor gebruikersauthenticatie en betalingsverwerking. Daarnaast wordt er gebruik gemaakt van verschillende externe APIs voor reisopties, vervoersinformatie en eet- en drinkmogelijkheden.
 
-**Demand API**: Dit systeem haalt reisopties op, maar specifieke parameters voor het aanvragen van gegevens of de dataformaten zijn niet beschreven.
-
-**Mollie API:** Betalingen worden verwerkt, maar het is onduidelijk welke specifieke betalingsopties ondersteund worden of hoe transactiebeveiliging wordt afgehandeld.
-
-Kaart- en route-informatie wordt opgehaald via MapBox en Google Maps API, maar hoe deze systemen worden gecombineerd of welke specifieke kaartfunctionaliteiten worden gebruikt, is niet gedetailleerd.
-
-De backend fungeert dus als een tussenpersoon die verzoeken afhandelt, maar de manier waarop de backend schaalbaar is of hoe foutafhandeling wordt uitgevoerd in de communicatie tussen deze systemen, wordt niet weergegeven in het diagram.
-#### Dynamic Diagrams
-##### Login
+De communicatie tussen de verschillende onderdelen van het systeem zorgt voor een gestroomlijnde ervaring voor de reiziger, waarbij gegevens over reizen en boekingen up-to-date worden gehouden en verwerkt.
+#### 7.1.2 Dynamic Diagrams
+##### 7.1.2.1 Login
 ![Dynamic Diagram](../opdracht-diagrammen/Dynamic_Container_Login.png)
 
 Dit diagram illustreert het proces van inloggen binnen de **Triptop** applicatie. Het beschrijft de interacties tussen de **Web Applicatie**, de **Backend**, en de **Identity Provider API** die de inloggegevens van de gebruiker verifieert. Het proces verloopt in vier stappen:
@@ -152,7 +129,7 @@ Dit diagram illustreert het proces van inloggen binnen de **Triptop** applicatie
 3. De **Identity Provider API** bevestigt of wijst de inlogpoging af.
 4. De **Backend** stuurt het resultaat van de inlogpoging (succes of mislukking) terug naar de **Web Applicatie**, die het resultaat aan de gebruiker toont.
 
-##### Booking
+##### 7.1.2.2 Booking
 ![Dynamic Diagram](../opdracht-diagrammen/Dynamic_Container_Booking.png)
 
 Dit diagram toont de flow van het boeken van een reis binnen de **Triptop** applicatie. Het proces bestaat uit meerdere interacties tussen de **Web Applicatie**, de **Backend**, de **Database**, en externe systemen zoals de **Demand API** (voor reisopties) en de **Mollie API** (voor betalingen). Het proces verloopt als volgt:
@@ -168,13 +145,32 @@ Dit diagram toont de flow van het boeken van een reis binnen de **Triptop** appl
 > [!IMPORTANT]
 > Voeg toe: Component Diagram plus een Dynamic Diagram van een aantal scenario's inclusief begeleidende tekst.
 
-![Component Backend Diagram](../opdracht-diagrammen/diagramNils.png)
-Dit backend componentendiagram toont de architectuur van een uitgavenbeheerapplicatie waarin gebruikers vluchten, hotels, treinen en eten kunnen boeken en betalingen kunnen uitvoeren. De React WebApp communiceert via REST API’s met een Spring Boot backend, die modulair is opgebouwd met gescheiden controllers en services.
+#### 7.2.1 Component Diagram Frontend
+![Component Frontend Diagram](../opdracht-diagrammen/componentDiagramFrontend.png)
 
-Authenticatie verloopt via een externe Identity Provider API, waardoor gebruikers eenvoudig kunnen inloggen via Apple, Google of Microsoft. Gegevens worden opgeslagen in een PostgreSQL-database, terwijl externe API’s zoals AeroDataBox (vluchten), Booking.com (hotels), Mollie (betalingen), All Aboard (treinen) en Grubhub (eten) worden gebruikt voor dataverwerking.
+De frontend van TripTop is ontworpen om een naadloze en gebruiksvriendelijke ervaring te bieden voor reizigers bij het plannen van hun reizen. De applicatie is opgebouwd met React en bestaat uit verschillende componenten die samenwerken om de gebruiker door de reisplanning te leiden. Belangrijk is de flexibiliteit van de interface, waarbij gebruikers snel kunnen schakelen tussen verschillende secties zoals Hotel, Travel, Kaart en Food zonder verlies van context.
 
-Elke functionele eenheid volgt een vaste structuur met een controller voor verzoeken, een service voor logica en (indien nodig) een repository voor database-interacties. Dit zorgt voor een schaalbare, onderhoudbare en eenvoudig uitbreidbare backend.
+De Header zorgt voor eenvoudige navigatie tussen de verschillende secties, terwijl de Login-component het gebruikers mogelijk maakt zich snel in te loggen via gestandaardiseerde inlogopties. Het systeem is geoptimaliseerd voor het snel ophalen en weergeven van gegevens, zoals route-informatie van de MapBox API, en reisopties van de backend.
 
+De frontend zorgt voor een dynamische interactie met de backend, waarbij gebruikers hun reisgegevens en betalingen kunnen beheren via de Payment en Hotel componenten. De frontend is dus niet alleen een weergave van de data, maar fungeert als een interactief platform waar de gebruiker zijn reis samenstelt, boekt en betaalt met minimale vertraging.
+
+#### 7.2.2 Component Diagram Backend
+![Component Backend Diagram](../opdracht-diagrammen/componentDiagramBackend.png)
+
+Het backend van het systeem is opgebouwd met Spring Boot en bestaat uit verschillende componenten die elk een specifieke taak vervullen in de verwerking van reisgerelateerde gegevens. Het beheert niet alleen de interacties met de externe API’s voor hotels, vluchten, treinen, betalingen en eten, maar zorgt ook voor de interne verwerking van gegevens en de opslag in de PostgreSQL database. Belangrijk is dat de backend een gedetailleerde scheiding heeft tussen de controllers, services en providers, waardoor elke functionaliteit modulair en flexibel is. Dit maakt het mogelijk om eenvoudig nieuwe externe systemen te integreren of bestaande services aan te passen zonder de rest van de backend te beïnvloeden.
+
+De backend zorgt voor een betrouwbare afhandeling van loginverzoeken door gebruik te maken van een gestandaardiseerde LoginController en een LoginService, die gebruikersgegevens valideren. Het systeem maakt ook gebruik van abstracties via providers, zoals HotelProvider en PaymentProvider, die de communicatie met externe systemen zoals Mollie API voor betalingen en Grubhub API voor eten afhandelen. Deze abstracties zorgen ervoor dat de backend eenvoudig kan communiceren met externe API's, en het maakt de backend uitbreidbaar voor andere systemen die in de toekomst mogelijk geïntegreerd moeten worden.
+
+#### 7.2.3 Component Diagram
+![Dyanimc Diagram](../opdracht-diagrammen/dynamicComponentDiagramBackendBetalen.png)
+
+Dit dynamische componentendiagram beschrijft de betalingsverwerking in een webapplicatie voor uitgavenbeheer. De gebruiker initieert een betaling via de WebApp (React), die het verzoek doorstuurt naar de backend (Spring Boot).
+
+De backend bestaat uit drie componenten: BetaalController verwerkt inkomende verzoeken, BetaalService voert de betalingslogica uit, en PaymentProvider handelt de communicatie met externe betalingsdiensten af. De Mollie API wordt hier als externe provider gebruikt.
+
+Door PaymentProvider als tussenlaag te gebruiken, blijft de backend losgekoppeld van een specifieke betalingsaanbieder, waardoor het eenvoudig is om andere providers toe te voegen. De scheiding tussen controller, service en provider maakt de code beter onderhoudbaar en uitbreidbaar.
+
+#### 7.2.4 Mapping van domeinmodel
 | Class::Attribuut                                                | Is input voor API+Endpoint                          | Wordt gevuld door API+Endpoint | Wordt geleverd door eindgebruiker | Moet worden opgeslagen in de applicatie |
 |-----------------------------------------------------------------|-----------------------------------------------------|--------------------------------|-----------------------------------|-----------------------------------------|
 | MapService::getRoute(start, end)                                | Google Maps API /directions, MapBox API /directions | ✅                              | ✅                                 | ❌                                       |
@@ -197,13 +193,20 @@ Elke functionele eenheid volgt een vaste structuur met een controller voor verzo
 | AeroDataBoxProvider::fetchNearbyAirports(airport)               | AeroDataBox API /airports/nearby                   | ✅                              | ✅                                 | ❌                                       |
 | FlightRadar24Provider::fetchFlightData(flightQuery)             | FlightRadar24 API /flights/search                  | ✅                              | ✅                                 | ❌                                       |
 | FlightRadar24Provider::fetchNearbyAirports(airport)             | FlightRadar24 API /airports/nearby                 | ✅                              | ✅                                 | ❌                                       |
+| LoginService::authenticateUser(credentials)                    | Identity Provider API (Google, Apple, Microsoft)   | ✅                              | ✅                                 | ✅                                       |
+| HotelController::fetchHotelData(hotelQuery)                     | Booking API /hotels/search                         | ✅                              | ✅                                 | ❌                                       |
+| HotelService::fetchHotelData(hotelQuery)                        | Booking API /hotels/search                         | ✅                              | ✅                                 | ❌                                       |
+| HotelProvider::fetchHotelData(hotelQuery)                       | Booking API /hotels/search                         | ✅                              | ✅                                 | ❌                                       |
+| PaymentController::processPayment(paymentDetails)               | Mollie API /payments                               | ✅                              | ✅                                 | ❌                                       |
+| PaymentService::processPayment(paymentDetails)                  | Mollie API /payments                               | ✅                              | ✅                                 | ❌                                       |
+| PaymentProvider::processPayment(paymentDetails)                 | Mollie API /payments                               | ✅                              | ✅                                 | ❌                                       |
+| TrainController::fetchTrainData(trainQuery)                     | All Aboard API /trains/search                      | ✅                              | ✅                                 | ❌                                       |
+| TrainService::fetchTrainData(trainQuery)                        | All Aboard API /trains/search                      | ✅                              | ✅                                 | ❌                                       |
+| TrainProvider::fetchTrainData(trainQuery)                       | All Aboard API /trains/search                      | ✅                              | ✅                                 | ❌                                       |
+| FoodController::fetchFoodData(location)                         | Grubhub API /restaurants/search                    | ✅                              | ✅                                 | ❌                                       |
+| FoodService::fetchFoodData(location)                            | Grubhub API /restaurants/search                    | ✅                              | ✅                                 | ❌                                       |
+| FoodProvider::fetchFoodData(location)                           | Grubhub API /restaurants/search                    | ✅                              | ✅                                 | ❌                                       |
 
-![Dyanimc Diagram](../opdracht-diagrammen/diagram-Dynamic.png)
-Dit dynamische componentendiagram beschrijft de betalingsverwerking in een webapplicatie voor uitgavenbeheer. De gebruiker initieert een betaling via de WebApp (React), die het verzoek doorstuurt naar de backend (Spring Boot).
-
-De backend bestaat uit drie componenten: BetaalController verwerkt inkomende verzoeken, BetaalService voert de betalingslogica uit, en PaymentProvider handelt de communicatie met externe betalingsdiensten af. De Mollie API wordt hier als externe provider gebruikt.
-
-Door PaymentProvider als tussenlaag te gebruiken, blijft de backend losgekoppeld van een specifieke betalingsaanbieder, waardoor het eenvoudig is om andere providers toe te voegen. De scheiding tussen controller, service en provider maakt de code beter onderhoudbaar en uitbreidbaar.
 
 ###     7.3. Design & Code
 
@@ -223,12 +226,30 @@ Route, Coordinate en MapImage staan los van de kaartservices (daarom heb ik ze n
 
 #### 7.3.2
 ![state pattern](../opdracht-diagrammen/class-diagram-dennis.svg)
+
 In bovenstaand diagram is de architectuur, bijbehorend bij de vraag **"Hoe zorg je voor een zo kort mogelijke reisroute waarbij gebruik gemaakt wordt van alle bouwstenen? Hoe zorg je ervoor dat de reisroute makkelijk aangepast kan worden als reisafstand geen issue is?"**, te zien. Hiervoor hebben we het State Pattern gebruikt, aangezien deze gekozen was als gevolg van een voorgaande opdracht van school (zie [deze ADR](../ADRs/0006-State-pattern.md) voor meer informatie). In `MapboxRoutingManager` is een klein deel weggelaten. Dit deel is verantwoordelijk voor het opstellen van de URL, die gestuurd wordt naar de Mapbox API. `MapboxController#getDirections` heeft de `@GetMapping("/directions")`-annotation erboven staan. Ook zijn alle parameters hiervan annotated met `@RequestParam`, waarbij de `waypoints`'s `@RequestParam` de field `required` op `false` heeft staan. `MapboxController#getRouting` en `MapboxController#nextRouting` hebben de `@GetMapping("/routing")` en `@PostMapping("/routing)"`-annotation erboven staan, respectievelijk.
 
 
 #### 7.3.3
-![Strategy Pattern](../opdracht-diagrammen/class-diagram-nils.png)
-Het diagram toont de structuur van de klassen, maar laat bepaalde details weg, zoals de specifieke logica van de FlightDataStrategy providers, de werking van de FlightStatus (bijvoorbeeld hoe en wanneer de status wordt bijgewerkt), en de beveiliging/validatie van login- en autorisatieprocessen. Ook is de relatie tussen FlightStatus en FlightDetails niet expliciet weergegeven, ondanks de mogelijke logische koppeling via het vluchtnummer.
+![Strategy pattern](../opdracht-diagrammen/class-diagram-nils.png)
+
+De frontend van de webapplicatie biedt een intuïtieve gebruikersinterface die gebruikers in staat stelt om eenvoudig naar vluchtinformatie te zoeken en vluchtstatussen te bekijken. De gebruikers kunnen vluchtnummers invoeren in zoekvelden en de resultaten worden direct getoond, zoals de huidige vluchtstatus of vertragingen. Bovendien biedt de frontend de mogelijkheid om een specifieke zoekstrategie te kiezen, zoals het ophalen van gegevens van AeroDataBox of FlightRadar24. Deze keuze wordt doorgestuurd naar de backend via de StrategyController, die ervoor zorgt dat de juiste strategie wordt toegepast voor het ophalen van de gewenste gegevens.
+
+De communicatie tussen de frontend en de backend gebeurt asynchroon, wat betekent dat de pagina niet opnieuw hoeft te laden bij het ophalen van nieuwe informatie, wat de gebruikerservaring versnelt en de applicatie naadloos maakt. Als er fouten optreden, bijvoorbeeld bij het invoeren van een ongeldig vluchtnummer of locatie, toont de frontend duidelijke foutmeldingen om de gebruiker hierover te informeren. Dit zorgt ervoor dat de applicatie zowel snel als gebruiksvriendelijk is, met een efficiënte en duidelijke interactie tussen de frontend en de backend.
+
+#### 7.3.3.1 Ophalen van vluchten
+![Sequence diagram ophalen van vluchten](../opdracht-diagrammen/sequenceDiagramSearchFlights.png)
+
+#### 7.3.3.2 Zoeken van luchthavens
+![Sequence diagram zoeken van vliegvelden](../opdracht-diagrammen/sequenceDiagramFindNearestAirport.png)
+
+#### 7.3.3.3 Wisselen van API
+![Sequence diagram wisselen van API](../opdracht-diagrammen/sequenceDiagramSwitchAPI.png)
+
+De bovenstaande sequence diagrammen illustreren de interacties tussen verschillende componenten binnen de applicatie. Het eerste diagram toont het proces van het ophalen van vluchtinformatie, waarbij de gebruiker een zoekopdracht indient via de WebApp. De backend verwerkt deze aanvraag en roept de juiste API aan om vluchtgegevens op te halen.
+Het tweede diagram laat zien hoe de applicatie de dichtstbijzijnde luchthavens kan vinden. De gebruiker voert een zoekopdracht in, en de backend roept de API aan om relevante luchthavens te vinden.
+Het derde diagram illustreert het wisselen van API's. De gebruiker kan een andere API kiezen, en de backend past de configuratie aan om de nieuwe API te gebruiken. Dit toont de flexibiliteit van het systeem in het omgaan met verschillende externe diensten.
+
 
 #### 7.3.4
 ![Samengevoegde diagram](../opdracht-diagrammen/SamenGevoegdeKlassenDiagram.png)

@@ -12,6 +12,8 @@ skinparam {
 
 top to bottom direction
 
+LAYOUT_WITH_LEGEND()
+
 Person(traveller, "Reiziger", "Een reiziger die een reis met meerdere bestemmingen wil samenstellen.")
 Person(admin, "Administrator", "Beheerder")
 
@@ -40,6 +42,4 @@ Rel(triptop, aeroDataBox_api, "Beheert en houdt vluchten bij met")
 Rel(triptop, grubhub_api, "Stelt eet- en drinkmogelijkheden voor met")
 Rel(triptop, Flightradar24_api, "Biedt vluchtinformatie en tracking met")
 Rel(triptop, Googlemaps_api, "Biedt kaarten en locaties met")
-
-SHOW_LEGEND(TRUE)
 @enduml

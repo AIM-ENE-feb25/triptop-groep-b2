@@ -10,6 +10,8 @@ skinparam {
 
 top to bottom direction
 
+LAYOUT_WITH_LEGEND()
+
 Container(WebApp, "Web Application", "React", "User Interface for expense management")
 
 Container_Boundary(Backend, "Backend") {
@@ -81,6 +83,4 @@ Rel(train_provider, all_aboard_api, "Retrieves train data")
 
 Rel(eet_service, food_provider, "Uses")
 Rel(food_provider, grubhub_api, "Retrieves food data")
-
-SHOW_LEGEND(TRUE)
 @enduml
