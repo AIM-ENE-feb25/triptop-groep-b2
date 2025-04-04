@@ -8,6 +8,6 @@ public class MapboxRoutingCyclingState implements MapboxRoutingState {
 
   @Override
   public MapboxRoutingState nextRouting() {
-    return new MapboxRoutingCyclingState();
+    return new MapboxRoutingWalkingState();
   }
 }
