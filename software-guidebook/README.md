@@ -80,30 +80,72 @@ Voordat deze casusomschrijving tot stand kwam, heeft de opdrachtgever de volgend
 > [!IMPORTANT]
 > Beschrijf zelf de belangrijkste architecturele en design principes die zijn toegepast in de software.
 
-### 1. Modulariteit & Scheiding van Verantwoordelijkheden
-- **Factory Pattern**: Flexibele keuze tussen kaartdiensten (Google Maps, Mapbox) via `MapServiceFactory`.
-- **Interface Segregation**: Kaartservices implementeren gemeenschappelijke interface `MapService` voor scheiding van verantwoordelijkheden.
-- **Strategy Pattern**: Keuze van vluchtinformatieprovider (AeroDataBox, FlightRadar24) via strategieën (`IVluchtDataStrategy`).
+### 6.1 Modulariteit & Scheiding van Verantwoordelijkheden
+- **Factory Pattern**  
+  Flexibele keuze tussen kaartdiensten (Google Maps, Mapbox) via `MapServiceFactory`.
+- **Interface Segregation**  
+  Kaartservices implementeren de gemeenschappelijke interface `MapService` voor duidelijke scheiding van verantwoordelijkheden.
+- **Strategy Pattern**  
+  Keuze van vluchtinformatieprovider (AeroDataBox, FlightRadar24) via strategieën zoals `IVluchtDataStrategy`.
 
-### 2. Configuratie via Properties
-- API-keys en URL's worden opgeslagen in `application.properties` en `.env` voor veiligheid en flexibiliteit.
+### 6.2 Configuratie via Properties
+- API-keys en URL’s zijn opgeslagen in `application.properties` en `.env` voor veiligheid en flexibiliteit.
 
-### 3. RESTful API Design
-- Duidelijke en consistente API (`/maps/route`) met HTTP GET requests voor het ophalen van routes.
-- RESTful principes worden nageleefd: stateless, query parameters voor dynamische keuze van providers.
+### 6.3 RESTful API Design
+- Duidelijke en consistente endpoint-structuur zoals `/maps/route`.
+- Gebruik van HTTP GET-methodes met query parameters.
+- Volgt RESTful principes: stateless en eenvoudig te testen via tools als Postman.
 
-### 4. Externe API Integratie
-- **Google Maps API** via RapidAPI met authenticatie via headers.
+### 6.4 Externe API Integratie
+- **Google Maps API** via RapidAPI met authenticatie in headers.
 - **Mapbox API** via directe URL-constructie.
-- **AeroDataBox** en **FlightRadar24** via RapidAPI met benodigde headers.
+- **AeroDataBox** en **FlightRadar24** ook via RapidAPI met benodigde headers.
 
-### 5. Logging & Debugging
-- API-responses worden gelogd voor snelle foutdetectie en debugging, zoals "Invalid API Key" of "NoSegment".
+### 6.5 Logging & Debugging
+- API-responses worden gelogd (bijv. “Invalid API Key” of “NoSegment”) voor foutopsporing en transparantie.
 
-### 6. Design Patterns
-- **Factory** en **Strategy Patterns** zorgen voor uitbreidbaarheid en scheiding van verantwoordelijkheden, wat de onderhoudbaarheid verhoogt.
+### 6.6 Design Patterns
+- **Factory** en **Strategy Patterns** zorgen voor uitbreidbaarheid en onderhoudbaarheid.
+- Code blijft flexibel door gebruik van interfaces en losgekoppelde implementaties.
 
-## 7. Software Architecture
+### 6.7 KISS (Keep It Simple, Stupid)
+- De code is bewust eenvoudig gehouden: één verantwoordelijkheid per klasse, en duidelijke scheiding tussen logica en controllers.
+
+### 6.8 DRY (Don’t Repeat Yourself)
+- Hergebruik van code via services zoals `MapService`.
+- Gemeenschappelijke logica is gecentraliseerd in factory’s of strategy-implementaties.
+
+### 6.9 YAGNI (You Ain’t Gonna Need It)
+- Alleen noodzakelijke functionaliteit is geïmplementeerd. Geen onnodige complexiteit.
+
+### 6.10 SOLID Principes & Best Practices
+
+- **Encapsulate What Varies**  
+  Verschillen tussen providers worden afgeschermd achter een interface (`MapService`).
+
+- **Program to an Interface**  
+  De controller gebruikt `MapService`, niet de specifieke implementaties. Hierdoor is de code flexibel en uitbreidbaar.
+
+- **Composition Over Inheritance**  
+  Klassen gebruiken dependency injection i.p.v. overerving: minder koppeling, meer controle.
+
+- **Law of Demeter**  
+  Klassen communiceren alleen met objecten waar ze direct toegang toe hebben. Geen onnodige kettingaanroepen.
+
+- **Single Responsibility Principle (SRP)**  
+  Elke klasse heeft één taak:
+  - `MapController`: verwerkt HTTP-verzoeken
+  - `MapServiceFactory`: selecteert de juiste service
+  - `GoogleMapsService` / `MapBoxService`: behandelt communicatie met externe API's
+
+- **Open/Closed Principle (OCP)**  
+  Nieuwe providers kunnen worden toegevoegd zonder bestaande code aan te passen.
+
+- **Dependency Inversion Principle (DIP)**  
+  De controller werkt met een abstractie (`MapService`), niet met concrete implementaties.
+
+
+## 7. Software  Architecture
 
 ###     7.1. Containers
 
@@ -274,8 +316,10 @@ Het tweede diagram laat zien hoe de applicatie de dichtstbijzijnde luchthavens k
 Het derde diagram illustreert het wisselen van API's. De gebruiker kan een andere API kiezen, en de backend past de configuratie aan om de nieuwe API te gebruiken. Dit toont de flexibiliteit van het systeem in het omgaan met verschillende externe diensten.
 
 
+
 #### 7.3.4
 ![Samengevoegde diagram](../opdracht-diagrammen/SamenGevoegdeKlassenDiagram.png)
+
 Het diagram toont de architectuur en de interacties tussen verschillende klassen binnen het systeem. De structuur is onderverdeeld in meerdere componenten, elk verantwoordelijk voor specifieke functionaliteiten.
 
 ## 8. Architectural Decision Records
