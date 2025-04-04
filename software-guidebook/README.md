@@ -138,16 +138,12 @@ Voordat deze casusomschrijving tot stand kwam, heeft de opdrachtgever de volgend
   - `MapServiceFactory`: selecteert de juiste service
   - `GoogleMapsService` / `MapBoxService`: behandelt communicatie met externe API's
 
-- **Open/Closed Principle (OCP)**  
-  Nieuwe providers kunnen worden toegevoegd zonder bestaande code aan te passen.
-
-- **Dependency Inversion Principle (DIP)**  
-  De controller werkt met een abstractie (`MapService`), niet met concrete implementaties.
-
+### 6. Design Patterns
+- **Factory**, **Strategy** en **State Pattern** zorgen voor uitbreidbaarheid en scheiding van verantwoordelijkheden, wat de onderhoudbaarheid verhoogt.
 
 ## 7. Software  Architecture
 
-###     7.1. Containers
+### 7.1. Containers
 
 > [!IMPORTANT]
 > Voeg toe: Container Diagram plus een Dynamic Diagram van een aantal scenario's inclusief begeleidende tekst.
@@ -290,9 +286,13 @@ De API-respons wordt direct teruggegeven aan de gebruiker, zonder extra foutafha
 De structuur is modulair en makkelijk uit te breiden met andere kaartdiensten, zoals OpenStreetMap of HERE Maps.
 
 #### 7.3.2
-![state pattern](../opdracht-diagrammen/class-diagram-dennis.svg)
+![state pattern class](../opdracht-diagrammen/class-diagram-dennis.svg)
 
-In bovenstaand diagram is de architectuur, bijbehorend bij de vraag **"Hoe zorg je voor een zo kort mogelijke reisroute waarbij gebruik gemaakt wordt van alle bouwstenen? Hoe zorg je ervoor dat de reisroute makkelijk aangepast kan worden als reisafstand geen issue is?"**, te zien. Hiervoor hebben we het State Pattern gebruikt, aangezien deze gekozen was als gevolg van een voorgaande opdracht van school (zie [deze ADR](../ADRs/0006-State-pattern.md) voor meer informatie). In `MapboxRoutingManager` is een klein deel weggelaten. Dit deel is verantwoordelijk voor het opstellen van de URL, die gestuurd wordt naar de Mapbox API. `MapboxController#getDirections` heeft de `@GetMapping("/directions")`-annotation erboven staan. Ook zijn alle parameters hiervan annotated met `@RequestParam`, waarbij de `waypoints`'s `@RequestParam` de field `required` op `false` heeft staan. `MapboxController#getRouting` en `MapboxController#nextRouting` hebben de `@GetMapping("/routing")` en `@PostMapping("/routing)"`-annotation erboven staan, respectievelijk.
+In bovenstaand diagram is de architectuur, bijbehorend bij de vraag **"Hoe zorg je voor een zo kort mogelijke reisroute waarbij gebruik gemaakt wordt van alle bouwstenen? Hoe zorg je ervoor dat de reisroute makkelijk aangepast kan worden als reisafstand geen issue is?"**, te zien. Hiervoor hebben we het State Pattern gebruikt, aangezien deze gekozen was als gevolg van een voorgaande opdracht van school (zie [deze ADR](#86-adr-0006-state-pattern) voor meer informatie). In `MapboxRoutingManager` is een klein deel weggelaten. Dit deel is verantwoordelijk voor het opstellen van de URL, die gestuurd wordt naar de Mapbox API. `MapboxController#getDirections` heeft de `@GetMapping("/directions")`-annotation erboven staan. Ook zijn alle parameters hiervan annotated met `@RequestParam`, waarbij de `waypoints`'s `@RequestParam` de field `required` op `false` heeft staan. `MapboxController#getRouting` en `MapboxController#nextRouting` hebben de `@GetMapping("/routing")` en `@PostMapping("/routing)"`-annotation erboven staan, respectievelijk.
+
+![state pattern sequence](../opdracht-diagrammen/sequence-diagram-dennis-state.svg)
+
+In bovenstaand diagram zijn een aantal dingen achterwegen gelaten, zoals alle states die de `MapboxRoutingState#getRouting` implementeren. bij (5) wordt er een API-call gemaakt naar de Mapbox API, die een String meegeeft met directions van de origin naar de destination, met eventuele waypoints als tussenstops.
 
 
 #### 7.3.3
