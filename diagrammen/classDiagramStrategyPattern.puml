@@ -55,10 +55,10 @@ WebApp --> FlightController : "Handles flight search"
 WebApp --> StrategyController : "Manages strategy selection"
 FlightController --> FlightService : "Requests flight data"
 StrategyController --> StrategyService : "Delegates strategy handling"
-FlightService o-- IVluchtDataStrategy : "Uses selected strategy"
+FlightService o-- IFlightDataStrategy : "Uses selected strategy"
 StrategyService *-- StrategyConfig : "Stores current strategy"
 
-IVluchtDataStrategy <|.. AeroDataBoxProvider : "Implements"
-IVluchtDataStrategy <|.. FlightRadar24Provider : "Implements"
+IFlightDataStrategy <|.. AeroDataBoxProvider : "Implements"
+IFlightDataStrategy <|.. FlightRadar24Provider : "Implements"
 
 @enduml

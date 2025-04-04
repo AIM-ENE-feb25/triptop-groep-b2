@@ -5,26 +5,26 @@ actor Gebruiker
 participant WebApp
 participant FlightController
 participant FlightService
-participant IVluchtDataStrategy
+participant IFlightDataStrategy
 participant AeroDataBoxProvider
 participant FlightRadar24Provider
 
 Gebruiker -> WebApp : searchFlights()
 WebApp -> FlightController : fetchFlightData(flightNumber)
 FlightController -> FlightService : fetchFlightData(flightNumber)
-FlightService -> IVluchtDataStrategy : getFlightData(flightNumber)
+FlightService -> IFlightDataStrategy : getFlightData(flightNumber)
 
 alt Strategy: AeroDataBoxProvider
-    IVluchtDataStrategy -> AeroDataBoxProvider : getFlightData(flightNumber)
-    AeroDataBoxProvider --> IVluchtDataStrategy : flightData
+    IFlightDataStrategy -> AeroDataBoxProvider : getFlightData(flightNumber)
+    AeroDataBoxProvider --> IFlightDataStrategy : flightData
 end
 
 alt Strategy: FlightRadar24Provider
-    IVluchtDataStrategy -> FlightRadar24Provider : getFlightData(flightNumber)
-    FlightRadar24Provider --> IVluchtDataStrategy : flightData
+    IFlightDataStrategy -> FlightRadar24Provider : getFlightData(flightNumber)
+    FlightRadar24Provider --> IFlightDataStrategy : flightData
 end
 
-IVluchtDataStrategy --> FlightService : flightData
+IFlightDataStrategy --> FlightService : flightData
 FlightService --> FlightController : flightData
 FlightController --> WebApp : flightData
 WebApp --> Gebruiker : vluchtinformatie tonen
