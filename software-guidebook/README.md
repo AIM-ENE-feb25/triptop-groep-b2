@@ -344,6 +344,18 @@ We maken een reismanager-app en hiervoor hebben we een Payment API nodig die bet
 |Documentatie                     | -      | --            | ++     |
 |Beveliging                       | +      | 0             | +      |
 
+## Legenda
+
+| Symbool | Betekenis                        |
+|---------|----------------------------------|
+| ++      | Zeer goed / Uitstekend           |
+| +       | Goed / Bovengemiddeld            |
+| 0       | Neutraal / Gemiddeld             |
+| -       | Matig / Onder gemiddeld          |
+| --      | Slecht / Ontbrekend              |
+| ?       | Onbekend / Niet beoordeeld       |
+
+
 ## Decision
 Uiteindelijk is de keuze gemaakt om PayPal te gebruiken in plaats van Mollie, omdat we er later achterkwamen dat Mollie een business account nodig heeft om een API-key te verkrijgen. Helaas was Mollie hierdoor niet bruikbaar, hoewel het een goede optie had kunnen zijn. PayPal is veel kennis over te vinden omdat het bekend is.
 
@@ -370,6 +382,18 @@ Voor onze reismanager-app hebben we een Flights API nodig die vluchten kan opzoe
 | Eenvoudig te gebruiken       | ++         | --        | +          |
 | Real-time vluchtinformatie   | ++         | -         | 0          |
 | Documentatie                 | +          | -         | ++         |
+
+## Legenda
+
+| Symbool | Betekenis                        |
+|---------|----------------------------------|
+| ++      | Zeer goed / Uitstekend           |
+| +       | Goed / Bovengemiddeld            |
+| 0       | Neutraal / Gemiddeld             |
+| -       | Matig / Onder gemiddeld          |
+| --      | Slecht / Ontbrekend              |
+| ?       | Onbekend / Niet beoordeeld       |
+
 
 ## Decision
 Uiteindelijk hebben we gekozen voor **AeroDataBox**. De belangrijkste redenen hiervoor zijn:
@@ -400,6 +424,18 @@ We hebben een API nodig die routes naar bestemmingen kan berekenen en hierbij ri
 | Integreerbaarheid | + | - | 0 | ++ |
 | Gebruiksvriendelijkheid | ++ | ++ | 0 | ++ |
 | Beschikbare documentatie | ++ | - | + | ++ |
+
+## Legenda
+
+| Symbool | Betekenis                        |
+|---------|----------------------------------|
+| ++      | Zeer goed / Uitstekend           |
+| +       | Goed / Bovengemiddeld            |
+| 0       | Neutraal / Gemiddeld             |
+| -       | Matig / Onder gemiddeld          |
+| --      | Slecht / Ontbrekend              |
+| ?       | Onbekend / Niet beoordeeld       |
+
 
 ### Criteria
 - **Prijs**: Google Maps heeft een gratis laag, maar kosten kunnen snel oplopen. Apple Maps is gratis, maar beperkt in gebruik buiten het Apple-ecosysteem. OSM en Mapbox zijn goedkoper en bieden flexibele prijsmodellen.
@@ -441,6 +477,18 @@ Het systeem moet flexibel blijven als het gaat om externe services. We willen ve
 | Testbaarheid                            | ++               | +               | -              | 0                      | ++            |
 | Geschiktheid voor variërende services   | ++               | 0               | +              | +                      | ++            |
 
+## Legenda
+
+| Symbool | Betekenis                        |
+|---------|----------------------------------|
+| ++      | Zeer goed / Uitstekend           |
+| +       | Goed / Bovengemiddeld            |
+| 0       | Neutraal / Gemiddeld             |
+| -       | Matig / Onder gemiddeld          |
+| --      | Slecht / Ontbrekend              |
+| ?       | Onbekend / Niet beoordeeld       |
+
+
 ## Decision
 We kiezen voor het **Strategy Pattern**, omdat dit de meest flexibele en modulaire oplossing biedt. Elke externe service wordt geïnjecteerd als een implementatie van een generieke interface, waardoor we eenvoudig kunnen wisselen tussen providers zonder de kernlogica te wijzigen.
 
@@ -480,6 +528,18 @@ zonder de koppeling tussen componenten te verhogen.
 | **Onderhoudbaarheid**                       | 0               | -              | ++                     | -             | +                |
 | **Testbaarheid**                            | -               | --             | +                      | 0             | +                |
 
+## Legenda
+
+| Symbool | Betekenis                        |
+|---------|----------------------------------|
+| ++      | Zeer goed / Uitstekend           |
+| +       | Goed / Bovengemiddeld            |
+| 0       | Neutraal / Gemiddeld             |
+| -       | Matig / Onder gemiddeld          |
+| --      | Slecht / Ontbrekend              |
+| ?       | Onbekend / Niet beoordeeld       |
+
+
 ## Decision
 
 Na het evalueren van de verschillende ontwerppatronen is besloten om de **Factory Method Pattern** te implementeren voor het dynamisch creëren van kaartservice-objecten. Dit patroon biedt de juiste balans tussen complexiteit,
@@ -516,6 +576,18 @@ Bij het plannen van een reisroute moet rekening worden gehouden met twee belangr
 | Vermindert coupling | + | ++ | 0 | + | - |
 | Ondersteunt dynamische aanpassingen | ++ | 0 | + | ++ | - |
 | Houdt overzichtelijke structuur | 0 | -- | - | + | ++ |
+
+## Legenda
+
+| Symbool | Betekenis                        |
+|---------|----------------------------------|
+| ++      | Zeer goed / Uitstekend           |
+| +       | Goed / Bovengemiddeld            |
+| 0       | Neutraal / Gemiddeld             |
+| -       | Matig / Onder gemiddeld          |
+| --      | Slecht / Ontbrekend              |
+| ?       | Onbekend / Niet beoordeeld       |
+
 
 ## Decision
 Wegens schoolredenen kunnen de Factory en Strategy Pattern niet meer gekozen worden. Verder zijn de Adapter en Facade Pattern geen goede oplossingen voor dit probleem. Hierom kiezen wij voor het implementeren van de State Pattern, ondanks dat dit niet de beste oplossing is.
