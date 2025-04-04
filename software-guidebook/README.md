@@ -224,6 +224,9 @@ MapController handelt verzoeken af en maakt gebruik van MapService en MapService
 
 Route, Coordinate en MapImage staan los van de kaartservices (daarom heb ik ze niet in het plaatje gedaan), omdat ze generieke datamodellen vertegenwoordigen die onafhankelijk zijn van een specifieke provider. Dit zorgt ervoor dat de structuur van routes, coördinaten en afbeeldingen uniform blijft, ongeacht of ze afkomstig zijn van Google Maps of MapBox. Hierdoor wordt de koppeling tussen de services en de data geminimaliseerd, wat het systeem flexibeler en beter uitbreidbaar maakt.
 
+
+![Sequentie Diagram](../opdracht-diagrammen/SequentieDiagram.png)
+
 #### 7.3.2
 ![state pattern](../opdracht-diagrammen/class-diagram-dennis.svg)
 
